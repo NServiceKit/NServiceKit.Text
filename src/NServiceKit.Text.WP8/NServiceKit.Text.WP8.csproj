@@ -1,0 +1,323 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0F6EB1D6-D49D-4D55-8F63-500666DA2E49}</ProjectGuid>
+    <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NServiceKit.Text.WP</RootNamespace>
+    <AssemblyName>NServiceKit.Text.WP</AssemblyName>
+    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
+    <SilverlightVersion>
+    </SilverlightVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <TargetFrameworkIdentifier>WindowsPhone</TargetFrameworkIdentifier>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WINDOWS_PHONE;WP8</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>Bin\Release\NServiceKit.Text.WP.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>Bin\x86\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>
+    </PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>Bin\x86\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <DocumentationFile>Bin\Release\NServiceKit.Text.WP.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>
+    </PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>Bin\ARM\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>
+    </PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>Bin\ARM\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <DocumentationFile>Bin\Release\NServiceKit.Text.WP.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>
+    </PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\NServiceKit.Text\AssemblyUtils.cs">
+      <Link>AssemblyUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\CollectionExtensions.cs">
+      <Link>CollectionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\DateTimeSerializer.cs">
+      <Link>Common\DateTimeSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\DeserializeArray.cs">
+      <Link>Common\DeserializeArray.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\DeserializeBuiltin.cs">
+      <Link>Common\DeserializeBuiltin.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\DeserializeCollection.cs">
+      <Link>Common\DeserializeCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\DeserializeDictionary.cs">
+      <Link>Common\DeserializeDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\DeserializeKeyValuePair.cs">
+      <Link>Common\DeserializeKeyValuePair.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\DeserializeListWithElements.cs">
+      <Link>Common\DeserializeListWithElements.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\DeserializeSpecializedCollections.cs">
+      <Link>Common\DeserializeSpecializedCollections.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\DeserializeType.cs">
+      <Link>Common\DeserializeType.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\DeserializeTypeRef.cs">
+      <Link>Common\DeserializeTypeRef.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\DeserializeTypeRefJson.cs">
+      <Link>Common\DeserializeTypeRefJson.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\DeserializeTypeRefJsv.cs">
+      <Link>Common\DeserializeTypeRefJsv.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\DeserializeTypeUtils.cs">
+      <Link>Common\DeserializeTypeUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\ITypeSerializer.cs">
+      <Link>Common\ITypeSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\JsDelegates.cs">
+      <Link>Common\JsDelegates.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\JsReader.cs">
+      <Link>Common\JsReader.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\JsState.cs">
+      <Link>Common\JsState.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\JsWriter.cs">
+      <Link>Common\JsWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\ParseUtils.cs">
+      <Link>Common\ParseUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\StaticParseMethod.cs">
+      <Link>Common\StaticParseMethod.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\WriteDictionary.cs">
+      <Link>Common\WriteDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\WriteLists.cs">
+      <Link>Common\WriteLists.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Common\WriteType.cs">
+      <Link>Common\WriteType.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Controller\CommandProcessor.cs">
+      <Link>Controller\CommandProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Controller\PathInfo.cs">
+      <Link>Controller\PathInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\CsvAttribute.cs">
+      <Link>CsvAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\CsvConfig.cs">
+      <Link>CsvConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\CsvSerializer.cs">
+      <Link>CsvSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\CsvStreamExtensions.cs">
+      <Link>CsvStreamExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\CsvWriter.cs">
+      <Link>CsvWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\DateTimeExtensions.cs">
+      <Link>DateTimeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Env.cs">
+      <Link>Env.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\ITracer.cs">
+      <Link>ITracer.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\ITypeSerializer.Generic.cs">
+      <Link>ITypeSerializer.Generic.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\JsConfig.cs">
+      <Link>JsConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\JsConfigScope.cs">
+      <Link>JsConfigScope.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\JsonObject.cs">
+      <Link>JsonObject.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\JsonSerializer.cs">
+      <Link>JsonSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\JsonSerializer.Generic.cs">
+      <Link>JsonSerializer.Generic.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Json\JsonReader.Generic.cs">
+      <Link>Json\JsonReader.Generic.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Json\JsonTypeSerializer.cs">
+      <Link>Json\JsonTypeSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Json\JsonUtils.cs">
+      <Link>Json\JsonUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Json\JsonWriter.Generic.cs">
+      <Link>Json\JsonWriter.Generic.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\JsvFormatter.cs">
+      <Link>JsvFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Jsv\JsvDeserializeType.cs">
+      <Link>Jsv\JsvDeserializeType.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Jsv\JsvReader.Generic.cs">
+      <Link>Jsv\JsvReader.Generic.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Jsv\JsvSerializer.Generic.cs">
+      <Link>Jsv\JsvSerializer.Generic.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Jsv\JsvTypeSerializer.cs">
+      <Link>Jsv\JsvTypeSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Jsv\JsvWriter.Generic.cs">
+      <Link>Jsv\JsvWriter.Generic.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\ListExtensions.cs">
+      <Link>ListExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\MapExtensions.cs">
+      <Link>MapExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Marc\Link.cs">
+      <Link>Marc\Link.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Marc\ObjectAccessor.cs">
+      <Link>Marc\ObjectAccessor.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Marc\TypeAccessor.cs">
+      <Link>Marc\TypeAccessor.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\QueryStringSerializer.cs">
+      <Link>QueryStringSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\ReflectionExtensions.cs">
+      <Link>ReflectionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Reflection\StaticAccessors.cs">
+      <Link>Reflection\StaticAccessors.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\StreamExtensions.cs">
+      <Link>StreamExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\StringExtensions.cs">
+      <Link>StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Support\AssemblyTypeDefinition.cs">
+      <Link>Support\AssemblyTypeDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Support\DoubleConverter.cs">
+      <Link>Support\DoubleConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Support\TypePair.cs">
+      <Link>Support\TypePair.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\TextExtensions.cs">
+      <Link>TextExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\Tracer.cs">
+      <Link>Tracer.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\TranslateListWithElements.cs">
+      <Link>TranslateListWithElements.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\TypeConfig.cs">
+      <Link>TypeConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\TypeSerializer.cs">
+      <Link>TypeSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\TypeSerializer.Generic.cs">
+      <Link>TypeSerializer.Generic.cs</Link>
+    </Compile>
+    <Compile Include="..\NServiceKit.Text\XmlSerializer.cs">
+      <Link>XmlSerializer.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
+  <ProjectExtensions />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

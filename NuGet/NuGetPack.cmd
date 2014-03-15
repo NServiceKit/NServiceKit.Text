@@ -1,2 +1,2 @@
 SET NUGET=..\src\.nuget\nuget
-%NUGET% pack ServiceStack.Text\servicestack.text.nuspec -symbols
+%NUGET% pack NServiceKit.Text\NServiceKit.text.nuspec -symbols

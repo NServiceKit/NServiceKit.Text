@@ -37,7 +37,7 @@
   <Target Name="Default" DependsOnTargets="$(DoBuildSolutionsDependsOn)" />
 
   <Target Name="TeamCityBuild">
-    <!--<Copy SourceFiles="$(BuildSolutionDir)/tests/ServiceStack.Common.Tests/ci.app.config" DestinationFiles="$(BuildSolutionDir)/tests/ServiceStack.Common.Tests/app.config" />-->
+    <!--<Copy SourceFiles="$(BuildSolutionDir)/tests/NServiceKit.Common.Tests/ci.app.config" DestinationFiles="$(BuildSolutionDir)/tests/NServiceKit.Common.Tests/app.config" />-->
     <CallTarget Targets="Default" />
   </Target>
 
@@ -47,14 +47,14 @@
   </Target>
 
   <Target Name="UnitTests" DependsOnTargets="$(DoBuildSolutionsDependsOn)">
-      <Exec Command="$(BuildSolutionDir)/lib/tests/nunit-console/nunit-console-x86.exe $(BuildSolutionDir)/tests/ServiceStack.Text.Tests/bin/$(Configuration)/ServiceStack.Text.Tests.dll"/>
-      <Exec Command="$(BuildSolutionDir)/lib/tests/nunit-console/nunit-console-x86.exe /framework=4.0 $(BuildSolutionDir)/tests/ServiceStack.Text.Net40.Tests/bin/$(Configuration)/ServiceStack.Text.Tests.dll"/>
+      <Exec Command="$(BuildSolutionDir)/lib/tests/nunit-console/nunit-console-x86.exe $(BuildSolutionDir)/tests/NServiceKit.Text.Tests/bin/$(Configuration)/NServiceKit.Text.Tests.dll"/>
+      <Exec Command="$(BuildSolutionDir)/lib/tests/nunit-console/nunit-console-x86.exe /framework=4.0 $(BuildSolutionDir)/tests/NServiceKit.Text.Net40.Tests/bin/$(Configuration)/NServiceKit.Text.Tests.dll"/>
   </Target>
 
   <Target Name="BuildSolutions">
-    <MSBuild Projects="$(BuildSolutionDir)/src/ServiceStack.Text.sln" Targets="Build"
+    <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.Text.sln" Targets="Build"
       Properties="Configuration=$(Configuration)" />
-    <MSBuild Projects="$(BuildSolutionDir)/src/ServiceStack.Text.SL5.sln" Targets="Build"
+    <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.Text.SL5.sln" Targets="Build"
       Properties="Configuration=$(Configuration)" />
   </Target>
 
@@ -66,9 +66,9 @@
             <Find>\d+\.\d+\.\d+\.\d+</Find>
             <ReplaceWith>$(Version)</ReplaceWith>
         </RegexTransform>
-        <RegexTransform Include="$(SrcDir)/ServiceStack.Text/Env.cs">
-            <Find>ServiceStackVersion = \d+\.\d+m;</Find>
-            <ReplaceWith>ServiceStackVersion = $(EnvVersion)m;</ReplaceWith>
+        <RegexTransform Include="$(SrcDir)/NServiceKit.Text/Env.cs">
+            <Find>NServiceKitVersion = \d+\.\d+m;</Find>
+            <ReplaceWith>NServiceKitVersion = $(EnvVersion)m;</ReplaceWith>
         </RegexTransform>
     </ItemGroup>
 
@@ -77,25 +77,25 @@
     <Delete Files="@(NugetPackageFilesToDelete)" />
 
     <ItemGroup>
-      <TextFiles Include="$(SrcDir)/ServiceStack.Text/bin/$(Configuration)/ServiceStack.Text.*"></TextFiles>
-      <TextSl5Files Include="$(SrcDir)/ServiceStack.Text.SL5/bin/$(Configuration)/ServiceStack.Text.*"></TextSl5Files>
+      <TextFiles Include="$(SrcDir)/NServiceKit.Text/bin/$(Configuration)/NServiceKit.Text.*"></TextFiles>
+      <TextSl5Files Include="$(SrcDir)/NServiceKit.Text.SL5/bin/$(Configuration)/NServiceKit.Text.*"></TextSl5Files>
     </ItemGroup>
 
-    <MSBuild Projects="$(BuildSolutionDir)/src/ServiceStack.Text/ServiceStack.Text.csproj"
+    <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.Text/NServiceKit.Text.csproj"
              Targets="Build"
              Properties="Version=$(PackageVersion);Configuration=$(Configuration)" />
 
-    <MakeDir Directories="$(NuGetPackageDir)/ServiceStack.Text/lib/net35" Condition="!Exists('$(NuGetPackageDir)/ServiceStack.Text/lib/net35')" />
-    <Copy SourceFiles="%(TextFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/ServiceStack.Text/lib/net35" />
+    <MakeDir Directories="$(NuGetPackageDir)/NServiceKit.Text/lib/net35" Condition="!Exists('$(NuGetPackageDir)/NServiceKit.Text/lib/net35')" />
+    <Copy SourceFiles="%(TextFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/NServiceKit.Text/lib/net35" />
     
-    <MSBuild Projects="$(BuildSolutionDir)/src/ServiceStack.Text.SL5/ServiceStack.Text.SL5.csproj"
+    <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.Text.SL5/NServiceKit.Text.SL5.csproj"
              Targets="Build"
              Properties="Version=$(PackageVersion);Configuration=$(Configuration)" />
 
-    <MakeDir Directories="$(NuGetPackageDir)/ServiceStack.Text/lib/sl5" Condition="!Exists('$(NuGetPackageDir)/ServiceStack.Text/lib/sl5')" />
-    <Copy SourceFiles="%(TextSl5Files.Identity)" DestinationFolder="$(NuGetPackageDir)/ServiceStack.Text/lib/sl5" />
+    <MakeDir Directories="$(NuGetPackageDir)/NServiceKit.Text/lib/sl5" Condition="!Exists('$(NuGetPackageDir)/NServiceKit.Text/lib/sl5')" />
+    <Copy SourceFiles="%(TextSl5Files.Identity)" DestinationFolder="$(NuGetPackageDir)/NServiceKit.Text/lib/sl5" />
  
-    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/ServiceStack.Text/servicestack.text.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
+    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/NServiceKit.Text/NServiceKit.text.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
             LogStandardErrorAsError="true" />
 
   </Target>
