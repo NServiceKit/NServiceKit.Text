@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Northwind.Common.ComplexModel;
 using Northwind.Common.DataModel;
+using Northwind.Common.ComplexModel;
 using Northwind.Common.ServiceModel;
 using NUnit.Framework;
 using NServiceKit.Common.Tests.Models;

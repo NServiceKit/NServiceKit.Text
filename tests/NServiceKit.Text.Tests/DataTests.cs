@@ -1,6 +1,9 @@
 using System;
 using System.Runtime.Serialization;
 using Northwind.Common.DataModel;
+
+using NServiceKit.ServiceInterface.ServiceModel;
+
 using NUnit.Framework;
 using NServiceKit.Text.Tests.Support;
 

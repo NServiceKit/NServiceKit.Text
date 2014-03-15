@@ -2,6 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+
+using NServiceKit.ServiceInterface.ServiceModel;
+
 using NUnit.Framework;
 using NServiceKit.Text.Tests.Support;
 
