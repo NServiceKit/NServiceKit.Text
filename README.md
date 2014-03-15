@@ -1,5 +1,6 @@
-[Join the ServiceStack Google+ group](http://groups.google.com/group/ServiceStack) or
-follow [@ServiceStack](http://twitter.com/ServiceStack) for project updates.
+NServiceKit.Text is a BSD / Free fork of ServiceStack.Text.
+
+ServiceStack.Text content below:
 
 # [JSON](http://www.ServiceStack.net/mythz_blog/?p=344), [JSV](http://www.ServiceStack.net/mythz_blog/?p=176) and CSV Text Serializers used in [ServiceStack.net](http://www.ServiceStack.net).
 _Note: the source code is provided as-is - no direct or commercial support is available for ServiceStack_
