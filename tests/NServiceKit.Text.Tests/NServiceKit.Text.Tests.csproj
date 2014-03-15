@@ -100,25 +100,26 @@
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Northwind.Common">
+      <HintPath>..\..\lib\tests\Northwind.Common.dll</HintPath>
+    </Reference>
     <Reference Include="NServiceKit">
       <HintPath>..\..\lib\tests\NServiceKit.dll</HintPath>
-    </Reference>
-    <Reference Include="NServiceKit.Client">
-      <HintPath>..\..\lib\tests\NServiceKit.Client.dll</HintPath>
     </Reference>
     <Reference Include="NServiceKit.Common">
       <HintPath>..\..\lib\tests\NServiceKit.Common.dll</HintPath>
     </Reference>
-    <Reference Include="NServiceKit.Common.Tests, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="NServiceKit.Common.Tests">
       <HintPath>..\..\lib\tests\NServiceKit.Common.Tests.dll</HintPath>
     </Reference>
     <Reference Include="NServiceKit.Interfaces">
       <HintPath>..\..\lib\tests\NServiceKit.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="NServiceKit.ServiceInterface, Version=1.0.4320.41287, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="NServiceKit.ServiceInterface">
       <HintPath>..\..\lib\tests\NServiceKit.ServiceInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceKit.Text">
+      <HintPath>..\..\src\NServiceKit.Text\bin\Release\NServiceKit.Text.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations">
@@ -142,10 +143,6 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Northwind.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\tests\Northwind.Common.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework, Version=2.5.2.9222, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\tests\nunit.framework.dll</HintPath>
@@ -231,9 +228,6 @@
     <Compile Include="UseCases\GitHubRestTests.cs" />
     <Compile Include="UseCases\GithubV3ApiTests.cs" />
     <Compile Include="Utils\DateTimeSerializerTests.cs" />
-    <Compile Include="DdnContentIngestTests.cs" />
-    <Compile Include="Support\DdnDtos.cs" />
-    <Compile Include="DdnDtoTests.cs" />
     <Compile Include="DynamicModels\ComplexObjectGraphTest.cs" />
     <Compile Include="DynamicModels\DataModel\CustomCollectionDto.cs" />
     <Compile Include="DynamicModels\DataModel\CustomCollection.cs" />
@@ -279,10 +273,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\NServiceKit.Text\NServiceKit.Text.csproj">
-      <Project>{579B3FDB-CDAD-44E1-8417-885C38E49A0E}</Project>
-      <Name>NServiceKit.Text</Name>
-    </ProjectReference>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

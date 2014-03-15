@@ -149,8 +149,8 @@ namespace NServiceKit.Text.Tests
         [Test]
         public void Can_deserialize_quoted_strings()
         {
-            Assert.That(StringToPoco<B>("Property=%22%22quoted%20content%22%22").Property, Is.EqualTo("\"quoted content\""));
-            Assert.That(StringToPoco<B>("Property=%22%22quoted%20content,%20and%20with%20a%20comma%22%22").Property, Is.EqualTo("\"quoted content, and with a comma\""));
+            Assert.That(StringToPoco<B>("Property=%22%22quoted%20content%22%22").Property, Is.EqualTo("\"\"quoted content\"\""));
+            Assert.That(StringToPoco<B>("Property=%22%22quoted%20content,%20and%20with%20a%20comma%22%22").Property, Is.EqualTo("\"\"quoted content, and with a comma\"\""));
         }
 
         [Test]
