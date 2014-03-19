@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>NServiceKit.Text</id>
+    <title>NServiceKit.Text - Open source fork of ServiceStack.Text</title>
+    <version>3.9.80</version> 
+    <authors>NServiceKit</authors> 
+    <owners>NServiceKit</owners>
+    <summary>.NET JSON, JSV and CSV Text Serializers</summary>
+    <description>
+        .NET's JSON, JSV and CSV Text Serializers. Fast, Light, Resilient.
+        Includes the String and Stream functionality for all the NServiceKit projects including: 
+          - T.Dump() generic extension method for easy debugging and introspection of types
+          - WebRequest, List, Dictionary and DateTime extensions
+    </description> 
+    <projectUrl>https://github.com/NServiceKit/NServiceKit.Text</projectUrl>
+    <licenseUrl>https://github.com/NServiceKit/NServiceKit.Text/blob/master/LICENSE</licenseUrl>
+    <iconUrl>http://www.NServiceKit.net/logo-100x100.png</iconUrl>
+    <tags>JSON Text Serializer CSV JSV Dump PrettyPrint Fast</tags>
+    <language>en-US</language> 
+    <copyright>NServiceKit 2014 and contributors</copyright>
+  </metadata>
+  <files>
+    <file src="lib\**\*.*" target="lib" />
+    <file src="..\..\src\NServiceKit.Text\**\*.cs" target="src" />
+  </files>
+</package>
+
