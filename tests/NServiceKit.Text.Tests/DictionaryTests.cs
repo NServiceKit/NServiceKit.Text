@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using NServiceKit.Text.Tests.DynamicModels.DataModel;
 using NUnit.Framework;
-using NServiceKit.Text.Tests.DynamicModels.DataModel;
+using System;
+using System.Collections.Generic;
 
 namespace NServiceKit.Text.Tests
 {
-	[TestFixture]
-	public class DictionaryTests
-		: TestBase
-	{
-		[TestFixtureSetUp]
-		public void SetUp()
-		{
+    [TestFixture]
+    public class DictionaryTests
+        : TestBase
+    {
+        [TestFixtureSetUp]
+        public void SetUp()
+        {
 #if MONOTOUCH
 			JsConfig.RegisterTypeForAot<Dictionary<string, int>> ();
 			JsConfig.RegisterTypeForAot<KeyValuePair<int, string>> ();
@@ -28,7 +27,7 @@ namespace NServiceKit.Text.Tests
 
 
 #endif
-		}
+        }
 
         [TearDown]
         public void TearDown()
@@ -36,37 +35,37 @@ namespace NServiceKit.Text.Tests
             JsConfig.Reset();
         }
 
-		[Test]
-		public void Can_serialize_one_level_dictionary()
-		{
-			var map = new Dictionary<string, int>
+        [Test]
+        public void Can_serialize_one_level_dictionary()
+        {
+            var map = new Dictionary<string, int>
           	{
 				{"One", 1}, {"Two", 2}, {"Three", 3}, 
           	};
 
-			Serialize(map);
-		}
+            Serialize(map);
+        }
 
-		[Test]
-		public void Can_serialize_empty_map()
-		{
-			var emptyMap = new Dictionary<string, int>();
+        [Test]
+        public void Can_serialize_empty_map()
+        {
+            var emptyMap = new Dictionary<string, int>();
 
-			Serialize(emptyMap);
-		}
+            Serialize(emptyMap);
+        }
 
-		[Test]
-		public void Can_serialize_empty_string_map()
-		{
-			var emptyMap = new Dictionary<string, string>();
+        [Test]
+        public void Can_serialize_empty_string_map()
+        {
+            var emptyMap = new Dictionary<string, string>();
 
-			Serialize(emptyMap);
-		}
+            Serialize(emptyMap);
+        }
 
-		[Test]
-		public void Can_serialize_two_level_dictionary()
-		{
-			var map = new Dictionary<string, Dictionary<string, int>>
+        [Test]
+        public void Can_serialize_two_level_dictionary()
+        {
+            var map = new Dictionary<string, Dictionary<string, int>>
           		{
 					{"map1", new Dictionary<string, int>
 			         	{
@@ -80,13 +79,13 @@ namespace NServiceKit.Text.Tests
 					},
           		};
 
-			Serialize(map);
-		}
+            Serialize(map);
+        }
 
-		[Test]
-		public void Can_serialize_two_level_dictionary_with_int_key()
-		{
-			var map = new Dictionary<int, Dictionary<string, int>>
+        [Test]
+        public void Can_serialize_two_level_dictionary_with_int_key()
+        {
+            var map = new Dictionary<int, Dictionary<string, int>>
           		{
 					{1, new Dictionary<string, int>
 			         	{
@@ -100,15 +99,15 @@ namespace NServiceKit.Text.Tests
 					},
           		};
 
-			Serialize(map);
-		}
+            Serialize(map);
+        }
 
-		[Test]
-		public void Can_deserialize_two_level_dictionary_with_array()
-		{
+        [Test]
+        public void Can_deserialize_two_level_dictionary_with_array()
+        {
             JsConfig.TryToParsePrimitiveTypeValues = true;
             JsConfig.ConvertObjectTypesIntoStringDictionary = true;
-			var original = new Dictionary<string, StrictType[]>
+            var original = new Dictionary<string, StrictType[]>
           		{
 					{"array", 
                         new [] { 
@@ -118,10 +117,8 @@ namespace NServiceKit.Text.Tests
                         }
 					},
           		};
-			var json = JsonSerializer.SerializeToString(original);
-			var deserialized = JsonSerializer.DeserializeFromString<Dictionary<string, object>>(json);
-
-            Console.WriteLine(json);
+            var json = JsonSerializer.SerializeToString(original);
+            var deserialized = JsonSerializer.DeserializeFromString<Dictionary<string, object>>(json);
 
             Assert.That(deserialized, Is.Not.Null);
             Assert.That(deserialized["array"], Is.Not.Null);
@@ -129,11 +126,11 @@ namespace NServiceKit.Text.Tests
             Assert.That(((List<object>)deserialized["array"])[0].ToJson(), Is.EqualTo("{\"Name\":\"First\"}"));
             Assert.That(((List<object>)deserialized["array"])[1].ToJson(), Is.EqualTo("{\"Name\":\"Second\"}"));
             Assert.That(((List<object>)deserialized["array"])[2].ToJson(), Is.EqualTo("{\"Name\":\"Third\"}"));
-		}
+        }
 
-		[Test]
-		public void Can_deserialize_dictionary_with_special_characters_in_strings()
-		{
+        [Test]
+        public void Can_deserialize_dictionary_with_special_characters_in_strings()
+        {
             JsConfig.TryToParsePrimitiveTypeValues = true;
             JsConfig.ConvertObjectTypesIntoStringDictionary = true;
 
@@ -151,8 +148,8 @@ namespace NServiceKit.Text.Tests
 					{"ShouldBeAPositiveIntegerInAString", "12345"},
 					{"ShouldBeANegativeIntegerInAString", "-12345"},
           		};
-			var json = JsonSerializer.SerializeToString(original);
-			var deserialized = JsonSerializer.DeserializeFromString<Dictionary<string, object>>(json);
+            var json = JsonSerializer.SerializeToString(original);
+            var deserialized = JsonSerializer.DeserializeFromString<Dictionary<string, object>>(json);
 
             Console.WriteLine(json);
 
@@ -171,163 +168,163 @@ namespace NServiceKit.Text.Tests
             Assert.That(deserialized["ShouldBeAPositiveIntegerInAString"], Is.EqualTo("12345"));
             Assert.That(deserialized["ShouldBeAPositiveIntegerInAString"], Is.InstanceOf<string>());
             Assert.That(deserialized["ShouldBeANegativeIntegerInAString"], Is.EqualTo("-12345"));
-		}
+        }
 
-		private static Dictionary<string, object> SetupDict()
-		{
-			return new Dictionary<string, object> {
+        private static Dictionary<string, object> SetupDict()
+        {
+            return new Dictionary<string, object> {
                 { "a", "text" },
                 { "b", 32 },
                 { "c", false },
                 { "d", new[] {1, 2, 3} },
 				{ "e", 1m },
             };
-		}
+        }
 
-		public class MixType
-		{
-			public string a { get; set; }
-			public int b { get; set; }
-			public bool c { get; set; }
-		    public int[] d { get; set; }
-		}
+        public class MixType
+        {
+            public string a { get; set; }
+            public int b { get; set; }
+            public bool c { get; set; }
+            public int[] d { get; set; }
+        }
 
-		private static void AssertDict(Dictionary<string, object> dict)
-		{
-			Assert.AreEqual("text", dict["a"]);
-			Assert.AreEqual(32, dict["b"]);
-			Assert.AreEqual(false, dict["c"]);
-		}
+        private static void AssertDict(Dictionary<string, object> dict)
+        {
+            Assert.AreEqual("text", dict["a"]);
+            Assert.AreEqual(32, dict["b"]);
+            Assert.AreEqual(false, dict["c"]);
+        }
 
-		//[Test]
-		//public void Test_JsonNet()
-		//{
-		//    var dict = SetupDict();
-		//    var json = JsonConvert.SerializeObject(dict);
-		//    var deserializedDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-		//    AssertDict(deserializedDict);
-		//}
+        //[Test]
+        //public void Test_JsonNet()
+        //{
+        //    var dict = SetupDict();
+        //    var json = JsonConvert.SerializeObject(dict);
+        //    var deserializedDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+        //    AssertDict(deserializedDict);
+        //}
 
-		[Test]
-		public void Test_NServiceKit_Text_TypeSerializer()
-		{
-            JsConfig.TryToParsePrimitiveTypeValues = true;
-            JsConfig.ConvertObjectTypesIntoStringDictionary = true;
-
-            var dict = SetupDict();
-			var json = TypeSerializer.SerializeToString(dict);
-			var deserializedDict = TypeSerializer.DeserializeFromString<Dictionary<string, object>>(json);
-			AssertDict(deserializedDict);
-		}
-
-		[Test]
-		public void Test_NServiceKit_Text_JsonSerializer()
-		{
-            JsConfig.TryToParsePrimitiveTypeValues = true;
-            JsConfig.ConvertObjectTypesIntoStringDictionary = true;
-
-            var dict = SetupDict();
-			var json = JsonSerializer.SerializeToString(dict);
-			var deserializedDict = JsonSerializer.DeserializeFromString<Dictionary<string, object>>(json);
-			AssertDict(deserializedDict);
-		}
-
-		[Test]
-		public void Test_NServiceKit_Text_JsonSerializer_Array_Value_Deserializes_Correctly()
+        [Test]
+        public void Test_NServiceKit_Text_TypeSerializer()
         {
             JsConfig.TryToParsePrimitiveTypeValues = true;
             JsConfig.ConvertObjectTypesIntoStringDictionary = true;
 
             var dict = SetupDict();
-			var json = JsonSerializer.SerializeToString(dict);
-			var deserializedDict = JsonSerializer.DeserializeFromString<Dictionary<string, object>>(json);
-			Assert.AreEqual("text", deserializedDict["a"]);
-			Assert.AreEqual(new List<int> {1, 2, 3}, deserializedDict["d"]);                
-		}
+            var json = TypeSerializer.SerializeToString(dict);
+            var deserializedDict = TypeSerializer.DeserializeFromString<Dictionary<string, object>>(json);
+            AssertDict(deserializedDict);
+        }
 
-		
-		[Test]
-		public void deserizes_to_decimal_by_default()
-		{
-			JsConfig.TryToParsePrimitiveTypeValues = true;
-			
-			var dict = SetupDict();
-			var json = JsonSerializer.SerializeToString(dict);
-			var deserializedDict = JsonSerializer.DeserializeFromString<IDictionary<string, object>>(json);
-			Assert.That(deserializedDict["e"], Is.TypeOf<decimal>());
-			Assert.That(deserializedDict["e"],Is.EqualTo(1m));
-			
-		}
-		class NumericType
-		{
+        [Test]
+        public void Test_NServiceKit_Text_JsonSerializer()
+        {
+            JsConfig.TryToParsePrimitiveTypeValues = true;
+            JsConfig.ConvertObjectTypesIntoStringDictionary = true;
 
-			public NumericType(decimal max, Type type)
-				: this(0,max,type)
-			{
+            var dict = SetupDict();
+            var json = JsonSerializer.SerializeToString(dict);
+            var deserializedDict = JsonSerializer.DeserializeFromString<Dictionary<string, object>>(json);
+            AssertDict(deserializedDict);
+        }
 
-			}
-			public NumericType(decimal min,decimal max,Type type)
-			{
-				Min = min;
-				Max = max;
-				Type = type;
-			}
+        [Test]
+        public void Test_NServiceKit_Text_JsonSerializer_Array_Value_Deserializes_Correctly()
+        {
+            JsConfig.TryToParsePrimitiveTypeValues = true;
+            JsConfig.ConvertObjectTypesIntoStringDictionary = true;
 
-			public decimal Min { get; private set; }		
-			public decimal Max { get; private set; }		
-			public Type Type { get; private set; }		
-		}
+            var dict = SetupDict();
+            var json = JsonSerializer.SerializeToString(dict);
+            var deserializedDict = JsonSerializer.DeserializeFromString<Dictionary<string, object>>(json);
+            Assert.AreEqual("text", deserializedDict["a"]);
+            Assert.AreEqual(new List<int> { 1, 2, 3 }, deserializedDict["d"]);
+        }
 
-		[Test]
-		public void deserizes_signed_bytes_into_to_best_fit_numeric()
-		{
-			JsConfig.TryToParsePrimitiveTypeValues = true;
-			JsConfig.TryToParseNumericType = true;
 
-			var deserializedDict = JsonSerializer.DeserializeFromString<IDictionary<string, object>>("{\"min\":-128,\"max\":127}");
-			Assert.That(deserializedDict["min"], Is.TypeOf<sbyte>());
-			Assert.That(deserializedDict["min"], Is.EqualTo(sbyte.MinValue));
-			//it seemed strange having zero return as a signed byte
-			Assert.That(deserializedDict["max"], Is.TypeOf<byte>());
-			Assert.That(deserializedDict["max"], Is.EqualTo(sbyte.MaxValue));
-		}
+        [Test]
+        public void deserizes_to_decimal_by_default()
+        {
+            JsConfig.TryToParsePrimitiveTypeValues = true;
 
-		[Test]
-		public void deserizes_signed_types_into_to_best_fit_numeric()
-		{
-			var unsignedTypes = new[]
+            var dict = SetupDict();
+            var json = JsonSerializer.SerializeToString(dict);
+            var deserializedDict = JsonSerializer.DeserializeFromString<IDictionary<string, object>>(json);
+            Assert.That(deserializedDict["e"], Is.TypeOf<decimal>());
+            Assert.That(deserializedDict["e"], Is.EqualTo(1m));
+
+        }
+        class NumericType
+        {
+
+            public NumericType(decimal max, Type type)
+                : this(0, max, type)
+            {
+
+            }
+            public NumericType(decimal min, decimal max, Type type)
+            {
+                Min = min;
+                Max = max;
+                Type = type;
+            }
+
+            public decimal Min { get; private set; }
+            public decimal Max { get; private set; }
+            public Type Type { get; private set; }
+        }
+
+        [Test]
+        public void deserizes_signed_bytes_into_to_best_fit_numeric()
+        {
+            JsConfig.TryToParsePrimitiveTypeValues = true;
+            JsConfig.TryToParseNumericType = true;
+
+            var deserializedDict = JsonSerializer.DeserializeFromString<IDictionary<string, object>>("{\"min\":-128,\"max\":127}");
+            Assert.That(deserializedDict["min"], Is.TypeOf<sbyte>());
+            Assert.That(deserializedDict["min"], Is.EqualTo(sbyte.MinValue));
+            //it seemed strange having zero return as a signed byte
+            Assert.That(deserializedDict["max"], Is.TypeOf<byte>());
+            Assert.That(deserializedDict["max"], Is.EqualTo(sbyte.MaxValue));
+        }
+
+        [Test]
+        public void deserizes_signed_types_into_to_best_fit_numeric()
+        {
+            var unsignedTypes = new[]
 				{
 					new NumericType(Int16.MinValue,Int16.MaxValue, typeof (Int16)),
 					new NumericType(Int32.MinValue,Int32.MaxValue, typeof (Int32)),
 					new NumericType(Int64.MinValue,Int64.MaxValue, typeof (Int64)),
 				};
 
-			JsConfig.TryToParsePrimitiveTypeValues = true;
-			JsConfig.TryToParseNumericType = true;
+            JsConfig.TryToParsePrimitiveTypeValues = true;
+            JsConfig.TryToParseNumericType = true;
 
 
-			foreach (var signedType in unsignedTypes)
-			{
-				var dict = new Dictionary<string, object>
+            foreach (var signedType in unsignedTypes)
+            {
+                var dict = new Dictionary<string, object>
 				{
 					{"min",signedType.Min},
 					{"max",signedType.Max},
 				};
 
-				var json = JsonSerializer.SerializeToString(dict);
-				var deserializedDict = JsonSerializer.DeserializeFromString<IDictionary<string, object>>(json);
-				Assert.That(deserializedDict["min"], Is.TypeOf(signedType.Type));
-				Assert.That(deserializedDict["min"], Is.EqualTo(signedType.Min));
-				Assert.That(deserializedDict["max"], Is.TypeOf(signedType.Type));
-				Assert.That(deserializedDict["max"], Is.EqualTo(signedType.Max));
-				
-			}
-		}
+                var json = JsonSerializer.SerializeToString(dict);
+                var deserializedDict = JsonSerializer.DeserializeFromString<IDictionary<string, object>>(json);
+                Assert.That(deserializedDict["min"], Is.TypeOf(signedType.Type));
+                Assert.That(deserializedDict["min"], Is.EqualTo(signedType.Min));
+                Assert.That(deserializedDict["max"], Is.TypeOf(signedType.Type));
+                Assert.That(deserializedDict["max"], Is.EqualTo(signedType.Max));
 
-		[Test]
-		public void deserizes_unsigned_types_into_to_best_fit_numeric()
-		{
-			var unsignedTypes = new[]
+            }
+        }
+
+        [Test]
+        public void deserizes_unsigned_types_into_to_best_fit_numeric()
+        {
+            var unsignedTypes = new[]
 				{
 					new NumericType(byte.MinValue,byte.MaxValue, typeof (byte)),
 					new NumericType(UInt16.MaxValue, typeof (UInt16)),
@@ -335,88 +332,89 @@ namespace NServiceKit.Text.Tests
 					new NumericType(UInt64.MaxValue, typeof (UInt64)),
 				};
 
-			JsConfig.TryToParsePrimitiveTypeValues = true;
-			JsConfig.TryToParseNumericType = true;
+            JsConfig.TryToParsePrimitiveTypeValues = true;
+            JsConfig.TryToParseNumericType = true;
 
 
-			foreach (var unsignedType in unsignedTypes)
-			{
-				var dict = new Dictionary<string, object>
+            foreach (var unsignedType in unsignedTypes)
+            {
+                var dict = new Dictionary<string, object>
 				{
 					{"min",unsignedType.Min},
 					{"max",unsignedType.Max},
 				};
 
-				var json = JsonSerializer.SerializeToString(dict);
-				var deserializedDict = JsonSerializer.DeserializeFromString<IDictionary<string, object>>(json);
-				Assert.That(deserializedDict["min"], Is.EqualTo(0));
-				Assert.That(deserializedDict["min"], Is.TypeOf<byte>());
-				Assert.That(deserializedDict["max"], Is.TypeOf(unsignedType.Type));	
-				Assert.That(deserializedDict["max"], Is.EqualTo(unsignedType.Max));
-				
-			}
-		}
+                var json = JsonSerializer.SerializeToString(dict);
+                var deserializedDict = JsonSerializer.DeserializeFromString<IDictionary<string, object>>(json);
+                Assert.That(deserializedDict["min"], Is.EqualTo(0));
+                Assert.That(deserializedDict["min"], Is.TypeOf<byte>());
+                Assert.That(deserializedDict["max"], Is.TypeOf(unsignedType.Type));
+                Assert.That(deserializedDict["max"], Is.EqualTo(unsignedType.Max));
 
-		[Test]
-		public void Can_deserialize_mixed_dictionary_into_strongtyped_map()
-		{
-			var mixedMap = SetupDict();
+            }
+        }
 
-			var json = JsonSerializer.SerializeToString(mixedMap);
-			Console.WriteLine("JSON:\n" + json);
+        [Test]
+        public void Can_deserialize_mixed_dictionary_into_strongtyped_map()
+        {
+            var mixedMap = SetupDict();
 
-			var mixedType = json.FromJson<MixType>();
-			Assert.AreEqual("text", mixedType.a);
-			Assert.AreEqual(32, mixedType.b);
-			Assert.AreEqual(false, mixedType.c);
-			Assert.AreEqual(new[] {1, 2, 3}, mixedType.d);
-		}
+            var json = JsonSerializer.SerializeToString(mixedMap);
+            Console.WriteLine("JSON:\n" + json);
 
-		[Test]
-		public void Can_serialise_null_values_from_dictionary_correctly()
-		{
-			JsConfig.IncludeNullValues = true;
-			var dictionary = new Dictionary<string, object> { { "value", null } };
+            var mixedType = json.FromJson<MixType>();
+            Assert.AreEqual("text", mixedType.a);
+            Assert.AreEqual(32, mixedType.b);
+            Assert.AreEqual(false, mixedType.c);
+            Assert.AreEqual(new[] { 1, 2, 3 }, mixedType.d);
+        }
 
-			Serialize(dictionary, includeXml: false);
+        [Test]
+        public void Can_serialise_null_values_from_dictionary_correctly()
+        {
+            JsConfig.IncludeNullValues = true;
+            var dictionary = new Dictionary<string, object> { { "value", null } };
 
-			var json = JsonSerializer.SerializeToString(dictionary);
-			Log(json);
+            Serialize(dictionary, includeXml: false);
 
-			Assert.That(json, Is.EqualTo("{\"value\":null}"));
-			JsConfig.Reset();
-		}
+            var json = JsonSerializer.SerializeToString(dictionary);
+            Log(json);
 
-		[Test]
-		public void Will_ignore_null_values_from_dictionary_correctly()
-		{
-			JsConfig.IncludeNullValues = false;
-			var dictionary = new Dictionary<string, string> { { "value", null } };
+            Assert.That(json, Is.EqualTo("{\"value\":null}"));
+            JsConfig.Reset();
+        }
 
-			Serialize(dictionary, includeXml: false);
+        [Test]
+        public void Will_ignore_null_values_from_dictionary_correctly()
+        {
+            JsConfig.IncludeNullValues = false;
+            var dictionary = new Dictionary<string, string> { { "value", null } };
 
-			var json = JsonSerializer.SerializeToString(dictionary);
-			Log(json);
+            Serialize(dictionary, includeXml: false);
 
-			Assert.That(json, Is.EqualTo("{}"));
-			JsConfig.Reset();
-		}
+            var json = JsonSerializer.SerializeToString(dictionary);
+            Log(json);
 
-		public class FooSlash
-		{
-			public Dictionary<string, string> Nested { get; set; }
-			public string Bar { get; set; }
-		}
+            Assert.That(json, Is.EqualTo("{}"));
+            JsConfig.Reset();
+        }
 
-		[Test]
-		public void Can_serialize_Dictionary_with_end_slash()
-		{
-			var foo = new FooSlash {
-				Nested = new Dictionary<string, string> { { "key", "value\"" } },
-				Bar = "BarValue"
-			};
-			Serialize(foo);
-		}
+        public class FooSlash
+        {
+            public Dictionary<string, string> Nested { get; set; }
+            public string Bar { get; set; }
+        }
+
+        [Test]
+        public void Can_serialize_Dictionary_with_end_slash()
+        {
+            var foo = new FooSlash
+            {
+                Nested = new Dictionary<string, string> { { "key", "value\"" } },
+                Bar = "BarValue"
+            };
+            Serialize(foo);
+        }
 
         [Test]
         public void Can_serialise_null_values_from_nested_dictionary_correctly()
@@ -425,17 +423,17 @@ namespace NServiceKit.Text.Tests
             var foo = new FooSlash();
             var json = JsonSerializer.SerializeToString(foo);
             Assert.That(json, Is.EqualTo("{\"Nested\":null,\"Bar\":null}"));
-			JsConfig.Reset();
-		}
+            JsConfig.Reset();
+        }
 
-		[Test]
-		public void Can_serialize_Dictionary_with_quotes()
-		{
-			var dto = new Dictionary<string, string> { { "title", "\"test\"" } };
-			var to = Serialize(dto);
+        [Test]
+        public void Can_serialize_Dictionary_with_quotes()
+        {
+            var dto = new Dictionary<string, string> { { "title", "\"test\"" } };
+            var to = Serialize(dto);
 
-			Assert.That(to["title"], Is.EqualTo(dto["title"]));
-		}
+            Assert.That(to["title"], Is.EqualTo(dto["title"]));
+        }
 
         [Test]
         public void Can_serialize_Dictionary_with_escaped_symbols_in_key()
@@ -449,7 +447,7 @@ namespace NServiceKit.Text.Tests
         [Test]
         public void Can_serialize_Dictionary_with_escaped_symbols_in_key_and_binary_value()
         {
-            var dto = new Dictionary<string, byte[]> { { @"a\fb", new byte[]{1} } };
+            var dto = new Dictionary<string, byte[]> { { @"a\fb", new byte[] { 1 } } };
             var to = Serialize(dto);
 
             Assert.That(to.Keys.ToArray()[0], Is.EqualTo(@"a\fb"));
@@ -471,7 +469,7 @@ namespace NServiceKit.Text.Tests
             var dto = new Dictionary<string, byte[]> { { "aфаž\"a", new byte[] { 1 } } };
             var to = Serialize(dto);
 
-            Assert.That(to.Keys.ToArray()[0], Is.EqualTo( "aфаž\"a"));
+            Assert.That(to.Keys.ToArray()[0], Is.EqualTo("aфаž\"a"));
         }
 
         [Test]
@@ -502,6 +500,6 @@ namespace NServiceKit.Text.Tests
             Assert.AreEqual(dict.Dump(), new Dictionary<string, object>(dict).Dump());
         }
 #endif
-	}
+    }
 
 }

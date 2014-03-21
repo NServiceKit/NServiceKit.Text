@@ -163,8 +163,8 @@ namespace NServiceKit.Text.Tests.UseCases
 					Lang = x.Get("lang"),
 				});
 
-			Console.WriteLine(place.Dump());
-
+			// Console.WriteLine(place.Dump());
+            Assert.IsNotNullOrEmpty(place.Dump());
 			/*Outputs:
 			{
 				WoeId: 12345,

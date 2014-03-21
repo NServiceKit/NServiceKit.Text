@@ -32,8 +32,6 @@ namespace NServiceKit.Text.Tests.Utils
             object model = new ModelWithIdAndName { Id = 1, Name = "Name" };
             var modelStr = model.Dump();
 
-            Console.WriteLine(modelStr);
-
             Assert.That(modelStr,
                         Is.EqualTo(
                             "{"
@@ -77,7 +75,7 @@ namespace NServiceKit.Text.Tests.Utils
         public void Can_DumpModel()
         {
             var model = new TestModel();
-            Console.WriteLine(model.Dump());
+            Assert.IsNotNullOrEmpty(model.Dump());
         }
 
     }

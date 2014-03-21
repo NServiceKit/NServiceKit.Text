@@ -357,7 +357,8 @@ namespace NServiceKit.Text.Tests.DynamicModels
         {
             //short for JsonSerializer.DeserializeFromString<GeoLocationResults>(Json)
             var geoApiResponse = JsonDto.FromJson<GeoLocationResponse>();
-            Console.WriteLine(geoApiResponse.Dump());
+            //Console.WriteLine(geoApiResponse.Dump());
+            Assert.IsNotNullOrEmpty(geoApiResponse.Dump());
         }
     }
 }

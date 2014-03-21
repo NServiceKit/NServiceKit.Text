@@ -1,17 +1,16 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
-using NUnit.Framework;
-using NServiceKit.Text.Tests.Support;
 
 namespace NServiceKit.Text.Tests.CsvTests
 {
-	[TestFixture]
-	public class DictionaryTests
-	{
-		[Test]
-		public void Serializes_dictionary_mismatched_keys_deserializes_tabular_csv()
-		{
-			var data = new List<Dictionary<string, string>> {
+    [TestFixture]
+    public class DictionaryTests
+    {
+        [Test]
+        public void Serializes_dictionary_mismatched_keys_deserializes_tabular_csv()
+        {
+            var data = new List<Dictionary<string, string>> {
                 new Dictionary<string, string> { {"Column2Data", "Like"}, {"Column3Data", "To"}, {"Column4Data", "Read"}, {"Column5Data", "Novels"}},
                 new Dictionary<string, string> { { "Column1Data", "I am" }, {"Column3Data", "Cool"}, {"Column4Data", "And"}, {"Column5Data", "Awesome"}},
                 new Dictionary<string, string> { { "Column1Data", "I" }, {"Column2Data", " Like "}, {"Column4Data", null}, {"Column5Data", null}},
@@ -20,31 +19,30 @@ namespace NServiceKit.Text.Tests.CsvTests
                 new Dictionary<string, string> { { "Column1Data", "I" }, {"Column2Data", "Went"}, {"Column3Data", "To"}, {"Column4Data", "Space\nCamp"}, {"Column5Data", "Last\r\nYear"}}
 			};
 
-			var csv = CsvSerializer.SerializeToCsv(data);
-			Console.WriteLine(csv);
+            var csv = CsvSerializer.SerializeToCsv(data);
 
-			Assert.That(csv, Is.EqualTo(
-				"Column1Data,Column2Data,Column3Data,Column4Data,Column5Data"
-				+ Environment.NewLine
-				+ ",Like,To,Read,Novels"
-				+ Environment.NewLine
-				+ "I am,,Cool,And,Awesome"
-				+ Environment.NewLine
-				+ "I, Like ,,,"
-				+ Environment.NewLine
-				+ "I,Don't,\"Know,\",,You?"
-				+ Environment.NewLine
-				+ "I,Saw,The,Movie,"
-				+ Environment.NewLine
-				+ "I,Went,To,\"Space\nCamp\",\"Last\r\nYear\""
-				+ Environment.NewLine
-			));
-		}
+            Assert.That(csv, Is.EqualTo(
+                "Column1Data,Column2Data,Column3Data,Column4Data,Column5Data"
+                + Environment.NewLine
+                + ",Like,To,Read,Novels"
+                + Environment.NewLine
+                + "I am,,Cool,And,Awesome"
+                + Environment.NewLine
+                + "I, Like ,,,"
+                + Environment.NewLine
+                + "I,Don't,\"Know,\",,You?"
+                + Environment.NewLine
+                + "I,Saw,The,Movie,"
+                + Environment.NewLine
+                + "I,Went,To,\"Space\nCamp\",\"Last\r\nYear\""
+                + Environment.NewLine
+            ));
+        }
 
-		[Test]
-		public void Serializes_dictionary_data()
-		{
-			var data = new List<Dictionary<string, string>> {
+        [Test]
+        public void Serializes_dictionary_data()
+        {
+            var data = new List<Dictionary<string, string>> {
                 new Dictionary<string, string> { { "Column1Data", "I" }, {"Column2Data", "Like"}, {"Column3Data", "To"}, {"Column4Data", "Read"}, {"Column5Data", "Novels"}},
                 new Dictionary<string, string> { { "Column1Data", "I am" }, {"Column2Data", "Very"}, {"Column3Data", "Cool"}, {"Column4Data", "And"}, {"Column5Data", "Awesome"}},
                 new Dictionary<string, string> { { "Column1Data", "I" }, {"Column2Data", " Like "}, {"Column3Data", "Reading"}, {"Column4Data", null}, {"Column5Data", null}},
@@ -53,26 +51,25 @@ namespace NServiceKit.Text.Tests.CsvTests
                 new Dictionary<string, string> { { "Column1Data", "I" }, {"Column2Data", "Went"}, {"Column3Data", "To"}, {"Column4Data", "Space\nCamp"}, {"Column5Data", "Last\r\nYear"}}
 			};
 
-			var csv = CsvSerializer.SerializeToCsv(data);
-			Console.WriteLine(csv);
+            var csv = CsvSerializer.SerializeToCsv(data);
 
-			Assert.That(csv, Is.EqualTo(
-				"Column1Data,Column2Data,Column3Data,Column4Data,Column5Data"
-				+ Environment.NewLine
-				+ "I,Like,To,Read,Novels"
-				+ Environment.NewLine
-				+ "I am,Very,Cool,And,Awesome"
-				+ Environment.NewLine
-				+ "I, Like ,Reading,,"
-				+ Environment.NewLine
-				+ "I,Don't,\"Know,\",Do,You?"
-				+ Environment.NewLine
-				+ "I,Saw,The,Movie,\"\"\"Jaws\"\"\""
-				+ Environment.NewLine
-				+ "I,Went,To,\"Space\nCamp\",\"Last\r\nYear\""
-				+ Environment.NewLine
-			));
-		}
+            Assert.That(csv, Is.EqualTo(
+                "Column1Data,Column2Data,Column3Data,Column4Data,Column5Data"
+                + Environment.NewLine
+                + "I,Like,To,Read,Novels"
+                + Environment.NewLine
+                + "I am,Very,Cool,And,Awesome"
+                + Environment.NewLine
+                + "I, Like ,Reading,,"
+                + Environment.NewLine
+                + "I,Don't,\"Know,\",Do,You?"
+                + Environment.NewLine
+                + "I,Saw,The,Movie,\"\"\"Jaws\"\"\""
+                + Environment.NewLine
+                + "I,Went,To,\"Space\nCamp\",\"Last\r\nYear\""
+                + Environment.NewLine
+            ));
+        }
 
         [Test]
         public void Serializes_dictionary_object_data()
@@ -130,7 +127,6 @@ namespace NServiceKit.Text.Tests.CsvTests
                            };
 
             var csv = CsvSerializer.SerializeToCsv(data);
-            Console.WriteLine(csv);
 
             Assert.That(csv, Is.EqualTo(
                 "Column1Data,Column2Data,Column3Data,Column4Data,Column5Data"
@@ -150,17 +146,17 @@ namespace NServiceKit.Text.Tests.CsvTests
                                  ));
         }
 
-	    [TearDown]
+        [TearDown]
         public void TearDown()
         {
             CsvConfig.Reset();
         }
 
-		[Test]
-		public void Serializes_dictionary_data_long_delimiter()
-		{
-		    CsvConfig.ItemDelimiterString = "^~^";
-			var data = new List<Dictionary<string, string>> {
+        [Test]
+        public void Serializes_dictionary_data_long_delimiter()
+        {
+            CsvConfig.ItemDelimiterString = "^~^";
+            var data = new List<Dictionary<string, string>> {
                 new Dictionary<string, string> { { "Column1Data", "I" }, {"Column2Data", "Like"}, {"Column3Data", "To"}, {"Column4Data", "Read"}, {"Column5Data", "Novels"}},
                 new Dictionary<string, string> { { "Column1Data", "I am" }, {"Column2Data", "Very"}, {"Column3Data", "Cool"}, {"Column4Data", "And"}, {"Column5Data", "Awesome"}},
                 new Dictionary<string, string> { { "Column1Data", "I" }, {"Column2Data", " Like "}, {"Column3Data", "Reading"}, {"Column4Data", null}, {"Column5Data", null}},
@@ -169,32 +165,31 @@ namespace NServiceKit.Text.Tests.CsvTests
                 new Dictionary<string, string> { { "Column1Data", "I" }, {"Column2Data", "Went"}, {"Column3Data", "To"}, {"Column4Data", "Space\nCamp"}, {"Column5Data", "Last\r\nYear"}}
 			};
 
-			var csv = CsvSerializer.SerializeToCsv(data);
-			Console.WriteLine(csv);
+            var csv = CsvSerializer.SerializeToCsv(data);
 
-			Assert.That(csv, Is.EqualTo(
-				"Column1Data,Column2Data,Column3Data,Column4Data,Column5Data"
-				+ Environment.NewLine
-				+ "I,Like,To,Read,Novels"
-				+ Environment.NewLine
-				+ "I am,Very,Cool,And,Awesome"
-				+ Environment.NewLine
-				+ "I, Like ,Reading,,"
-				+ Environment.NewLine
-				+ "I,Don't,^~^Know,^~^,Do,You?"
-				+ Environment.NewLine
-				+ "I,Saw,The,Movie,\"Jaws\""
-				+ Environment.NewLine
-				+ "I,Went,To,^~^Space\nCamp^~^,^~^Last\r\nYear^~^"
-				+ Environment.NewLine
-			));
-		}
+            Assert.That(csv, Is.EqualTo(
+                "Column1Data,Column2Data,Column3Data,Column4Data,Column5Data"
+                + Environment.NewLine
+                + "I,Like,To,Read,Novels"
+                + Environment.NewLine
+                + "I am,Very,Cool,And,Awesome"
+                + Environment.NewLine
+                + "I, Like ,Reading,,"
+                + Environment.NewLine
+                + "I,Don't,^~^Know,^~^,Do,You?"
+                + Environment.NewLine
+                + "I,Saw,The,Movie,\"Jaws\""
+                + Environment.NewLine
+                + "I,Went,To,^~^Space\nCamp^~^,^~^Last\r\nYear^~^"
+                + Environment.NewLine
+            ));
+        }
 
-		[Test]
-		public void Serializes_dictionary_data_pipe_separator()
-		{
-		    CsvConfig.ItemSeperatorString = "|";
-			var data = new List<Dictionary<string, string>> {
+        [Test]
+        public void Serializes_dictionary_data_pipe_separator()
+        {
+            CsvConfig.ItemSeperatorString = "|";
+            var data = new List<Dictionary<string, string>> {
                 new Dictionary<string, string> { { "Column1Data", "I" }, {"Column2Data", "Like"}, {"Column3Data", "To"}, {"Column4Data", "Read"}, {"Column5Data", "Novels"}},
                 new Dictionary<string, string> { { "Column1Data", "I am" }, {"Column2Data", "Very"}, {"Column3Data", "Cool"}, {"Column4Data", "And"}, {"Column5Data", "Awesome"}},
                 new Dictionary<string, string> { { "Column1Data", "I" }, {"Column2Data", " Like "}, {"Column3Data", "Reading"}, {"Column4Data", null}, {"Column5Data", null}},
@@ -203,25 +198,24 @@ namespace NServiceKit.Text.Tests.CsvTests
                 new Dictionary<string, string> { { "Column1Data", "I" }, {"Column2Data", "Went"}, {"Column3Data", "To"}, {"Column4Data", "Space\nCamp"}, {"Column5Data", "Last\r\nYear"}}
 			};
 
-			var csv = CsvSerializer.SerializeToCsv(data);
-			Console.WriteLine(csv);
+            var csv = CsvSerializer.SerializeToCsv(data);
 
-			Assert.That(csv, Is.EqualTo(
-				"Column1Data|Column2Data|Column3Data|Column4Data|Column5Data"
-				+ Environment.NewLine
-				+ "I|Like|To|Read|Novels"
-				+ Environment.NewLine
-				+ "I am|Very|Cool|And|Awesome"
-				+ Environment.NewLine
-				+ "I| Like |Reading||"
-				+ Environment.NewLine
-				+ "I|Don't|Know,|Do|You?"
-				+ Environment.NewLine
-				+ "I|Saw|The|Movie|\"\"\"Jaws\"\"\""
-				+ Environment.NewLine
-				+ "I|Went|To|\"Space\nCamp\"|\"Last\r\nYear\""
-				+ Environment.NewLine
-			));
-		}
-	}
+            Assert.That(csv, Is.EqualTo(
+                "Column1Data|Column2Data|Column3Data|Column4Data|Column5Data"
+                + Environment.NewLine
+                + "I|Like|To|Read|Novels"
+                + Environment.NewLine
+                + "I am|Very|Cool|And|Awesome"
+                + Environment.NewLine
+                + "I| Like |Reading||"
+                + Environment.NewLine
+                + "I|Don't|Know,|Do|You?"
+                + Environment.NewLine
+                + "I|Saw|The|Movie|\"\"\"Jaws\"\"\""
+                + Environment.NewLine
+                + "I|Went|To|\"Space\nCamp\"|\"Last\r\nYear\""
+                + Environment.NewLine
+            ));
+        }
+    }
 }
