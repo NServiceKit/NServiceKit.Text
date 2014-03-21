@@ -1,4 +1,5 @@
 @echo off
+.\src\.nuget\nuget install
 
 set target=%1
 if "%target%" == "" (
