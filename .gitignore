@@ -48,3 +48,5 @@ _NCrunch*/
 *.ncrunchproject
 *.ncrunchsolution
 *.xml
+.sonar/
+nuget-packages/
