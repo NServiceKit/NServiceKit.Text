@@ -29,11 +29,14 @@ namespace NServiceKit.Text
         /// Find the type from the name supplied
         /// </summary>
         /// <param name="typeName">[typeName] or [typeName, assemblyName]</param>
-        /// <returns></returns>
+        /// <returns>The Type</returns>
         public static Type FindType(string typeName)
         {
             Type type = null;
-            if (TypeCache.TryGetValue(typeName, out type)) return type;
+            if (TypeCache.TryGetValue(typeName, out type))
+            {
+                return type;
+            }
 
 #if !SILVERLIGHT
             type = Type.GetType(typeName);
@@ -41,9 +44,9 @@ namespace NServiceKit.Text
             if (type == null)
             {
                 var typeDef = new AssemblyTypeDefinition(typeName);
-                type = !string.IsNullOrEmpty(typeDef.AssemblyName) 
-                    ? FindType(typeDef.TypeName, typeDef.AssemblyName) 
-                    : FindTypeFromLoadedAssemblies(typeDef.TypeName);
+                type = !string.IsNullOrEmpty(typeDef.AssemblyName)
+                           ? FindType(typeDef.TypeName, typeDef.AssemblyName)
+                           : FindTypeFromLoadedAssemblies(typeDef.TypeName);
             }
 
             Dictionary<string, Type> snapshot, newCache;
@@ -52,23 +55,22 @@ namespace NServiceKit.Text
                 snapshot = TypeCache;
                 newCache = new Dictionary<string, Type>(TypeCache);
                 newCache[typeName] = type;
-
-            } while (!ReferenceEquals(
-                Interlocked.CompareExchange(ref TypeCache, newCache, snapshot), snapshot));
+            }
+            while (!ReferenceEquals(Interlocked.CompareExchange(ref TypeCache, newCache, snapshot), snapshot));
 
             return type;
         }
 #endif
 
 #if !XBOX
-
-		
-		/// <summary>
-		/// The top-most interface of the given type, if any.
-		/// </summary>
-    	public static Type MainInterface<T>() 
+        /// <summary>
+        /// The top-most interface of the given type, if any.
+        /// </summary>
+        /// <typeparam name="T">Generic Type</typeparam>
+        /// <returns>The Type</returns>
+        public static Type MainInterface<T>()
         {
-			var t = typeof(T);
+            var t = typeof(T);
 #if NETFX_CORE
     		if (t.GetTypeInfo().BaseType == typeof(object)) {
 				// on Windows, this can be just "t.GetInterfaces()" but Mono doesn't return in order.
@@ -76,20 +78,24 @@ namespace NServiceKit.Text
 				if (interfaceType != null) return interfaceType;
 			}
 #else
-    		if (t.BaseType == typeof(object)) {
-				// on Windows, this can be just "t.GetInterfaces()" but Mono doesn't return in order.
-				var interfaceType = t.GetInterfaces().FirstOrDefault(i => !t.GetInterfaces().Any(i2 => i2.GetInterfaces().Contains(i)));
-				if (interfaceType != null) return interfaceType;
-			}
+            if (t.BaseType == typeof(object))
+            {
+                // on Windows, this can be just "t.GetInterfaces()" but Mono doesn't return in order.
+                var interfaceType = t.GetInterfaces().FirstOrDefault(i => !t.GetInterfaces().Any(i2 => i2.GetInterfaces().Contains(i)));
+                if (interfaceType != null)
+                {
+                    return interfaceType;
+                }
+            }
 #endif
-			return t; // not safe to use interface, as it might be a superclass's one.
-		}
+            return t; // not safe to use interface, as it might be a superclass's one.
+        }
 
         /// <summary>
         /// Find type if it exists
         /// </summary>
-        /// <param name="typeName"></param>
-        /// <param name="assemblyName"></param>
+        /// <param name="typeName">Type Name</param>
+        /// <param name="assemblyName">Assembly Name</param>
         /// <returns>The type if it exists</returns>
         public static Type FindType(string typeName, string assemblyName)
         {
@@ -102,16 +108,18 @@ namespace NServiceKit.Text
 #if !NETFX_CORE
             var binPath = GetAssemblyBinPath(Assembly.GetExecutingAssembly());
             Assembly assembly = null;
-            var assemblyDllPath = binPath + String.Format("{0}.{1}", assemblyName, DllExt);
+            var assemblyDllPath = binPath + string.Format("{0}.{1}", assemblyName, DllExt);
             if (File.Exists(assemblyDllPath))
             {
                 assembly = LoadAssembly(assemblyDllPath);
             }
-            var assemblyExePath = binPath + String.Format("{0}.{1}", assemblyName, ExeExt);
+
+            var assemblyExePath = binPath + string.Format("{0}.{1}", assemblyName, ExeExt);
             if (File.Exists(assemblyExePath))
             {
                 assembly = LoadAssembly(assemblyExePath);
             }
+
             return assembly != null ? assembly.GetType(typeName) : null;
 #else
             return null;
@@ -166,6 +174,11 @@ namespace NServiceKit.Text
 #endif
 
 #if !XBOX
+        /// <summary>
+        /// Finds type from loaded assemblies
+        /// </summary>
+        /// <param name="typeName">Given Type Name</param>
+        /// <returns>The Type</returns>
         public static Type FindTypeFromLoadedAssemblies(string typeName)
         {
 #if SILVERLIGHT4
@@ -181,15 +194,21 @@ namespace NServiceKit.Text
                     return type;
                 }
             }
+
             return null;
         }
 #endif
 
 #if !SILVERLIGHT
+        /// <summary>
+        /// Loads the Assembly from the given assembly path
+        /// </summary>
+        /// <param name="assemblyPath">Assembly Path</param>
+        /// <returns>Assembly Object</returns>
         private static Assembly LoadAssembly(string assemblyPath)
-		{
-			return Assembly.LoadFrom(assemblyPath);
-		}
+        {
+            return Assembly.LoadFrom(assemblyPath);
+        }
 #elif NETFX_CORE
         private static Assembly LoadAssembly(string assemblyPath)
         {
@@ -211,6 +230,11 @@ namespace NServiceKit.Text
 #endif
 
 #if !XBOX
+        /// <summary>
+        /// Gets the Assembly bin path given an assembly
+        /// </summary>
+        /// <param name="assembly">Assembly to get the path from</param>
+        /// <returns>Assembly Path</returns>
         public static string GetAssemblyBinPath(Assembly assembly)
         {
 #if WINDOWS_PHONE
@@ -229,18 +253,19 @@ namespace NServiceKit.Text
             {
                 assemblyPath = assemblyPath.Remove(0, FileUri.Length);
             }
+
             return assemblyPath;
         }
 #endif
 
 #if !SILVERLIGHT
-		static readonly Regex versionRegEx = new Regex(", Version=[^\\]]+", RegexOptions.Compiled);
+        private static readonly Regex versionRegEx = new Regex(", Version=[^\\]]+", RegexOptions.Compiled);
 #else
-        static readonly Regex versionRegEx = new Regex(", Version=[^\\]]+");
+        private static readonly Regex versionRegEx = new Regex(", Version=[^\\]]+");
 #endif
         public static string ToTypeString(this Type type)
         {
-            return versionRegEx.Replace(type.AssemblyQualifiedName, "");
+            return versionRegEx.Replace(type.AssemblyQualifiedName, string.Empty);
         }
 
         public static string WriteType(Type type)
