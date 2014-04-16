@@ -75,22 +75,21 @@
 
     <Delete Files="@(NugetPackageFilesToDelete)" />
 
-    <ItemGroup>
-      <TextFiles Include="$(SrcDir)/NServiceKit.Text/bin/$(Configuration)/NServiceKit.Text.*"></TextFiles>
-      <TextSl5Files Include="$(SrcDir)/NServiceKit.Text.SL5/bin/$(Configuration)/NServiceKit.Text.*"></TextSl5Files>
-    </ItemGroup>
+
 
     <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.Text/NServiceKit.Text.csproj"
              Targets="Build"
              Properties="Version=$(PackageVersion);Configuration=$(Configuration)" />
 
-    <MakeDir Directories="$(NuGetPackageDir)/NServiceKit.Text/lib/net35" Condition="!Exists('$(NuGetPackageDir)/NServiceKit.Text/lib/net35')" />
-    <Copy SourceFiles="@(TextFiles)" DestinationFolder="$(NuGetPackageDir)/NServiceKit.Text/lib/net35" />
-    
     <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.Text.SL5/NServiceKit.Text.SL5.csproj"
              Targets="Build"
              Properties="Version=$(PackageVersion);Configuration=$(Configuration)" />
-
+    <ItemGroup>
+      <TextFiles Include="$(SrcDir)/NServiceKit.Text/bin/$(Configuration)/NServiceKit.Text.*"></TextFiles>
+      <TextSl5Files Include="$(SrcDir)/NServiceKit.Text.SL5/bin/$(Configuration)/NServiceKit.Text.*"></TextSl5Files>
+    </ItemGroup>
+    <MakeDir Directories="$(NuGetPackageDir)/NServiceKit.Text/lib/net35" Condition="!Exists('$(NuGetPackageDir)/NServiceKit.Text/lib/net35')" />
+    <Copy SourceFiles="@(TextFiles)" DestinationFolder="$(NuGetPackageDir)/NServiceKit.Text/lib/net35" />
     <MakeDir Directories="$(NuGetPackageDir)/NServiceKit.Text/lib/sl5" Condition="!Exists('$(NuGetPackageDir)/NServiceKit.Text/lib/sl5')" />
     <Copy SourceFiles="@(TextSl5Files)" DestinationFolder="$(NuGetPackageDir)/NServiceKit.Text/lib/sl5" />
  
