@@ -77,11 +77,11 @@
 
 
 
-    <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.Text/NServiceKit.Text.csproj"
+    <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.Text.sln"
              Targets="Build"
              Properties="Version=$(PackageVersion);Configuration=$(Configuration)" />
 
-    <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.Text.SL5/NServiceKit.Text.SL5.csproj"
+    <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.Text.SL5.sln"
              Targets="Build"
              Properties="Version=$(PackageVersion);Configuration=$(Configuration)" />
     <ItemGroup>
