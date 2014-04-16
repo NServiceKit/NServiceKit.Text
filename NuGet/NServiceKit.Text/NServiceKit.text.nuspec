@@ -3,7 +3,7 @@
   <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <id>NServiceKit.Text</id>
     <title>NServiceKit.Text - Open source fork of ServiceStack.Text</title>
-    <version>3.9.80</version> 
+    <version>$version$</version> 
     <authors>NServiceKit</authors> 
     <owners>NServiceKit</owners>
     <summary>.NET JSON, JSV and CSV Text Serializers</summary>
