@@ -17,6 +17,6 @@ if "%target%" == "NuGetPack" (
 	)
 )
 
-
-
 %WINDIR%\Microsoft.NET\Framework\v4.0.30319\msbuild Build\build.proj /target:%target% /v:M /fl /flp:LogFile=msbuild.log;Verbosity=Normal /nr:false
+
+type msbuild.log
