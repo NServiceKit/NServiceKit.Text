@@ -263,11 +263,21 @@ namespace NServiceKit.Text
 #else
         private static readonly Regex versionRegEx = new Regex(", Version=[^\\]]+");
 #endif
+        /// <summary>
+        /// (Extension Method) Returns the type's assembly qualified name
+        /// </summary>
+        /// <param name="type">Type for getting the assembly qualified name</param>
+        /// <returns>The Assembly qualified name for the type</returns>
         public static string ToTypeString(this Type type)
         {
             return versionRegEx.Replace(type.AssemblyQualifiedName, string.Empty);
         }
 
+        /// <summary>
+        /// Write's out the type's assembly qualified name
+        /// </summary>
+        /// <param name="type">Type for getting the assembly qualified name</param>
+        /// <returns>The Assembly qualified name for the type</returns>
         public static string WriteType(Type type)
         {
             return type.ToTypeString();
