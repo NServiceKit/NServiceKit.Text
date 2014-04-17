@@ -2,12 +2,13 @@
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <id>NServiceKit.Text</id>
-    <title>NServiceKit.Text - Open source fork of ServiceStack.Text</title>
+    <title>NServiceKit.Text - Free and open source text serializers</title>
     <version>$version$</version> 
     <authors>NServiceKit</authors> 
     <owners>NServiceKit</owners>
-    <summary>.NET JSON, JSV and CSV Text Serializers</summary>
+    <summary>Free and Open Source .NET JSON, JSV and CSV Text Serializers</summary>
     <description>
+        Free and Open Source fork of ServiceStack.Text V3
         .NET's JSON, JSV and CSV Text Serializers. Fast, Light, Resilient.
         Includes the String and Stream functionality for all the NServiceKit projects including: 
           - T.Dump() generic extension method for easy debugging and introspection of types

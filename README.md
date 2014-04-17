@@ -1,4 +1,4 @@
-# NServiceKit.Text is a BSD / Free fork of ServiceStack.Text.
+# NServiceKit.Text is a free and open source fork of ServiceStack.Text.
 
 ServiceStack.Text content below:
 
