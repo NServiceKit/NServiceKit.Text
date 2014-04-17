@@ -1,5 +1,8 @@
 @echo off
-.\src\.nuget\nuget install
+
+if "%APPVEYOR%" == "" (
+   .\src\.nuget\nuget install
+)
 
 if "%BUILD_NUMBER%" == "" (
    set BUILD_NUMBER=%APPVEYOR_BUILD_NUMBER%

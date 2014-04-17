@@ -10,12 +10,12 @@
 // Licensed under the same terms of ServiceStack: new BSD license.
 //
 
+using NServiceKit.Text.Json;
 using System;
 using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Xml;
-using NServiceKit.Text.Json;
 
 namespace NServiceKit.Text.Common
 {
@@ -44,32 +44,50 @@ namespace NServiceKit.Text.Common
         /// <summary>
         /// If AlwaysUseUtc is set to true then convert all DateTime to UTC.
         /// </summary>
-        /// <param name="dateTime"></param>
-        /// <returns></returns>
-        private static DateTime Prepare(this DateTime dateTime, bool parsedAsUtc=false)
+        /// <param name="dateTime">Date Time to be "Prepared"</param>
+        /// <returns>The Prepared DateTime</returns>
+        private static DateTime Prepare(this DateTime dateTime, bool parsedAsUtc = false)
         {
             if (JsConfig.AlwaysUseUtc)
             {
                 return dateTime.Kind != DateTimeKind.Utc ? dateTime.ToStableUniversalTime() : dateTime;
             }
+
             return parsedAsUtc ? dateTime.ToLocalTime() : dateTime;
         }
 
+        /// <summary>
+        /// Parses a date time string and returns a nullable datetime
+        /// </summary>
+        /// <param name="dateTimeStr">DateTime String</param>
+        /// <returns>A nullable DateTime</returns>
         public static DateTime? ParseShortestNullableXsdDateTime(string dateTimeStr)
         {
             if (dateTimeStr == null)
+            {
                 return null;
+            }
 
             return ParseShortestXsdDateTime(dateTimeStr);
         }
 
+        /// <summary>
+        /// Parses a datetime string into a datetime object
+        /// </summary>
+        /// <param name="dateTimeStr">DateTime String</param>
+        /// <returns>A DateTime object</returns>
         public static DateTime ParseShortestXsdDateTime(string dateTimeStr)
         {
             if (string.IsNullOrEmpty(dateTimeStr))
+            {
                 return DateTime.MinValue;
+            }
 
-            if (dateTimeStr.StartsWith(EscapedWcfJsonPrefix, StringComparison.Ordinal) || dateTimeStr.StartsWith(WcfJsonPrefix, StringComparison.Ordinal))
+            if (dateTimeStr.StartsWith(EscapedWcfJsonPrefix, StringComparison.Ordinal)
+                || dateTimeStr.StartsWith(WcfJsonPrefix, StringComparison.Ordinal))
+            {
                 return ParseWcfJsonDate(dateTimeStr).Prepare();
+            }
 
             if (dateTimeStr.Length == DefaultDateTimeFormat.Length
                 || dateTimeStr.Length == DefaultDateTimeFormatWithFraction.Length)
@@ -80,7 +98,11 @@ namespace NServiceKit.Text.Common
             dateTimeStr = RepairXsdTimeSeparator(dateTimeStr);
 
             if (dateTimeStr.Length == XsdDateTimeFormatSeconds.Length)
-                return DateTime.ParseExact(dateTimeStr, XsdDateTimeFormatSeconds, null, DateTimeStyles.AdjustToUniversal).Prepare(parsedAsUtc:true); 
+            {
+                return
+                    DateTime.ParseExact(dateTimeStr, XsdDateTimeFormatSeconds, null, DateTimeStyles.AdjustToUniversal)
+                        .Prepare(parsedAsUtc: true);
+            }
 
             if (dateTimeStr.Length >= XsdDateTimeFormat3F.Length
                 && dateTimeStr.Length <= XsdDateTimeFormat.Length
@@ -95,9 +117,11 @@ namespace NServiceKit.Text.Common
 #else
                 var dateTime = Env.IsMono ? ParseManual(dateTimeStr) : null;
                 if (dateTime != null)
+                {
                     return dateTime.Value;
+                }
 
-                return XmlConvert.ToDateTime(dateTimeStr, XmlDateTimeSerializationMode.Utc).Prepare(parsedAsUtc:true);
+                return XmlConvert.ToDateTime(dateTimeStr, XmlDateTimeSerializationMode.Utc).Prepare(parsedAsUtc: true);
 #endif
             }
 
@@ -109,7 +133,9 @@ namespace NServiceKit.Text.Common
             {
                 var manualDate = ParseManual(dateTimeStr);
                 if (manualDate != null)
+                {
                     return manualDate.Value;
+                }
 
                 throw;
             }
@@ -123,7 +149,7 @@ namespace NServiceKit.Text.Common
         /// <returns>The repaired string. If no repairs were made, the original string is returned.</returns>
         private static string RepairXsdTimeSeparator(string dateTimeStr)
         {
-            if( (dateTimeStr.Length > XsdTimeSeparatorIndex) && (dateTimeStr[XsdTimeSeparatorIndex] == ' ') && dateTimeStr.EndsWith(XsdUtcSuffix) )
+            if ((dateTimeStr.Length > XsdTimeSeparatorIndex) && (dateTimeStr[XsdTimeSeparatorIndex] == ' ') && dateTimeStr.EndsWith(XsdUtcSuffix))
             {
                 dateTimeStr = dateTimeStr.Substring(0, XsdTimeSeparatorIndex) + XsdTimeSeparator +
                               dateTimeStr.Substring(XsdTimeSeparatorIndex + 1);
@@ -132,10 +158,17 @@ namespace NServiceKit.Text.Common
             return dateTimeStr;
         }
 
+        /// <summary>
+        /// Parses a date time string with a manual set of rules
+        /// </summary>
+        /// <param name="dateTimeStr">A date/time string</param>
+        /// <returns>A nullable date/time object</returns>
         public static DateTime? ParseManual(string dateTimeStr)
         {
             if (dateTimeStr == null || dateTimeStr.Length < "YYYY-MM-DD".Length)
+            {
                 return null;
+            }
 
             var dateKind = DateTimeKind.Utc;
             if (dateTimeStr.EndsWith(XsdUtcSuffix))
@@ -145,7 +178,9 @@ namespace NServiceKit.Text.Common
 
             var parts = dateTimeStr.Split('T');
             if (parts.Length == 1)
+            {
                 parts = dateTimeStr.SplitOnFirst(' ');
+            }
 
             var dateParts = parts[0].Split('-');
             int hh = 0, min = 0, ss = 0, ms = 0;
@@ -221,11 +256,21 @@ namespace NServiceKit.Text.Common
             return null;
         }
 
+        /// <summary>
+        /// Takes a date/time object and returns the XSD Date/Time Formatted string
+        /// </summary>
+        /// <param name="dateTime">Date/time object</param>
+        /// <returns>XSD Date/Time Formatted string</returns>
         public static string ToDateTimeString(DateTime dateTime)
         {
             return dateTime.ToStableUniversalTime().ToString(XsdDateTimeFormat);
         }
 
+        /// <summary>
+        /// Parses a date/time string using the XSD Date/Time Format
+        /// </summary>
+        /// <param name="dateTimeStr">Date/time string</param>
+        /// <returns>Date/time object</returns>
         public static DateTime ParseDateTime(string dateTimeStr)
         {
             return DateTime.ParseExact(dateTimeStr, XsdDateTimeFormat, null);
@@ -256,7 +301,7 @@ namespace NServiceKit.Text.Common
 
             return DateTimeOffset.Parse(dateTimeOffsetStr, CultureInfo.InvariantCulture);
         }
-		
+
         public static DateTimeOffset? ParseDateTimeOffsetNullable(string dateTimeOffsetStr)
         {
             if (string.IsNullOrEmpty(dateTimeOffsetStr)) return null;
