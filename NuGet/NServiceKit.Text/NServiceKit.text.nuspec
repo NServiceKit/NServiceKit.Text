@@ -13,6 +13,7 @@
         Includes the String and Stream functionality for all the NServiceKit projects including: 
           - T.Dump() generic extension method for easy debugging and introspection of types
           - WebRequest, List, Dictionary and DateTime extensions
+        Visit us at http://www.nservicekit.com/
     </description> 
     <projectUrl>https://github.com/NServiceKit/NServiceKit.Text</projectUrl>
     <licenseUrl>https://github.com/NServiceKit/NServiceKit.Text/blob/master/LICENSE</licenseUrl>
