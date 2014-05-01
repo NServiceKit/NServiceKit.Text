@@ -5,22 +5,31 @@ using NUnit.Framework;
 
 namespace NServiceKit.Text.Tests
 {
+    /// <summary>A dynamic object tests.</summary>
 	[TestFixture]
 	public class DynamicObjectTests
 		: TestBase
 	{
+        /// <summary>An URL status.</summary>
 		public class UrlStatus
 		{
+            /// <summary>Gets or sets the status.</summary>
+            /// <value>The status.</value>
 			public int Status { get; set; }
+
+            /// <summary>Gets or sets URL of the document.</summary>
+            /// <value>The URL.</value>
 			public string Url { get; set; }
 		}
 
+        /// <summary>Tear down.</summary>
         [TearDown]
         public void TearDown()
         {
             JsConfig.Reset();
         }
 
+        /// <summary>Dictionary object URL status.</summary>
 		[Test]
 		public void Dictionary_Object_UrlStatus()
 		{
@@ -51,11 +60,15 @@ namespace NServiceKit.Text.Tests
 			Console.WriteLine("JSON: " + json);
 		}
 
+        /// <summary>A poco with kvp.</summary>
 		public class PocoWithKvp
 		{
+            /// <summary>Gets or sets the values.</summary>
+            /// <value>The values.</value>
 			public KeyValuePair<string, string>[] Values { get; set; }
 		}
 
+        /// <summary>Can serailize kvp array.</summary>
 		[Test]
 		public void Can_Serailize_KVP_array()
 		{
@@ -72,6 +85,7 @@ namespace NServiceKit.Text.Tests
 			Serialize(dto, includeXml: false);
 		}
 
+        /// <summary>Can deserialize object string.</summary>
         [Test]
         public void Can_deserialize_object_string()
         {
@@ -83,6 +97,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(deserialized, Is.EqualTo(json));
         }
 
+        /// <summary>Can deserialize object array.</summary>
         [Test]
         public void Can_deserialize_object_array()
         {
@@ -97,6 +112,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(((List<object>)deserialized)[2], Is.EqualTo(3));
         }
 
+        /// <summary>Can deserialize object epoch datetime.</summary>
         [Test]
         public void Can_deserialize_object_epoch_datetime()
         {
@@ -109,6 +125,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(((Dictionary<string, object>)deserialized)["foo"], Is.InstanceOf<DateTime>());
         }
 
+        /// <summary>Can deserialize object UTC ISO 8601 datetime.</summary>
         [Test]
         public void Can_deserialize_object_utc_iso8601_datetime()
         {
@@ -123,6 +140,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(datetime, Is.EqualTo(new DateTime(2012, 11, 20, 21, 37, 32, 870, DateTimeKind.Utc).ToLocalTime()));
         }
 
+        /// <summary>Can deserialize object ISO 8601 datetime with timezone.</summary>
         [Test]
         public void Can_deserialize_object_iso8601_datetime_with_timezone()
         {
@@ -138,6 +156,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(datetime, Is.EqualTo(new DateTime(2012, 11, 20, 19, 37, 32, 870, DateTimeKind.Utc).ToLocalTime()));
         }
 
+        /// <summary>Can deserialize object dictionary.</summary>
         [Test]
         public void Can_deserialize_object_dictionary()
         {
@@ -150,6 +169,9 @@ namespace NServiceKit.Text.Tests
             Assert.That(((Dictionary<string, object>)deserialized)["foo"], Is.EqualTo("bar"));
         }
 
+        /// <summary>
+        /// Can deserialize object dictionary when current culture has decimal comma.
+        /// </summary>
         [Test, SetCulture("nl-NL")]
         public void Can_deserialize_object_dictionary_when_current_culture_has_decimal_comma()
         {
@@ -165,6 +187,9 @@ namespace NServiceKit.Text.Tests
             Assert.That(dict["doubleValue"], Is.InstanceOf<double>() & Is.EqualTo(double.MaxValue), "double");
         }
 
+        /// <summary>
+        /// Can deserialize object dictionary with mixed values and nulls and empty array.
+        /// </summary>
 		[Test]
 		public void Can_deserialize_object_dictionary_with_mixed_values_and_nulls_and_empty_array()
 		{
@@ -188,6 +213,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(dict["dateValue"], Is.EqualTo(new DateTime(1994, 11, 24, 0, 0, 0, DateTimeKind.Utc)));
 		}
 
+        /// <summary>Can deserialize object dictionary with line breaks.</summary>
         [Test]
 		public void Can_deserialize_object_dictionary_with_line_breaks()
 		{
@@ -208,6 +234,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(dict["value"], Is.EqualTo(5));
 		}
 
+        /// <summary>Can deserialize object array with line breaks before first element.</summary>
         [Test]
 		public void Can_deserialize_object_array_with_line_breaks_before_first_element()
 		{
@@ -226,6 +253,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(arrayValues[0], Is.Not.Null);
 		}
 
+        /// <summary>Can deserialize object array with line breaks after last element.</summary>
         [Test]
 		public void Can_deserialize_object_array_with_line_breaks_after_last_element()
 		{
@@ -244,6 +272,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(arrayValues[0], Is.Not.Null);
 		}
 
+        /// <summary>Can deserialize object array with line breaks around element.</summary>
         [Test]
 		public void Can_deserialize_object_array_with_line_breaks_around_element()
 		{
@@ -263,6 +292,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(arrayValues[0], Is.Not.Null);
 		}
 
+        /// <summary>Can deserialize object array with line breaks around number element.</summary>
         [Test]
 		public void Can_deserialize_object_array_with_line_breaks_around_number_element()
 		{

@@ -15,10 +15,14 @@ using System;
 
 namespace NServiceKit.Text
 {
+    /// <summary>A system time.</summary>
 	public static class SystemTime
 	{
+        /// <summary>The UTC date time resolver.</summary>
 		public static Func<DateTime> UtcDateTimeResolver;
 
+        /// <summary>Gets the Date/Time of the now.</summary>
+        /// <value>The now.</value>
 		public static DateTime Now
 		{
 			get
@@ -28,6 +32,8 @@ namespace NServiceKit.Text
 			}
 		}
 
+        /// <summary>Gets the Date/Time of the UTC now.</summary>
+        /// <value>The UTC now.</value>
 		public static DateTime UtcNow
 		{
 			get

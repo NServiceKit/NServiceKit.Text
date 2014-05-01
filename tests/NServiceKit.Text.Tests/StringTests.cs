@@ -6,9 +6,11 @@ using NServiceKit.Text.Tests.Support;
 
 namespace NServiceKit.Text.Tests
 {
+    /// <summary>A string tests.</summary>
     [TestFixture]
     public class StringTests
     {
+        /// <summary>Serializer tests.</summary>
         [Test]
         public void SerializerTests()
         {
@@ -27,6 +29,7 @@ namespace NServiceKit.Text.Tests
             Assert.AreEqual(correctJSON, jsonString, "Service Stack serializes string correctly");
         }
 
+        /// <summary>Deserializes string correctly.</summary>
         [Test]
         public void Deserializes_string_correctly()
         {
@@ -39,6 +42,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(fromJsonType, Is.EqualTo(original));
         }
 
+        /// <summary>Embedded quotes.</summary>
         [Test]
         public void Embedded_Quotes()
         {
@@ -57,6 +61,7 @@ namespace NServiceKit.Text.Tests
             Assert.AreEqual(correctJSON, jsonString, "Service Stack serializes string correctly");
         }
 
+        /// <summary>Tests round trip.</summary>
         [Test]
         public void RoundTripTest()
         {
@@ -78,6 +83,7 @@ namespace NServiceKit.Text.Tests
             Assert.AreEqual(json, ssJson, "Service Stack round trips correctly");
         }
 
+        /// <summary>Deserializes string with quotes correctly.</summary>
         [Test]
         public void Deserializes_string_with_quotes_correctly()
         {
@@ -98,11 +104,15 @@ namespace NServiceKit.Text.Tests
             Assert.That(fromJsonType, Is.EqualTo(original));
         }
 
+        /// <summary>A poco.</summary>
         public class Poco
         {
+            /// <summary>Gets or sets the name.</summary>
+            /// <value>The name.</value>
             public string Name { get; set; }
         }
 
+        /// <summary>Deserializes poco with string with quotes correctly.</summary>
         [Test]
         public void Deserializes_Poco_with_string_with_quotes_correctly()
         {
@@ -117,6 +127,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(fromJsonType.Name, Is.EqualTo(original.Name));
         }
 
+        /// <summary>Starting with quotes inside poc operating system.</summary>
         [Test]
         public void Starting_with_quotes_inside_POCOs()
         {
@@ -129,6 +140,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(fromDto.Name, Is.EqualTo(dto.Name));
         }
 
+        /// <summary>The dto.</summary>
         Movie dto = new Movie
         {
             ImdbId = "tt0111161",
@@ -140,6 +152,7 @@ namespace NServiceKit.Text.Tests
             Genres = new List<string> { "Crime", "Drama" },
         };
 
+        /// <summary>Can to XML.</summary>
         [Test]
         public void Can_toXml()
         {
@@ -148,6 +161,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(fromXml.ImdbId, Is.EqualTo(dto.ImdbId));
         }
 
+        /// <summary>Can to JSON.</summary>
         [Test]
         public void Can_toJson()
         {
@@ -156,6 +170,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(fromJson.ImdbId, Is.EqualTo(dto.ImdbId));
         }
 
+        /// <summary>Can to jsv.</summary>
         [Test]
         public void Can_toJsv()
         {
@@ -164,13 +179,23 @@ namespace NServiceKit.Text.Tests
             Assert.That(fromJsv.ImdbId, Is.EqualTo(dto.ImdbId));
         }
 
+        /// <summary>A data Model for the order.</summary>
         public class OrderModel
         {
+            /// <summary>Gets or sets the type of the order.</summary>
+            /// <value>The type of the order.</value>
             public string OrderType { get; set; }
+
+            /// <summary>Gets or sets the price.</summary>
+            /// <value>The price.</value>
             public decimal Price { get; set; }
+
+            /// <summary>Gets or sets the lot.</summary>
+            /// <value>The lot.</value>
             public int Lot { get; set; }
         }
 
+        /// <summary>Can to JSON than to XML.</summary>
         [Test]
         public void Can_toJson_than_toXml()
         {
@@ -192,9 +217,11 @@ namespace NServiceKit.Text.Tests
 
     }
 
+    /// <summary>A string parsing tests.</summary>
     [TestFixture]
     public class StringParsingTests
     {
+/// <summary>.</summary>
         [TestCase("test", "test")]
         [TestCase("", "\"\"")]
         [TestCase("asdf asdf asdf ", "asdf asdf asdf ")]

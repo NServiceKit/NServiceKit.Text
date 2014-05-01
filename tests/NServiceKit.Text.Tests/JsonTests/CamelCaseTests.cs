@@ -6,21 +6,25 @@ using NServiceKit.Text.Tests.Support;
 
 namespace NServiceKit.Text.Tests.JsonTests
 {
+    /// <summary>A camel case tests.</summary>
     [TestFixture]
 	public class CamelCaseTests : TestBase
 	{
+        /// <summary>Sets the up.</summary>
 		[SetUp]
 		public void SetUp()
 		{
 			JsConfig.EmitCamelCaseNames = true;
 		}
 
+        /// <summary>Tear down.</summary>
 		[TearDown]
 		public void TearDown()
 		{
 			JsConfig.Reset();
 		}
 
+        /// <summary>Does serialize to camel case.</summary>
 		[Test]
 		public void Does_serialize_To_CamelCase()
 		{
@@ -44,15 +48,22 @@ namespace NServiceKit.Text.Tests.JsonTests
 			Serialize(dto);
 		}
 
+        /// <summary>A person.</summary>
 		[DataContract]
 		class Person
 		{
+            /// <summary>Gets or sets the identifier.</summary>
+            /// <value>The identifier.</value>
 			[DataMember(Name = "MyID")]
 			public int Id { get; set; }
+
+            /// <summary>Gets or sets the name.</summary>
+            /// <value>The name.</value>
 			[DataMember]
 			public string Name { get; set; }
 		}
 
+        /// <summary>Can override name.</summary>
 		[Test]
 		public void Can_override_name()
 		{

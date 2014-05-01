@@ -6,11 +6,12 @@ using NServiceKit.Common.Tests.Models;
 
 namespace NServiceKit.Text.Tests
 {
+    /// <summary>A generic collection tests.</summary>
 	[TestFixture]
 	public class GenericCollectionTests
 		: TestBase
 	{
-
+        /// <summary>Can serialize queue string.</summary>
 		[Test]
 		public void Can_serialize_Queue_string()
 		{
@@ -25,6 +26,7 @@ namespace NServiceKit.Text.Tests
 			Assert.That(CsvSerializer.SerializeToString(queue), Is.EqualTo("one,two,three" + Environment.NewLine));
 		}
 
+        /// <summary>Can serialize queue int.</summary>
 		[Test]
 		public void Can_serialize_Queue_int()
 		{
@@ -39,6 +41,7 @@ namespace NServiceKit.Text.Tests
 			Assert.That(CsvSerializer.SerializeToString(queue), Is.EqualTo("1,2,3" + Environment.NewLine));
 		}
 
+        /// <summary>Can serialize queue generic.</summary>
 		[Test]
 		public void Can_serialize_Queue_Generic()
 		{
@@ -63,6 +66,7 @@ namespace NServiceKit.Text.Tests
 				));
 		}
 
+        /// <summary>Can serialize stack string.</summary>
 		[Test]
 		public void Can_serialize_Stack_string()
 		{
@@ -77,6 +81,7 @@ namespace NServiceKit.Text.Tests
 			Assert.That(CsvSerializer.SerializeToString(stack), Is.EqualTo("three,two,one" + Environment.NewLine));
 		}
 
+        /// <summary>Can serialize stack int.</summary>
 		[Test]
 		public void Can_serialize_Stack_int()
 		{
@@ -91,6 +96,7 @@ namespace NServiceKit.Text.Tests
 			Assert.That(CsvSerializer.SerializeToString(stack), Is.EqualTo("3,2,1" + Environment.NewLine));
 		}
 
+        /// <summary>Can serialize stack generic.</summary>
 		[Test]
 		public void Can_serialize_Stack_Generic()
 		{

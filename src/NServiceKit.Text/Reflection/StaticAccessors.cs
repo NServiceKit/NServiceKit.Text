@@ -17,8 +17,13 @@ using System.Linq.Expressions;
 #endif
 namespace NServiceKit.Text.Reflection
 {
+    /// <summary>A static accessors.</summary>
     public static class StaticAccessors
     {
+        /// <summary>A PropertyInfo extension method that gets value getter.</summary>
+        /// <param name="propertyInfo">The propertyInfo to act on.</param>
+        /// <param name="type">        The type.</param>
+        /// <returns>The value getter.</returns>
         public static Func<object, object> GetValueGetter(this PropertyInfo propertyInfo, Type type)
         {
 #if NETFX_CORE
@@ -39,6 +44,10 @@ namespace NServiceKit.Text.Reflection
 #endif
         }
 
+        /// <summary>A FieldInfo extension method that gets value getter.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="propertyInfo">The propertyInfo to act on.</param>
+        /// <returns>The value getter.</returns>
         public static Func<T, object> GetValueGetter<T>(this PropertyInfo propertyInfo)
         {
 #if NETFX_CORE
@@ -57,6 +66,10 @@ namespace NServiceKit.Text.Reflection
 #endif
         }
 
+        /// <summary>A FieldInfo extension method that gets value getter.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="fieldInfo">The fieldInfo to act on.</param>
+        /// <returns>The value getter.</returns>
         public static Func<T, object> GetValueGetter<T>(this FieldInfo fieldInfo)
         {
 #if (SILVERLIGHT && !WINDOWS_PHONE) || MONOTOUCH || XBOX
@@ -70,6 +83,12 @@ namespace NServiceKit.Text.Reflection
         }
 
 #if !XBOX
+        /// <summary>A PropertyInfo extension method that gets value setter.</summary>
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or
+        /// illegal values.</exception>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="propertyInfo">The propertyInfo to act on.</param>
+        /// <returns>The value setter.</returns>
         public static Action<T, object> GetValueSetter<T>(this PropertyInfo propertyInfo)
         {
             if (typeof(T) != propertyInfo.DeclaringType)

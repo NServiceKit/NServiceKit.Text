@@ -19,29 +19,38 @@ using NServiceKit.Text.Json;
 
 namespace NServiceKit.Text
 {
+    /// <summary>A JSON serializer.</summary>
+    /// <typeparam name="T">Generic type parameter.</typeparam>
 	public class JsonSerializer<T> : ITypeSerializer<T>
 	{
+        /// <summary>Determine if we can create from string.</summary>
+        /// <param name="type">The type.</param>
+        /// <returns>true if we can create from string, false if not.</returns>
 		public bool CanCreateFromString(Type type)
 		{
 			return JsonReader.GetParseFn(type) != null;
 		}
 
-		/// <summary>
-		/// Parses the specified value.
-		/// </summary>
-		/// <param name="value">The value.</param>
-		/// <returns></returns>
+        /// <summary>Parses the specified value.</summary>
+        /// <param name="value">The value.</param>
+        /// <returns>A T.</returns>
 		public T DeserializeFromString(string value)
 		{
 			if (string.IsNullOrEmpty(value)) return default(T);
 			return (T)JsonReader<T>.Parse(value);
 		}
 
+        /// <summary>Deserialize from reader.</summary>
+        /// <param name="reader">The reader.</param>
+        /// <returns>A T.</returns>
 		public T DeserializeFromReader(TextReader reader)
 		{
 			return DeserializeFromString(reader.ReadToEnd());
 		}
 
+        /// <summary>Serialize to string.</summary>
+        /// <param name="value">The value.</param>
+        /// <returns>A string.</returns>
 		public string SerializeToString(T value)
 		{
 			if (value == null) return null;
@@ -62,6 +71,9 @@ namespace NServiceKit.Text
 			return sb.ToString();
 		}
 
+        /// <summary>Serialize to writer.</summary>
+        /// <param name="value"> The value.</param>
+        /// <param name="writer">The writer.</param>
 		public void SerializeToWriter(T value, TextWriter writer)
 		{
 			if (value == null) return;

@@ -20,12 +20,17 @@ using NServiceKit.Text.Common;
 
 namespace NServiceKit.Text.Json
 {
+    /// <summary>A JSON writer.</summary>
 	internal static class JsonWriter
 	{
+        /// <summary>The instance.</summary>
 		public static readonly JsWriter<JsonTypeSerializer> Instance = new JsWriter<JsonTypeSerializer>();
 
+        /// <summary>The write function cache.</summary>
 		private static Dictionary<Type, WriteObjectDelegate> WriteFnCache = new Dictionary<Type, WriteObjectDelegate>();
 
+        /// <summary>Removes the cache function described by forType.</summary>
+        /// <param name="forType">Type of for.</param>
         internal static void RemoveCacheFn(Type forType)
         {
             Dictionary<Type, WriteObjectDelegate> snapshot, newCache;
@@ -39,6 +44,10 @@ namespace NServiceKit.Text.Json
                 Interlocked.CompareExchange(ref WriteFnCache, newCache, snapshot), snapshot));
         }
 
+        /// <summary>Gets write function.</summary>
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        /// <param name="type">The type.</param>
+        /// <returns>The write function.</returns>
 		public static WriteObjectDelegate GetWriteFn(Type type)
 		{
 			try
@@ -70,8 +79,13 @@ namespace NServiceKit.Text.Json
 			}
 		}
 
+        /// <summary>The JSON type information cache.</summary>
 		private static Dictionary<Type, TypeInfo> JsonTypeInfoCache = new Dictionary<Type, TypeInfo>();
 
+        /// <summary>Gets type information.</summary>
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        /// <param name="type">The type.</param>
+        /// <returns>The type information.</returns>
 		public static TypeInfo GetTypeInfo(Type type)
 		{
 			try
@@ -103,6 +117,9 @@ namespace NServiceKit.Text.Json
 			}
 		}
 
+        /// <summary>Writes a late bound object.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="value"> The value.</param>
 		public static void WriteLateBoundObject(TextWriter writer, object value)
 		{
 			if (value == null)
@@ -122,27 +139,36 @@ namespace NServiceKit.Text.Json
 			JsState.IsWritingDynamic = prevState;
 		}
 
+        /// <summary>Gets value type to string method.</summary>
+        /// <param name="type">The type.</param>
+        /// <returns>The value type to string method.</returns>
 		public static WriteObjectDelegate GetValueTypeToStringMethod(Type type)
 		{
 			return Instance.GetValueTypeToStringMethod(type);
 		}
 	}
 
+    /// <summary>Information about the type.</summary>
 	internal class TypeInfo
 	{
+        /// <summary>true to encode map key.</summary>
         internal bool EncodeMapKey;
+
+        /// <summary>true if this object is numeric.</summary>
         internal bool IsNumeric;
     }
 
-	/// <summary>
-	/// Implement the serializer using a more static approach
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
+    /// <summary>Implement the serializer using a more static approach.</summary>
+    /// <typeparam name="T">.</typeparam>
 	internal static class JsonWriter<T>
 	{
+        /// <summary>Information describing the type.</summary>
 		internal static TypeInfo TypeInfo;
+
+        /// <summary>The cache function.</summary>
 		private static WriteObjectDelegate CacheFn;
 
+        /// <summary>Resets this object.</summary>
         public static void Reset()
         {
             JsonWriter.RemoveCacheFn(typeof(T));
@@ -152,16 +178,23 @@ namespace NServiceKit.Text.Json
                 : JsonWriter.Instance.GetWriteFn<T>();
         }
 
+        /// <summary>Writes the function.</summary>
+        /// <returns>A WriteObjectDelegate.</returns>
 		public static WriteObjectDelegate WriteFn()
 		{
 			return CacheFn ?? WriteObject;
 		}
 
+        /// <summary>Gets type information.</summary>
+        /// <returns>The type information.</returns>
 		public static TypeInfo GetTypeInfo()
 		{
 			return TypeInfo;
 		}
 
+        /// <summary>
+        /// Initializes static members of the NServiceKit.Text.Json.JsonWriter&lt;T&gt; class.
+        /// </summary>
 		static JsonWriter()
 		{
 		    var isNumeric = typeof(T).IsNumericType();
@@ -175,6 +208,9 @@ namespace NServiceKit.Text.Json
                 : JsonWriter.Instance.GetWriteFn<T>();
 		}
 
+        /// <summary>Writes an object.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="value"> The value.</param>
         public static void WriteObject(TextWriter writer, object value)
         {
 #if MONOTOUCH
@@ -193,6 +229,9 @@ namespace NServiceKit.Text.Json
             }
         }
 
+        /// <summary>Writes a root object.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="value"> The value.</param>
         public static void WriteRootObject(TextWriter writer, object value)
         {
 #if MONOTOUCH

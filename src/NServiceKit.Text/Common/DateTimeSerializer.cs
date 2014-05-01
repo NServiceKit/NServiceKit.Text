@@ -19,33 +19,64 @@ using System.Xml;
 
 namespace NServiceKit.Text.Common
 {
+    /// <summary>A date time serializer.</summary>
     public static class DateTimeSerializer
     {
-        public const string ShortDateTimeFormat = "yyyy-MM-dd";                               //11
-        public const string DefaultDateTimeFormat = "dd/MM/yyyy HH:mm:ss";                    //20
-        public const string DefaultDateTimeFormatWithFraction = "dd/MM/yyyy HH:mm:ss.fff";    //24
-        public const string XsdDateTimeFormat = "yyyy-MM-ddTHH:mm:ss.fffffffZ";               //29
-        public const string XsdDateTimeFormat3F = "yyyy-MM-ddTHH:mm:ss.fffZ";                 //25
-        public const string XsdDateTimeFormatSeconds = "yyyy-MM-ddTHH:mm:ssZ";                //21
-        public const string DateTimeFormatSecondsUtcOffset = "yyyy-MM-ddTHH:mm:sszzz";        //22
-        public const string DateTimeFormatTicksUtcOffset = "yyyy-MM-ddTHH:mm:ss.fffffffzzz";  //30
+        /// <summary>11.</summary>
+        public const string ShortDateTimeFormat = "yyyy-MM-dd";
 
+        /// <summary>20.</summary>
+        public const string DefaultDateTimeFormat = "dd/MM/yyyy HH:mm:ss";
+
+        /// <summary>24.</summary>
+        public const string DefaultDateTimeFormatWithFraction = "dd/MM/yyyy HH:mm:ss.fff";
+
+        /// <summary>29.</summary>
+        public const string XsdDateTimeFormat = "yyyy-MM-ddTHH:mm:ss.fffffffZ";
+
+        /// <summary>25.</summary>
+        public const string XsdDateTimeFormat3F = "yyyy-MM-ddTHH:mm:ss.fffZ";
+
+        /// <summary>21.</summary>
+        public const string XsdDateTimeFormatSeconds = "yyyy-MM-ddTHH:mm:ssZ";
+
+        /// <summary>22.</summary>
+        public const string DateTimeFormatSecondsUtcOffset = "yyyy-MM-ddTHH:mm:sszzz";
+
+        /// <summary>30.</summary>
+        public const string DateTimeFormatTicksUtcOffset = "yyyy-MM-ddTHH:mm:ss.fffffffzzz";
+
+        /// <summary>The escaped WCF JSON prefix.</summary>
         public const string EscapedWcfJsonPrefix = "\\/Date(";
+
+        /// <summary>The escaped WCF JSON suffix.</summary>
         public const string EscapedWcfJsonSuffix = ")\\/";
+
+        /// <summary>The WCF JSON prefix.</summary>
         public const string WcfJsonPrefix = "/Date(";
+
+        /// <summary>The WCF JSON suffix.</summary>
         public const char WcfJsonSuffix = ')';
+
+        /// <summary>The unspecified offset.</summary>
         public const string UnspecifiedOffset = "-0000";
+
+        /// <summary>The UTC offset.</summary>
         public const string UtcOffset = "+0000";
 
+        /// <summary>The XSD time separator.</summary>
         private const char XsdTimeSeparator = 'T';
+
+        /// <summary>Zero-based index of the XSD time separator.</summary>
         private static readonly int XsdTimeSeparatorIndex = XsdDateTimeFormat.IndexOf(XsdTimeSeparator);
+
+        /// <summary>The XSD UTC suffix.</summary>
         private const string XsdUtcSuffix = "Z";
 
-        /// <summary>
-        /// If AlwaysUseUtc is set to true then convert all DateTime to UTC.
-        /// </summary>
-        /// <param name="dateTime">Date Time to be "Prepared"</param>
-        /// <returns>The Prepared DateTime</returns>
+        /// <summary>If AlwaysUseUtc is set to true then convert all DateTime to UTC.</summary>
+        /// <param name="dateTime">   Date Time to be "Prepared".</param>
+        /// <param name="parsedAsUtc">true to parsed as UTC.</param>
+        /// <returns>The Prepared DateTime.</returns>
         private static DateTime Prepare(this DateTime dateTime, bool parsedAsUtc = false)
         {
             if (JsConfig.AlwaysUseUtc)
@@ -56,11 +87,9 @@ namespace NServiceKit.Text.Common
             return parsedAsUtc ? dateTime.ToLocalTime() : dateTime;
         }
 
-        /// <summary>
-        /// Parses a date time string and returns a nullable datetime
-        /// </summary>
-        /// <param name="dateTimeStr">DateTime String</param>
-        /// <returns>A nullable DateTime</returns>
+        /// <summary>Parses a date time string and returns a nullable datetime.</summary>
+        /// <param name="dateTimeStr">DateTime String.</param>
+        /// <returns>A nullable DateTime.</returns>
         public static DateTime? ParseShortestNullableXsdDateTime(string dateTimeStr)
         {
             if (dateTimeStr == null)
@@ -71,11 +100,10 @@ namespace NServiceKit.Text.Common
             return ParseShortestXsdDateTime(dateTimeStr);
         }
 
-        /// <summary>
-        /// Parses a datetime string into a datetime object
-        /// </summary>
-        /// <param name="dateTimeStr">DateTime String</param>
-        /// <returns>A DateTime object</returns>
+        /// <summary>Parses a datetime string into a datetime object.</summary>
+        /// <exception cref="FormatException">Thrown when the format of the ? is incorrect.</exception>
+        /// <param name="dateTimeStr">DateTime String.</param>
+        /// <returns>A DateTime object.</returns>
         public static DateTime ParseShortestXsdDateTime(string dateTimeStr)
         {
             if (string.IsNullOrEmpty(dateTimeStr))
@@ -142,11 +170,14 @@ namespace NServiceKit.Text.Common
         }
 
         /// <summary>
-        /// Repairs an out-of-spec XML date/time string which incorrectly uses a space instead of a 'T' to separate the date from the time.
-        /// These string are occasionally generated by SQLite and can cause errors in OrmLite when reading these columns from the DB.
+        /// Repairs an out-of-spec XML date/time string which incorrectly uses a space instead of a 'T'
+        /// to separate the date from the time. These string are occasionally generated by SQLite and can
+        /// cause errors in OrmLite when reading these columns from the DB.
         /// </summary>
-        /// <param name="dateTimeStr">The XML date/time string to repair</param>
-        /// <returns>The repaired string. If no repairs were made, the original string is returned.</returns>
+        /// <param name="dateTimeStr">The XML date/time string to repair.</param>
+        /// <returns>
+        /// The repaired string. If no repairs were made, the original string is returned.
+        /// </returns>
         private static string RepairXsdTimeSeparator(string dateTimeStr)
         {
             if ((dateTimeStr.Length > XsdTimeSeparatorIndex) && (dateTimeStr[XsdTimeSeparatorIndex] == ' ') && dateTimeStr.EndsWith(XsdUtcSuffix))
@@ -158,11 +189,9 @@ namespace NServiceKit.Text.Common
             return dateTimeStr;
         }
 
-        /// <summary>
-        /// Parses a date time string with a manual set of rules
-        /// </summary>
-        /// <param name="dateTimeStr">A date/time string</param>
-        /// <returns>A nullable date/time object</returns>
+        /// <summary>Parses a date time string with a manual set of rules.</summary>
+        /// <param name="dateTimeStr">A date/time string.</param>
+        /// <returns>A nullable date/time object.</returns>
         public static DateTime? ParseManual(string dateTimeStr)
         {
             if (dateTimeStr == null || dateTimeStr.Length < "YYYY-MM-DD".Length)
@@ -256,26 +285,25 @@ namespace NServiceKit.Text.Common
             return null;
         }
 
-        /// <summary>
-        /// Takes a date/time object and returns the XSD Date/Time Formatted string
-        /// </summary>
-        /// <param name="dateTime">Date/time object</param>
-        /// <returns>XSD Date/Time Formatted string</returns>
+        /// <summary>Takes a date/time object and returns the XSD Date/Time Formatted string.</summary>
+        /// <param name="dateTime">Date/time object.</param>
+        /// <returns>XSD Date/Time Formatted string.</returns>
         public static string ToDateTimeString(DateTime dateTime)
         {
             return dateTime.ToStableUniversalTime().ToString(XsdDateTimeFormat);
         }
 
-        /// <summary>
-        /// Parses a date/time string using the XSD Date/Time Format
-        /// </summary>
-        /// <param name="dateTimeStr">Date/time string</param>
-        /// <returns>Date/time object</returns>
+        /// <summary>Parses a date/time string using the XSD Date/Time Format.</summary>
+        /// <param name="dateTimeStr">Date/time string.</param>
+        /// <returns>Date/time object.</returns>
         public static DateTime ParseDateTime(string dateTimeStr)
         {
             return DateTime.ParseExact(dateTimeStr, XsdDateTimeFormat, null);
         }
 
+        /// <summary>Parse date time offset.</summary>
+        /// <param name="dateTimeOffsetStr">The date time offset string.</param>
+        /// <returns>A DateTimeOffset.</returns>
         public static DateTimeOffset ParseDateTimeOffset(string dateTimeOffsetStr)
         {
             if (string.IsNullOrEmpty(dateTimeOffsetStr)) return default(DateTimeOffset);
@@ -302,6 +330,9 @@ namespace NServiceKit.Text.Common
             return DateTimeOffset.Parse(dateTimeOffsetStr, CultureInfo.InvariantCulture);
         }
 
+        /// <summary>Parse date time offset nullable.</summary>
+        /// <param name="dateTimeOffsetStr">The date time offset string.</param>
+        /// <returns>A DateTimeOffset?</returns>
         public static DateTimeOffset? ParseDateTimeOffsetNullable(string dateTimeOffsetStr)
         {
             if (string.IsNullOrEmpty(dateTimeOffsetStr)) return null;
@@ -309,6 +340,9 @@ namespace NServiceKit.Text.Common
             return ParseDateTimeOffset(dateTimeOffsetStr);
         }
 
+        /// <summary>Converts a dateTime to an XSD date time string.</summary>
+        /// <param name="dateTime">Date/time object.</param>
+        /// <returns>dateTime as a string.</returns>
         public static string ToXsdDateTimeString(DateTime dateTime)
         {
 #if NETFX_CORE
@@ -318,6 +352,9 @@ namespace NServiceKit.Text.Common
 #endif
         }
 
+        /// <summary>Converts a timeSpan to an XSD time span string.</summary>
+        /// <param name="timeSpan">The time span.</param>
+        /// <returns>timeSpan as a string.</returns>
         public static string ToXsdTimeSpanString(TimeSpan timeSpan)
         {
             var r = XmlConvert.ToString(timeSpan);
@@ -328,11 +365,17 @@ namespace NServiceKit.Text.Common
             return r;
         }
 
+        /// <summary>Converts a timeSpan to an XSD time span string.</summary>
+        /// <param name="timeSpan">The time span.</param>
+        /// <returns>timeSpan as a string.</returns>
         public static string ToXsdTimeSpanString(TimeSpan? timeSpan)
         {
             return (timeSpan != null) ? ToXsdTimeSpanString(timeSpan.Value) : null;
         }
 
+        /// <summary>Parse XSD date time.</summary>
+        /// <param name="dateTimeStr">DateTime String.</param>
+        /// <returns>A DateTime.</returns>
         public static DateTime ParseXsdDateTime(string dateTimeStr)
         {
             dateTimeStr = RepairXsdTimeSeparator(dateTimeStr);
@@ -344,6 +387,9 @@ namespace NServiceKit.Text.Common
 #endif
         }
 
+        /// <summary>Parse time span.</summary>
+        /// <param name="dateTimeStr">DateTime String.</param>
+        /// <returns>A TimeSpan.</returns>
         public static TimeSpan ParseTimeSpan(string dateTimeStr)
         {
             return dateTimeStr.StartsWith("P", StringComparison.Ordinal) || dateTimeStr.StartsWith("-P", StringComparison.Ordinal)
@@ -351,11 +397,17 @@ namespace NServiceKit.Text.Common
                 : TimeSpan.Parse(dateTimeStr);
         }
 
+        /// <summary>Parse XSD time span.</summary>
+        /// <param name="dateTimeStr">DateTime String.</param>
+        /// <returns>A TimeSpan.</returns>
         public static TimeSpan ParseXsdTimeSpan(string dateTimeStr)
         {
             return XmlConvert.ToTimeSpan(dateTimeStr);
         }
 
+        /// <summary>Parse nullable time span.</summary>
+        /// <param name="dateTimeStr">DateTime String.</param>
+        /// <returns>A TimeSpan?</returns>
         public static TimeSpan? ParseNullableTimeSpan(string dateTimeStr)
         {
             return string.IsNullOrEmpty(dateTimeStr)
@@ -363,6 +415,9 @@ namespace NServiceKit.Text.Common
                 : ParseTimeSpan(dateTimeStr);
         }
 
+        /// <summary>Parse XSD nullable time span.</summary>
+        /// <param name="dateTimeStr">DateTime String.</param>
+        /// <returns>A TimeSpan?</returns>
         public static TimeSpan? ParseXsdNullableTimeSpan(string dateTimeStr)
         {
             return String.IsNullOrEmpty(dateTimeStr) ?
@@ -370,6 +425,9 @@ namespace NServiceKit.Text.Common
                 new TimeSpan?(XmlConvert.ToTimeSpan(dateTimeStr));
         }
 
+        /// <summary>Converts a dateTime to a shortest XSD date time string.</summary>
+        /// <param name="dateTime">Date/time object.</param>
+        /// <returns>dateTime as a string.</returns>
         public static string ToShortestXsdDateTimeString(DateTime dateTime)
         {
             var timeOfDay = dateTime.TimeOfDay;
@@ -387,13 +445,12 @@ namespace NServiceKit.Text.Common
                 : ToXsdDateTimeString(dateTime);
         }
 
+        /// <summary>The time zone characters.</summary>
         static readonly char[] TimeZoneChars = new[] { '+', '-' };
 
-        /// <summary>
-        /// WCF Json format: /Date(unixts+0000)/
-        /// </summary>
-        /// <param name="wcfJsonDate"></param>
-        /// <returns></returns>
+        /// <summary>WCF Json format: /Date(unixts+0000)/.</summary>
+        /// <param name="wcfJsonDate">.</param>
+        /// <returns>A DateTimeOffset.</returns>
         public static DateTimeOffset ParseWcfJsonDateOffset(string wcfJsonDate)
         {
             if (wcfJsonDate[0] == '\\')
@@ -434,11 +491,9 @@ namespace NServiceKit.Text.Common
             return new DateTimeOffset(date.Ticks, offset);
         }
 
-        /// <summary>
-        /// WCF Json format: /Date(unixts+0000)/
-        /// </summary>
-        /// <param name="wcfJsonDate"></param>
-        /// <returns></returns>
+        /// <summary>WCF Json format: /Date(unixts+0000)/.</summary>
+        /// <param name="wcfJsonDate">.</param>
+        /// <returns>A DateTime.</returns>
         public static DateTime ParseWcfJsonDate(string wcfJsonDate)
         {
             if (wcfJsonDate[0] == JsonUtils.EscapeChar)
@@ -478,7 +533,12 @@ namespace NServiceKit.Text.Common
             return new DateTimeOffset(date, offset).DateTime;
         }
 
+        /// <summary>The local time zone.</summary>
         private static TimeZoneInfo LocalTimeZone = TimeZoneInfo.Local;
+
+        /// <summary>Writes a WCF JSON date.</summary>
+        /// <param name="writer">  The writer.</param>
+        /// <param name="dateTime">Date Time to be "Prepared".</param>
         public static void WriteWcfJsonDate(TextWriter writer, DateTime dateTime)
         {
             if (JsConfig.AssumeUtc && dateTime.Kind == DateTimeKind.Unspecified)
@@ -518,6 +578,9 @@ namespace NServiceKit.Text.Common
             writer.Write(EscapedWcfJsonSuffix);
         }
 
+        /// <summary>Converts a dateTime to a WCF JSON date.</summary>
+        /// <param name="dateTime">Date/time object.</param>
+        /// <returns>dateTime as a string.</returns>
         public static string ToWcfJsonDate(DateTime dateTime)
         {
             var sb = new StringBuilder();
@@ -528,6 +591,9 @@ namespace NServiceKit.Text.Common
             }
         }
 
+        /// <summary>Writes a WCF JSON date time offset.</summary>
+        /// <param name="writer">        The writer.</param>
+        /// <param name="dateTimeOffset">The date time offset.</param>
         public static void WriteWcfJsonDateTimeOffset(TextWriter writer, DateTimeOffset dateTimeOffset)
         {
             if (JsConfig.DateHandler == JsonDateHandler.ISO8601)
@@ -550,6 +616,9 @@ namespace NServiceKit.Text.Common
             writer.Write(EscapedWcfJsonSuffix);
         }
 
+        /// <summary>Converts a dateTimeOffset to a WCF JSON date time offset.</summary>
+        /// <param name="dateTimeOffset">The date time offset.</param>
+        /// <returns>dateTimeOffset as a string.</returns>
         public static string ToWcfJsonDateTimeOffset(DateTimeOffset dateTimeOffset)
         {
             var sb = new StringBuilder();

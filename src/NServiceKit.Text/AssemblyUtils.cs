@@ -12,24 +12,28 @@ using NServiceKit.Common.Support;
 
 namespace NServiceKit.Text
 {
-    /// <summary>
-    /// Utils to load types
-    /// </summary>
+    /// <summary>Utils to load types.</summary>
     public static class AssemblyUtils
     {
+        /// <summary>URI of the file.</summary>
         private const string FileUri = "file:///";
+
+        /// <summary>Extent of the DLL.</summary>
         private const string DllExt = "dll";
+
+        /// <summary>Extent of the executable.</summary>
         private const string ExeExt = "dll";
+
+        /// <summary>The URI seperator.</summary>
         private const char UriSeperator = '/';
 
+        /// <summary>The type cache.</summary>
         private static Dictionary<string, Type> TypeCache = new Dictionary<string, Type>();
 
 #if !XBOX
-        /// <summary>
-        /// Find the type from the name supplied
-        /// </summary>
-        /// <param name="typeName">[typeName] or [typeName, assemblyName]</param>
-        /// <returns>The Type</returns>
+        /// <summary>Find the type from the name supplied.</summary>
+        /// <param name="typeName">or [typeName, assemblyName].</param>
+        /// <returns>The Type.</returns>
         public static Type FindType(string typeName)
         {
             Type type = null;
@@ -63,11 +67,9 @@ namespace NServiceKit.Text
 #endif
 
 #if !XBOX
-        /// <summary>
-        /// The top-most interface of the given type, if any.
-        /// </summary>
-        /// <typeparam name="T">Generic Type</typeparam>
-        /// <returns>The Type</returns>
+        /// <summary>The top-most interface of the given type, if any.</summary>
+        /// <typeparam name="T">Generic Type.</typeparam>
+        /// <returns>The Type.</returns>
         public static Type MainInterface<T>()
         {
             var t = typeof(T);
@@ -91,12 +93,10 @@ namespace NServiceKit.Text
             return t; // not safe to use interface, as it might be a superclass's one.
         }
 
-        /// <summary>
-        /// Find type if it exists
-        /// </summary>
-        /// <param name="typeName">Type Name</param>
-        /// <param name="assemblyName">Assembly Name</param>
-        /// <returns>The type if it exists</returns>
+        /// <summary>Find type if it exists.</summary>
+        /// <param name="typeName">    Type Name.</param>
+        /// <param name="assemblyName">Assembly Name.</param>
+        /// <returns>The type if it exists.</returns>
         public static Type FindType(string typeName, string assemblyName)
         {
             var type = FindTypeFromLoadedAssemblies(typeName);
@@ -174,11 +174,9 @@ namespace NServiceKit.Text
 #endif
 
 #if !XBOX
-        /// <summary>
-        /// Finds type from loaded assemblies
-        /// </summary>
-        /// <param name="typeName">Given Type Name</param>
-        /// <returns>The Type</returns>
+        /// <summary>Finds type from loaded assemblies.</summary>
+        /// <param name="typeName">Given Type Name.</param>
+        /// <returns>The Type.</returns>
         public static Type FindTypeFromLoadedAssemblies(string typeName)
         {
 #if SILVERLIGHT4
@@ -220,6 +218,9 @@ namespace NServiceKit.Text
             return Assembly.LoadFrom(assemblyPath);
         }
 #else
+        /// <summary>Loads an assembly.</summary>
+        /// <param name="assemblyPath">Full pathname of the assembly file.</param>
+        /// <returns>The assembly.</returns>
         private static Assembly LoadAssembly(string assemblyPath)
         {
             var sri = System.Windows.Application.GetResourceStream(new Uri(assemblyPath, UriKind.Relative));
@@ -230,11 +231,9 @@ namespace NServiceKit.Text
 #endif
 
 #if !XBOX
-        /// <summary>
-        /// Gets the Assembly bin path given an assembly
-        /// </summary>
-        /// <param name="assembly">Assembly to get the path from</param>
-        /// <returns>Assembly Path</returns>
+        /// <summary>Gets the Assembly bin path given an assembly.</summary>
+        /// <param name="assembly">Assembly to get the path from.</param>
+        /// <returns>Assembly Path.</returns>
         public static string GetAssemblyBinPath(Assembly assembly)
         {
 #if WINDOWS_PHONE
@@ -261,23 +260,21 @@ namespace NServiceKit.Text
 #if !SILVERLIGHT
         private static readonly Regex versionRegEx = new Regex(", Version=[^\\]]+", RegexOptions.Compiled);
 #else
+        /// <summary>The version register ex.</summary>
         private static readonly Regex versionRegEx = new Regex(", Version=[^\\]]+");
 #endif
-        /// <summary>
-        /// (Extension Method) Returns the type's assembly qualified name
-        /// </summary>
-        /// <param name="type">Type for getting the assembly qualified name</param>
-        /// <returns>The Assembly qualified name for the type</returns>
+
+        /// <summary>(Extension Method) Returns the type's assembly qualified name.</summary>
+        /// <param name="type">Type for getting the assembly qualified name.</param>
+        /// <returns>The Assembly qualified name for the type.</returns>
         public static string ToTypeString(this Type type)
         {
             return versionRegEx.Replace(type.AssemblyQualifiedName, string.Empty);
         }
 
-        /// <summary>
-        /// Write's out the type's assembly qualified name
-        /// </summary>
-        /// <param name="type">Type for getting the assembly qualified name</param>
-        /// <returns>The Assembly qualified name for the type</returns>
+        /// <summary>Write's out the type's assembly qualified name.</summary>
+        /// <param name="type">Type for getting the assembly qualified name.</param>
+        /// <returns>The Assembly qualified name for the type.</returns>
         public static string WriteType(Type type)
         {
             return type.ToTypeString();

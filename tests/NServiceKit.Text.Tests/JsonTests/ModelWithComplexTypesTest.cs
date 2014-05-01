@@ -3,9 +3,11 @@ using NServiceKit.Text.Tests.DynamicModels;
 
 namespace NServiceKit.Text.Tests.JsonTests
 {
+    /// <summary>A model with complex types test.</summary>
     [TestFixture]
     public class ModelWithComplexTypesTest
     {
+        /// <summary>Can serialize.</summary>
         [Test]
         public void Can_Serialize()
         {
@@ -18,6 +20,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             Assert.AreEqual(m1.ByteArrayValue[0], m2.ByteArrayValue[0]);
         }
 
+        /// <summary>Can serialize when null.</summary>
         [Test]
         public void Can_Serialize_WhenNull()
         {
@@ -35,6 +38,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             Assert.IsNull(m2.ByteArrayValue);
         }
 
+        /// <summary>Can serialize nulls when null.</summary>
         [Test]
         public void Can_Serialize_NullsWhenNull()
         {

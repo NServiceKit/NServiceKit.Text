@@ -8,15 +8,20 @@ using NServiceKit.Common.Tests.Models;
 
 namespace NServiceKit.Text.Tests.JsvTests
 {
+    /// <summary>A type serializer to string dictionary tests.</summary>
 	[TestFixture]
 	public class TypeSerializerToStringDictionaryTests
 	{
+        /// <summary>Tests fixture set up.</summary>
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
 			NorthwindData.LoadData(false);
 		}
 
+        /// <summary>
+        /// Can serialize model with fields of different types to string dictionary.
+        /// </summary>
 		[Test]
 		public void Can_serialize_ModelWithFieldsOfDifferentTypes_to_StringDictionary()
 		{
@@ -58,6 +63,7 @@ namespace NServiceKit.Text.Tests.JsvTests
 				}));
 		}
 
+        /// <summary>Can serialize category to string dictionary.</summary>
 		[Test]
 		public void Can_serialize_Category_to_StringDictionary()
 		{
@@ -70,6 +76,7 @@ namespace NServiceKit.Text.Tests.JsvTests
 				}));
 		}
 
+        /// <summary>Can serialize customer to string dictionary.</summary>
 		[Test]
 		public void Can_serialize_Customer_to_StringDictionary()
 		{
@@ -89,6 +96,7 @@ namespace NServiceKit.Text.Tests.JsvTests
 				}));
 		}
 
+        /// <summary>Can serialize employee to string dictionary.</summary>
 		[Test]
 		public void Can_serialize_Employee_to_StringDictionary()
 		{
@@ -119,6 +127,7 @@ namespace NServiceKit.Text.Tests.JsvTests
 				}));
 		}
 
+        /// <summary>Can serialize employee territory to string dictionary.</summary>
 	    [Test]
 		public void Can_serialize_EmployeeTerritory_to_StringDictionary()
 		{
@@ -131,6 +140,7 @@ namespace NServiceKit.Text.Tests.JsvTests
 				}));
 		}
 
+        /// <summary>Can serialize order detail to string dictionary.</summary>
 		[Test]
 		public void Can_serialize_OrderDetail_to_StringDictionary()
 		{
@@ -146,6 +156,7 @@ namespace NServiceKit.Text.Tests.JsvTests
 				}));
 		}
 
+        /// <summary>Can serialize order to string dictionary.</summary>
 		[Test]
 		public void Can_serialize_Order_to_StringDictionary()
 		{
@@ -168,6 +179,7 @@ namespace NServiceKit.Text.Tests.JsvTests
 				}));
 		}
 
+        /// <summary>Can serialize product to string dictionary.</summary>
 		[Test]
 		public void Can_serialize_Product_to_StringDictionary()
 		{
@@ -188,6 +200,7 @@ namespace NServiceKit.Text.Tests.JsvTests
 				}));
 		}
 
+        /// <summary>Can serialize region to string dictionary.</summary>
 		[Test]
 		public void Can_serialize_Region_to_StringDictionary()
 		{
@@ -199,6 +212,7 @@ namespace NServiceKit.Text.Tests.JsvTests
 				}));
 		}
 
+        /// <summary>Can serialize shipper to string dictionary.</summary>
 		[Test]
 		public void Can_serialize_Shipper_to_StringDictionary()
 		{
@@ -211,6 +225,7 @@ namespace NServiceKit.Text.Tests.JsvTests
 				}));
 		}
 
+        /// <summary>Can serialize supplier to string dictionary.</summary>
 		[Test]
 		public void Can_serialize_Supplier_to_StringDictionary()
 		{
@@ -229,6 +244,7 @@ namespace NServiceKit.Text.Tests.JsvTests
 				}));
 		}
 
+        /// <summary>Can serialize territory to string dictionary.</summary>
 		[Test]
 		public void Can_serialize_Territory_to_StringDictionary()
 		{

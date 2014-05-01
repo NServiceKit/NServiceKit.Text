@@ -4,9 +4,13 @@ using System.Linq;
 
 namespace NServiceKit.Text.Tests.DynamicModels.DataModel
 {
+    /// <summary>Collection of customs.</summary>
 	[Serializable]
 	public class CustomCollection : Collection<CustomCollectionItem>
 	{
+        /// <summary>Searches for the first item index.</summary>
+        /// <param name="name">The name.</param>
+        /// <returns>The found item index.</returns>
 		public int FindItemIndex(string name)
 		{
 			return IndexOf((from item in this
@@ -14,6 +18,8 @@ namespace NServiceKit.Text.Tests.DynamicModels.DataModel
 							select item).FirstOrDefault());
 		}
 
+        /// <summary>Removes all described by name.</summary>
+        /// <param name="name">The name.</param>
 		public void RemoveAll(string name)
 		{
 			while (true)
@@ -26,6 +32,8 @@ namespace NServiceKit.Text.Tests.DynamicModels.DataModel
 			}
 		}
 
+        /// <summary>Gets or sets URI of the address.</summary>
+        /// <value>The address URI.</value>
 		public Uri AddressUri
 		{
 			get
@@ -47,6 +55,8 @@ namespace NServiceKit.Text.Tests.DynamicModels.DataModel
 			}
 		}
 
+        /// <summary>Gets or sets the type of some.</summary>
+        /// <value>The type of some.</value>
 		public Type SomeType
 		{
 			get
@@ -68,6 +78,8 @@ namespace NServiceKit.Text.Tests.DynamicModels.DataModel
 			}
 		}
 
+        /// <summary>Gets or sets the int value.</summary>
+        /// <value>The int value.</value>
 		public int IntValue
 		{
 			get

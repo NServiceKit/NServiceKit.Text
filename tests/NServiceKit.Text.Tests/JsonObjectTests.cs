@@ -2,11 +2,14 @@
 
 namespace NServiceKit.Text.Tests
 {
+    /// <summary>A JSON object tests.</summary>
     [TestFixture]
     public class JsonObjectTests
     {
+        /// <summary>The JSON centroid.</summary>
         private const string JsonCentroid = @"{""place"":{ ""woeid"":12345, ""placeTypeName"":""St\\ate"" } }";
 
+        /// <summary>Can dynamically parse JSON with escape characters.</summary>
         [Test]
         public void Can_dynamically_parse_JSON_with_escape_chars()
         {
@@ -17,6 +20,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(placeTypeName, Is.EqualTo("St\\ate"));
         }
 
+        /// <summary>Does escape string access.</summary>
         [Test]
         public void Does_escape_string_access()
         {
@@ -32,6 +36,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(jsonObject.GetUnescaped("a"), Is.EqualTo(test.Replace("\"","\\\"")));
         }
 
+        /// <summary>Does encode unicode.</summary>
         [Test]
         public void Does_encode_unicode()
         {
@@ -51,6 +56,7 @@ namespace NServiceKit.Text.Tests
             }
         }
 
+        /// <summary>Can parse twitter response.</summary>
         [Test]
         public void Can_parse_Twitter_response()
         {

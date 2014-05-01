@@ -15,8 +15,12 @@ using System.Reflection;
 
 namespace NServiceKit.Text.Common
 {
+    /// <summary>A deserialize type utilities.</summary>
     public class DeserializeTypeUtils
     {
+        /// <summary>Gets parse method.</summary>
+        /// <param name="type">The type.</param>
+        /// <returns>The parse method.</returns>
         public static ParseStringDelegate GetParseMethod(Type type)
         {
             var typeConstructor = GetTypeStringConstructor(type);
@@ -28,11 +32,9 @@ namespace NServiceKit.Text.Common
             return null;
         }
 
-        /// <summary>
-        /// Get the type(string) constructor if exists
-        /// </summary>
+        /// <summary>Get the type(string) constructor if exists.</summary>
         /// <param name="type">The type.</param>
-        /// <returns></returns>
+        /// <returns>The type string constructor.</returns>
         public static ConstructorInfo GetTypeStringConstructor(Type type)
         {
             foreach (var ci in type.DeclaredConstructors())

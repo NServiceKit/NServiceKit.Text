@@ -11,20 +11,27 @@ using System.Linq;
 
 namespace NServiceKit.Text.Tests.JsonTests
 {
+    /// <summary>Interface for category.</summary>
 	public interface ICat
 	{
+        /// <summary>Gets or sets the name.</summary>
+        /// <value>The name.</value>
 		string Name { get; set; }
 	}
 
+    /// <summary>Interface for dog.</summary>
 	public interface IDog
 	{
+        /// <summary>Gets or sets the name.</summary>
+        /// <value>The name.</value>
 		string Name { get; set; }
 	}
 
-	//[KnownType(typeof(Dog))]
-	//[KnownType(typeof(Cat))]
+    /// <summary>[KnownType(typeof(Dog))] [KnownType(typeof(Cat))].</summary>
 	public abstract class Animal
 	{
+        /// <summary>Gets or sets the name.</summary>
+        /// <value>The name.</value>
 		public abstract string Name
 		{
 			get;
@@ -32,27 +39,44 @@ namespace NServiceKit.Text.Tests.JsonTests
 		}
 	}
 
+    /// <summary>A dog.</summary>
 	public class Dog : Animal, IDog
 	{
+        /// <summary>Gets or sets the name.</summary>
+        /// <value>The name.</value>
 		public override string Name { get; set; }
 
+        /// <summary>Gets or sets the dog bark.</summary>
+        /// <value>The dog bark.</value>
 		public string DogBark { get; set; }
 	}
 
+    /// <summary>A collie.</summary>
     public class Collie : Dog
     {
+        /// <summary>Gets or sets a value indicating whether this object is lassie.</summary>
+        /// <value>true if this object is lassie, false if not.</value>
         public bool IsLassie { get; set; }
     }
 
+    /// <summary>A category.</summary>
 	public class Cat : Animal, ICat
 	{
+        /// <summary>Gets or sets the name.</summary>
+        /// <value>The name.</value>
 		public override string Name { get; set; }
 
+        /// <summary>Gets or sets the category meow.</summary>
+        /// <value>The category meow.</value>
 		public string CatMeow { get; set; }
 	}
 
+    /// <summary>A zoo.</summary>
 	public class Zoo
 	{
+        /// <summary>
+        /// Initializes a new instance of the NServiceKit.Text.Tests.JsonTests.Zoo class.
+        /// </summary>
 		public Zoo()
 		{
 			Animals = new List<Animal>
@@ -62,12 +86,16 @@ namespace NServiceKit.Text.Tests.JsonTests
 			};
 		}
 
+        /// <summary>Gets or sets the animals.</summary>
+        /// <value>The animals.</value>
 		public List<Animal> Animals
 		{
 			get;
 			set;
 		}
 
+        /// <summary>Gets or sets the name.</summary>
+        /// <value>The name.</value>
 		public string Name
 		{
 			get;
@@ -75,45 +103,66 @@ namespace NServiceKit.Text.Tests.JsonTests
 		}
 	}
 
+    /// <summary>Interface for term.</summary>
     public interface ITerm { }
 
+    /// <summary>A foo term.</summary>
     public class FooTerm : ITerm { }
 
+    /// <summary>A terms.</summary>
     public class Terms : IEnumerable<ITerm>
     {
+        /// <summary>The list.</summary>
         private readonly List<ITerm> _list = new List<ITerm>();
 
+        /// <summary>
+        /// Initializes a new instance of the NServiceKit.Text.Tests.JsonTests.Terms class.
+        /// </summary>
         public Terms()
             : this(Enumerable.Empty<ITerm>())
         {
 
         }
 
+        /// <summary>
+        /// Initializes a new instance of the NServiceKit.Text.Tests.JsonTests.Terms class.
+        /// </summary>
+        /// <param name="terms">The terms.</param>
         public Terms(IEnumerable<ITerm> terms)
         {
             _list.AddRange(terms);
         }
 
+        /// <summary>Gets the enumerator.</summary>
+        /// <returns>The enumerator.</returns>
         public IEnumerator<ITerm> GetEnumerator()
         {
             return _list.GetEnumerator();
         }
 
+        /// <summary>Gets the enumerator.</summary>
+        /// <returns>The enumerator.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
 
+        /// <summary>Adds term.</summary>
+        /// <param name="term">The term to add.</param>
         public void Add(ITerm term)
         {
             _list.Add(term);
         }
     }
 
+    /// <summary>A polymorphic list tests.</summary>
 	[TestFixture]
 	public class PolymorphicListTests : TestBase
 	{
+        /// <summary>Name of the assembly.</summary>
 		String assemblyName;
+
+        /// <summary>Sets the up.</summary>
 		[SetUp]
 		public void SetUp()
 		{
@@ -122,6 +171,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 			assemblyName = GetType().Assembly.GetName().Name;
 		}
 
+        /// <summary>Can serialise polymorphic list.</summary>
 		[Test]
 		public void Can_serialise_polymorphic_list()
 		{
@@ -144,6 +194,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 					+ "\",\"Name\":\"Tigger\",\"CatMeow\":\"meow\"}]"));
 		}
 
+        /// <summary>Can serialise an entity with a polymorphic list.</summary>
 		[Test]
 		public void Can_serialise_an_entity_with_a_polymorphic_list()
 		{
@@ -165,6 +216,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 					+ "\",\"Name\":\"Tigger\",\"CatMeow\":\"meow\"}],\"Name\":\"City Zoo\"}"));
 		}
 
+        /// <summary>Can serialise polymorphic entity with customised typename.</summary>
 		[Test]
 		public void Can_serialise_polymorphic_entity_with_customised_typename()
 		{
@@ -185,6 +237,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 			}
 		}
 
+        /// <summary>Can deserialise polymorphic list.</summary>
 		[Test]
 		public void Can_deserialise_polymorphic_list()
 		{
@@ -206,6 +259,9 @@ namespace NServiceKit.Text.Tests.JsonTests
 		}
 
 #if !MONOTOUCH
+        /// <summary>
+        /// Can deserialise polymorphic list serialized by datacontractjsonserializer.
+        /// </summary>
 		[Test]
 		public void Can_deserialise_polymorphic_list_serialized_by_datacontractjsonserializer()
 		{
@@ -244,6 +300,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 		}
 #endif
 
+        /// <summary>Can deserialise polymorphic list with nonabstract base.</summary>
 	    public void Can_deserialise_polymorphic_list_with_nonabstract_base()
 		{
 			var list =
@@ -263,6 +320,10 @@ namespace NServiceKit.Text.Tests.JsonTests
 			Assert.That(list[1].Name, Is.EqualTo(@"Lassie"));
 		}
 
+        /// <summary>
+        /// Can deserialise polymorphic item with nonabstract base deserializes derived properties
+        /// correctly.
+        /// </summary>
 		[Test]
 	    public void Can_deserialise_polymorphic_item_with_nonabstract_base_deserializes_derived_properties_correctly()
 		{
@@ -277,6 +338,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 			Assert.That(((Collie)collie).IsLassie, Is.True);
 		}
 
+        /// <summary>Can deserialise an entity containing a polymorphic list.</summary>
 		[Test]
 		public void Can_deserialise_an_entity_containing_a_polymorphic_list()
 		{
@@ -300,6 +362,10 @@ namespace NServiceKit.Text.Tests.JsonTests
 		}
 
 #if !MONOTOUCH
+        /// <summary>
+        /// Can deserialise an entity containing a polymorphic property serialized by
+        /// datacontractjsonserializer.
+        /// </summary>
 		[Test]
 		public void Can_deserialise_an_entity_containing_a_polymorphic_property_serialized_by_datacontractjsonserializer()
 		{
@@ -336,6 +402,9 @@ namespace NServiceKit.Text.Tests.JsonTests
 		}
 #endif
 
+        /// <summary>
+        /// Can deserialise an entity containing a polymorphic property serialized by newtonsoft.
+        /// </summary>
 		[Test]
 		public void Can_deserialise_an_entity_containing_a_polymorphic_property_serialized_by_newtonsoft()
 		{
@@ -369,6 +438,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             }
 		}
 
+        /// <summary>Can deserialise polymorphic list serialized by newtonsoft.</summary>
 		[Test]
 		public void Can_deserialise_polymorphic_list_serialized_by_newtonsoft()
 		{
@@ -404,23 +474,39 @@ namespace NServiceKit.Text.Tests.JsonTests
             }
 		}
 
+        /// <summary>A pets.</summary>
 		public class Pets
 		{
+            /// <summary>Gets or sets the category.</summary>
+            /// <value>The category.</value>
 			public ICat Cat { get; set; }
+
+            /// <summary>Gets or sets the dog.</summary>
+            /// <value>The dog.</value>
 			public IDog Dog { get; set; }
 		}
 
+        /// <summary>An explicit pets.</summary>
 		public class ExplicitPets
 		{
+            /// <summary>Gets or sets the category.</summary>
+            /// <value>The category.</value>
 			public Cat Cat { get; set; }
+
+            /// <summary>Gets or sets the dog.</summary>
+            /// <value>The dog.</value>
 			public OtherDog Dog { get; set; }
 		}
 
+        /// <summary>An other dog.</summary>
 		public class OtherDog : IDog
 		{
+            /// <summary>Gets or sets the name.</summary>
+            /// <value>The name.</value>
 			public string Name { get; set; }
 		}
 
+        /// <summary>Can force specific type information.</summary>
 		[Test]
 		public void Can_force_specific_TypeInfo()
 		{
@@ -439,6 +525,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 				@"{""__type"":""NServiceKit.Text.Tests.JsonTests.PolymorphicListTests+OtherDog, " + assemblyName + @""",""Name"":""Dog""}"));
 		}
 
+        /// <summary>Can exclude specific type information.</summary>
 		[Test]
 		public void Can_exclude_specific_TypeInfo()
 		{
@@ -452,16 +539,23 @@ namespace NServiceKit.Text.Tests.JsonTests
 				@"{""Cat"":{""Name"":""Cat""},""Dog"":{""__type"":""NServiceKit.Text.Tests.JsonTests.Dog, " + assemblyName + @""",""Name"":""Dog""}}"));
 		}
 
+        /// <summary>A pet dog.</summary>
 		public class PetDog
 		{
+            /// <summary>Gets or sets the dog.</summary>
+            /// <value>The dog.</value>
 			public IDog Dog { get; set; }
 		}
 
+        /// <summary>A weird category.</summary>
 		public class WeirdCat
 		{
+            /// <summary>Gets or sets the dog.</summary>
+            /// <value>The dog.</value>
 			public Cat Dog { get; set; }
 		}
 
+        /// <summary>Can read as category from dog with typeinfo.</summary>
 		[Test]
 		public void Can_read_as_Cat_from_Dog_with_typeinfo()
 		{
@@ -476,6 +570,10 @@ namespace NServiceKit.Text.Tests.JsonTests
 			Assert.That(weirdCat.Dog.Name, Is.EqualTo(petDog.Dog.Name));
 		}
 
+        /// <summary>
+        /// Can serialize and deserialize an entity containing a polymorphic item with additional
+        /// properties correctly.
+        /// </summary>
 		[Test]
 		public void Can_serialize_and_deserialize_an_entity_containing_a_polymorphic_item_with_additional_properties_correctly()
 		{
@@ -491,6 +589,9 @@ namespace NServiceKit.Text.Tests.JsonTests
 		    Assert.That(((Collie)deserialized.Dog).IsLassie, Is.True);
 		}
 
+        /// <summary>
+        /// Polymorphic serialization of class implementing generic ienumerable works correctly.
+        /// </summary>
 	    [Test]
 	    public void polymorphic_serialization_of_class_implementing_generic_ienumerable_works_correctly()
 	    {

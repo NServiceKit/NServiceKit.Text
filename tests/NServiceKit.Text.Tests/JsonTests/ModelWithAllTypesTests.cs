@@ -5,9 +5,11 @@ using NServiceKit.Text.Tests.DynamicModels;
 
 namespace NServiceKit.Text.Tests.JsonTests
 {
+    /// <summary>A model with all types tests.</summary>
 	[TestFixture]
 	public class ModelWithAllTypesTests
 	{
+        /// <summary>Can serialize.</summary>
 		[Test]
 		public void Can_Serialize()
 		{
@@ -17,6 +19,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 			Console.WriteLine(s);
 		}
 
+        /// <summary>Can serialize list.</summary>
 		[Test]
 		public void Can_Serialize_list()
 		{
@@ -30,6 +33,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 			Console.WriteLine(s);
 		}
 
+        /// <summary>Can serialize map.</summary>
 		[Test]
 		public void Can_Serialize_map()
 		{

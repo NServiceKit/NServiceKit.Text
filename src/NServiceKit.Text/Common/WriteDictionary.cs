@@ -21,28 +21,55 @@ using NServiceKit.Text.Json;
 
 namespace NServiceKit.Text.Common
 {
+    /// <summary>Writes a map delegate.</summary>
+    /// <param name="writer">      The writer.</param>
+    /// <param name="oMap">        The map.</param>
+    /// <param name="writeKeyFn">  The write key function.</param>
+    /// <param name="writeValueFn">The write value function.</param>
     internal delegate void WriteMapDelegate(
         TextWriter writer,
         object oMap,
         WriteObjectDelegate writeKeyFn,
         WriteObjectDelegate writeValueFn);
 
+    /// <summary>Dictionary of writes.</summary>
+    /// <typeparam name="TSerializer">Type of the serializer.</typeparam>
     internal static class WriteDictionary<TSerializer>
         where TSerializer : ITypeSerializer
     {
+        /// <summary>The serializer.</summary>
         private static readonly ITypeSerializer Serializer = JsWriter.GetTypeSerializer<TSerializer>();
 
+        /// <summary>A map key.</summary>
         internal class MapKey
         {
+            /// <summary>Type of the key.</summary>
             internal Type KeyType;
+
+            /// <summary>Type of the value.</summary>
             internal Type ValueType;
 
+            /// <summary>
+            /// Initializes a new instance of the NServiceKit.Text.Common.WriteDictionary&lt;TSerializer&gt;
+            /// .MapKey class.
+            /// </summary>
+            /// <param name="keyType">  Type of the key.</param>
+            /// <param name="valueType">Type of the value.</param>
             public MapKey(Type keyType, Type valueType)
             {
                 KeyType = keyType;
                 ValueType = valueType;
             }
 
+            /// <summary>
+            /// Determines whether the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />.
+            /// </summary>
+            /// <param name="other">The map key to compare to this object.</param>
+            /// <returns>
+            /// true if the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />; otherwise, false.
+            /// </returns>
             public bool Equals(MapKey other)
             {
                 if (ReferenceEquals(null, other)) return false;
@@ -50,6 +77,16 @@ namespace NServiceKit.Text.Common
                 return Equals(other.KeyType, KeyType) && Equals(other.ValueType, ValueType);
             }
 
+            /// <summary>
+            /// Determines whether the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />.
+            /// </summary>
+            /// <param name="obj">The <see cref="T:System.Object" /> to compare with the current
+            /// <see cref="T:System.Object" />.</param>
+            /// <returns>
+            /// true if the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />; otherwise, false.
+            /// </returns>
             public override bool Equals(object obj)
             {
                 if (ReferenceEquals(null, obj)) return false;
@@ -58,6 +95,8 @@ namespace NServiceKit.Text.Common
                 return Equals((MapKey)obj);
             }
 
+            /// <summary>Serves as a hash function for a particular type.</summary>
+            /// <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
             public override int GetHashCode()
             {
                 unchecked
@@ -67,8 +106,13 @@ namespace NServiceKit.Text.Common
             }
         }
 
+        /// <summary>The cache fns.</summary>
         static Dictionary<MapKey, WriteMapDelegate> CacheFns = new Dictionary<MapKey, WriteMapDelegate>();
 
+        /// <summary>Gets write generic dictionary.</summary>
+        /// <param name="keyType">  Type of the key.</param>
+        /// <param name="valueType">Type of the value.</param>
+        /// <returns>The write generic dictionary.</returns>
         public static Action<TextWriter, object, WriteObjectDelegate, WriteObjectDelegate>
             GetWriteGenericDictionary(Type keyType, Type valueType)
         {
@@ -93,6 +137,9 @@ namespace NServiceKit.Text.Common
             return writeFn.Invoke;
         }
 
+        /// <summary>Writes an i dictionary.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="oMap">  The map.</param>
         public static void WriteIDictionary(TextWriter writer, object oMap)
         {
             WriteObjectDelegate writeKeyFn = null;
@@ -164,11 +211,21 @@ namespace NServiceKit.Text.Common
         }
     }
 
+    /// <summary>to string dictionary methods.</summary>
+    /// <typeparam name="TKey">       Type of the key.</typeparam>
+    /// <typeparam name="TValue">     Type of the value.</typeparam>
+    /// <typeparam name="TSerializer">Type of the serializer.</typeparam>
     internal static class ToStringDictionaryMethods<TKey, TValue, TSerializer>
         where TSerializer : ITypeSerializer
     {
+        /// <summary>The serializer.</summary>
         private static readonly ITypeSerializer Serializer = JsWriter.GetTypeSerializer<TSerializer>();
 
+        /// <summary>Writes an i dictionary.</summary>
+        /// <param name="writer">      The writer.</param>
+        /// <param name="oMap">        The map.</param>
+        /// <param name="writeKeyFn">  The write key function.</param>
+        /// <param name="writeValueFn">The write value function.</param>
         public static void WriteIDictionary(
             TextWriter writer,
             object oMap,
@@ -179,6 +236,11 @@ namespace NServiceKit.Text.Common
             WriteGenericIDictionary(writer, (IDictionary<TKey, TValue>)oMap, writeKeyFn, writeValueFn);
         }
 
+        /// <summary>Writes a generic i dictionary.</summary>
+        /// <param name="writer">      The writer.</param>
+        /// <param name="map">         The map.</param>
+        /// <param name="writeKeyFn">  The write key function.</param>
+        /// <param name="writeValueFn">The write value function.</param>
         public static void WriteGenericIDictionary(
             TextWriter writer,
             IDictionary<TKey, TValue> map,

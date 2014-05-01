@@ -4,8 +4,12 @@ using System.IO;
 
 namespace NServiceKit.Text
 {
+    /// <summary>A stream extensions.</summary>
 	public static class StreamExtensions
 	{
+        /// <summary>A Stream extension method that writes to.</summary>
+        /// <param name="inStream"> The inStream to act on.</param>
+        /// <param name="outStream">Stream to write data to.</param>
 		public static void WriteTo(this Stream inStream, Stream outStream)
 		{
 			var memoryStream = inStream as MemoryStream;
@@ -24,6 +28,12 @@ namespace NServiceKit.Text
 			}
 		}
 
+        /// <summary>Enumerates read lines in this collection.</summary>
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        /// <param name="reader">The reader to act on.</param>
+        /// <returns>
+        /// An enumerator that allows foreach to be used to process read lines in this collection.
+        /// </returns>
 		public static IEnumerable<string> ReadLines(this StreamReader reader)
 		{
 			if (reader == null)
@@ -36,25 +46,29 @@ namespace NServiceKit.Text
 			}
 		}
 
-		/// <summary>
-		/// @jonskeet: Collection of utility methods which operate on streams.
-		/// r285, February 26th 2009: http://www.yoda.arachsys.com/csharp/miscutil/
-		/// </summary>
+        /// <summary>
+        /// @jonskeet: Collection of utility methods which operate on streams. r285, February 26th 2009:
+        /// http://www.yoda.arachsys.com/csharp/miscutil/.
+        /// </summary>
 		const int DefaultBufferSize = 8 * 1024;
 
-		/// <summary>
-		/// Reads the given stream up to the end, returning the data as a byte
-		/// array.
-		/// </summary>
+        /// <summary>Reads the given stream up to the end, returning the data as a byte array.</summary>
+        /// <param name="input">The input to act on.</param>
+        /// <returns>An array of byte.</returns>
 		public static byte[] ReadFully(this Stream input)
 		{
 			return ReadFully(input, DefaultBufferSize);
 		}
 
-		/// <summary>
-		/// Reads the given stream up to the end, returning the data as a byte
-		/// array, using the given buffer size.
-		/// </summary>
+        /// <summary>
+        /// Reads the given stream up to the end, returning the data as a byte array, using the given
+        /// buffer size.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one or more arguments are outside the
+        /// required range.</exception>
+        /// <param name="input">     The input to act on.</param>
+        /// <param name="bufferSize">Size of the buffer.</param>
+        /// <returns>An array of byte.</returns>
 		public static byte[] ReadFully(this Stream input, int bufferSize)
 		{
 			if (bufferSize < 1)
@@ -64,12 +78,17 @@ namespace NServiceKit.Text
 			return ReadFully(input, new byte[bufferSize]);
 		}
 
-		/// <summary>
-		/// Reads the given stream up to the end, returning the data as a byte
-		/// array, using the given buffer for transferring data. Note that the
-		/// current contents of the buffer is ignored, so the buffer needn't
-		/// be cleared beforehand.
-		/// </summary>
+        /// <summary>
+        /// Reads the given stream up to the end, returning the data as a byte array, using the given
+        /// buffer for transferring data. Note that the current contents of the buffer is ignored, so the
+        /// buffer needn't be cleared beforehand.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        /// <exception cref="ArgumentException">    Thrown when one or more arguments have unsupported or
+        /// illegal values.</exception>
+        /// <param name="input"> The input to act on.</param>
+        /// <param name="buffer">The buffer.</param>
+        /// <returns>An array of byte.</returns>
 		public static byte[] ReadFully(this Stream input, byte[] buffer)
 		{
 			if (buffer == null)
@@ -101,18 +120,22 @@ namespace NServiceKit.Text
 			}
 		}
 
-		/// <summary>
-		/// Copies all the data from one stream into another.
-		/// </summary>
+        /// <summary>Copies all the data from one stream into another.</summary>
+        /// <param name="input"> The input to act on.</param>
+        /// <param name="output">The output.</param>
 		public static void CopyTo(this Stream input, Stream output)
 		{
 			CopyTo(input, output, DefaultBufferSize);
 		}
 
-		/// <summary>
-		/// Copies all the data from one stream into another, using a buffer
-		/// of the given size.
-		/// </summary>
+        /// <summary>
+        /// Copies all the data from one stream into another, using a buffer of the given size.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one or more arguments are outside the
+        /// required range.</exception>
+        /// <param name="input">     The input to act on.</param>
+        /// <param name="output">    The output.</param>
+        /// <param name="bufferSize">Size of the buffer.</param>
 		public static void CopyTo(this Stream input, Stream output, int bufferSize)
 		{
 			if (bufferSize < 1)
@@ -122,11 +145,17 @@ namespace NServiceKit.Text
 			CopyTo(input, output, new byte[bufferSize]);
 		}
 
-		/// <summary>
-		/// Copies all the data from one stream into another, using the given 
-		/// buffer for transferring data. Note that the current contents of 
-		/// the buffer is ignored, so the buffer needn't be cleared beforehand.
-		/// </summary>
+        /// <summary>
+        /// Copies all the data from one stream into another, using the given buffer for transferring
+        /// data. Note that the current contents of the buffer is ignored, so the buffer needn't be
+        /// cleared beforehand.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        /// <exception cref="ArgumentException">    Thrown when one or more arguments have unsupported or
+        /// illegal values.</exception>
+        /// <param name="input"> The input to act on.</param>
+        /// <param name="output">The output.</param>
+        /// <param name="buffer">The buffer.</param>
 		public static void CopyTo(this Stream input, Stream output, byte[] buffer)
 		{
 			if (buffer == null)
@@ -152,37 +181,53 @@ namespace NServiceKit.Text
 			}
 		}
 
-		/// <summary>
-		/// Reads exactly the given number of bytes from the specified stream.
-		/// If the end of the stream is reached before the specified amount
-		/// of data is read, an exception is thrown.
-		/// </summary>
+        /// <summary>
+        /// Reads exactly the given number of bytes from the specified stream. If the end of the stream
+        /// is reached before the specified amount of data is read, an exception is thrown.
+        /// </summary>
+        /// <param name="input">      The input to act on.</param>
+        /// <param name="bytesToRead">The bytes to read.</param>
+        /// <returns>An array of byte.</returns>
 		public static byte[] ReadExactly(this Stream input, int bytesToRead)
 		{
 			return ReadExactly(input, new byte[bytesToRead]);
 		}
 
-		/// <summary>
-		/// Reads into a buffer, filling it completely.
-		/// </summary>
+        /// <summary>Reads into a buffer, filling it completely.</summary>
+        /// <param name="input"> The input to act on.</param>
+        /// <param name="buffer">The buffer.</param>
+        /// <returns>An array of byte.</returns>
 		public static byte[] ReadExactly(this Stream input, byte[] buffer)
 		{
 			return ReadExactly(input, buffer, buffer.Length);
 		}
 
-		/// <summary>
-		/// Reads exactly the given number of bytes from the specified stream,
-		/// into the given buffer, starting at position 0 of the array.
-		/// </summary>
+        /// <summary>
+        /// Reads exactly the given number of bytes from the specified stream, into the given buffer,
+        /// starting at position 0 of the array.
+        /// </summary>
+        /// <param name="input">      The input to act on.</param>
+        /// <param name="buffer">     The buffer.</param>
+        /// <param name="bytesToRead">The bytes to read.</param>
+        /// <returns>An array of byte.</returns>
 		public static byte[] ReadExactly(this Stream input, byte[] buffer, int bytesToRead)
 		{
 			return ReadExactly(input, buffer, 0, bytesToRead);
 		}
 
-		/// <summary>
-		/// Reads exactly the given number of bytes from the specified stream,
-		/// into the given buffer, starting at position 0 of the array.
-		/// </summary>
+        /// <summary>
+        /// Reads exactly the given number of bytes from the specified stream, into the given buffer,
+        /// starting at position 0 of the array.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">      Thrown when one or more required arguments are
+        /// null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one or more arguments are outside the
+        /// required range.</exception>
+        /// <param name="input">      The input to act on.</param>
+        /// <param name="buffer">     The buffer.</param>
+        /// <param name="startIndex"> The start index.</param>
+        /// <param name="bytesToRead">The bytes to read.</param>
+        /// <returns>An array of byte.</returns>
 		public static byte[] ReadExactly(this Stream input, byte[] buffer, int startIndex, int bytesToRead)
 		{
 			if (input == null)
@@ -208,9 +253,14 @@ namespace NServiceKit.Text
 			return ReadExactlyFast(input, buffer, startIndex, bytesToRead);
 		}
 
-		/// <summary>
-		/// Same as ReadExactly, but without the argument checks.
-		/// </summary>
+        /// <summary>Same as ReadExactly, but without the argument checks.</summary>
+        /// <exception cref="EndOfStreamException">Thrown when the end of the stream was unexpectedly
+        /// reached.</exception>
+        /// <param name="fromStream">  from stream.</param>
+        /// <param name="intoBuffer">  Buffer for into data.</param>
+        /// <param name="startAtIndex">The start at index.</param>
+        /// <param name="bytesToRead"> The bytes to read.</param>
+        /// <returns>An array of byte.</returns>
 		private static byte[] ReadExactlyFast(Stream fromStream, byte[] intoBuffer, int startAtIndex, int bytesToRead)
 		{
 			var index = 0;

@@ -5,10 +5,13 @@ using NServiceKit.Text.Common;
 
 namespace NServiceKit.Text.Tests.Utils
 {
+    /// <summary>A date time serializer tests.</summary>
 	[TestFixture]
 	public class DateTimeSerializerTests
 		: TestBase
 	{
+        /// <summary>Print formats.</summary>
+        /// <param name="dateTime">The date time.</param>
 		public void PrintFormats(DateTime dateTime)
 		{
 			Log("dateTime.ToShortDateString(): " + dateTime.ToShortDateString());
@@ -22,12 +25,15 @@ namespace NServiceKit.Text.Tests.Utils
 			Log("\n");
 		}
 
+        /// <summary>Print formats.</summary>
+        /// <param name="timeSpan">The time span.</param>
         public void PrintFormats(TimeSpan timeSpan)
         {
             Log("DateTimeSerializer.ToXsdTimeSpanString(timeSpan): " + DateTimeSerializer.ToXsdTimeSpanString(timeSpan));
             Log("\n");
         }
 
+        /// <summary>Print date.</summary>
 		[Test]
 		public void PrintDate()
 		{
@@ -40,6 +46,7 @@ namespace NServiceKit.Text.Tests.Utils
 			PrintFormats(new DateTime(2010, 11, 22, 11, 11, 11, 1));
 		}
 
+        /// <summary>Print time span.</summary>
         [Test]
         public void PrintTimeSpan()
         {
@@ -49,6 +56,7 @@ namespace NServiceKit.Text.Tests.Utils
             PrintFormats(new TimeSpan(1, 2, 3, 4));
         }
 
+        /// <summary>Converts this object to a shortest XSD date time string works.</summary>
 		[Test]
 		public void ToShortestXsdDateTimeString_works()
 		{
@@ -70,6 +78,7 @@ namespace NServiceKit.Text.Tests.Utils
 			Assert.That(longDateTimeString, Is.EqualTo(DateTimeSerializer.ToShortestXsdDateTimeString(longDateTime)));
 		}
 
+        /// <summary>Can deserialize date time offset with time span is zero.</summary>
         [Test]
         public void CanDeserializeDateTimeOffsetWithTimeSpanIsZero()
         {
@@ -84,6 +93,7 @@ namespace NServiceKit.Text.Tests.Utils
             Assert.AreEqual(expectedValue, afterValue);
         }
 
+        /// <summary>UTC local equals.</summary>
 		[Test][Ignore]
 		public void Utc_Local_Equals()
 		{
@@ -94,6 +104,7 @@ namespace NServiceKit.Text.Tests.Utils
 			Assert.That(now, Is.EqualTo(utcNow), "DateTimes are different");
 		}
 
+        /// <summary>Parse shortest XSD date time works.</summary>
 		[Test]
 		public void ParseShortestXsdDateTime_works()
 		{
@@ -105,6 +116,7 @@ namespace NServiceKit.Text.Tests.Utils
 			Assert.That (shortDate, Is.EqualTo(new DateTime (2011, 9, 4)), "Day without leading 0");
 		}
 
+        /// <summary>Tests SQL server date time.</summary>
 		[Test]
 		public void TestSqlServerDateTime()
 		{
@@ -112,6 +124,9 @@ namespace NServiceKit.Text.Tests.Utils
 			Assert.That(result, Is.Not.Null);
 		}
 
+        /// <summary>
+        /// Date time without milliseconds should always be deserialized correctly by type serializer.
+        /// </summary>
         [Test]
         public void DateTimeWithoutMilliseconds_should_always_be_deserialized_correctly_by_TypeSerializer()
         {
@@ -135,6 +150,7 @@ namespace NServiceKit.Text.Tests.Utils
             Assert.AreEqual(dateWithoutMillisecondsUnspecified, deserialized);
         }
 
+        /// <summary>UTC date time is deserialized as kind UTC.</summary>
 		[Test, Ignore("Don't pre-serialize into Utc")]
 		public void UtcDateTime_Is_Deserialized_As_Kind_Utc()
 		{
@@ -149,15 +165,18 @@ namespace NServiceKit.Text.Tests.Utils
 
         /// <summary>
         /// These timestamp strings were pulled from SQLite columns written via OrmLite using SQlite.1.88
-        /// Most of the time, timestamps correctly use the 'T' separator between the date and time,
-        /// but under some (still unknown) scnearios, SQLite will write timestamps using a space instead of a 'T'.
-        /// If that happens, OrmLite will fail to read the row, complaining that: The string '...' is not a valid Xsd value.
+        /// Most of the time, timestamps correctly use the 'T' separator between the date and time, but
+        /// under some (still unknown) scnearios, SQLite will write timestamps using a space instead of a
+        /// 'T'. If that happens, OrmLite will fail to read the row, complaining that: The string '...'
+        /// is not a valid Xsd value.
         /// </summary>
 	    private static string[] _problematicXsdStrings = new[] {
 	        "2013-10-10 20:04:04.8773249Z",
             "2013-10-10 20:04:04Z",
 	    };
 
+        /// <summary>Can parse problematic XSD strings.</summary>
+        /// <param name="whichString">The which string.</param>
         [Test]
         [TestCase(0)]
         [TestCase(1)]
@@ -170,6 +189,7 @@ namespace NServiceKit.Text.Tests.Utils
             Assert.That(dateTime.Kind, Is.EqualTo(DateTimeKind.Local));
         }
 
+        /// <summary>Can parse long and short XSD strings.</summary>
         [Test]
         public void CanParseLongAndShortXsdStrings()
         {
@@ -184,6 +204,7 @@ namespace NServiceKit.Text.Tests.Utils
             Assert.That(dateTimeShort.Kind, Is.EqualTo(dateTimeLong.Kind));
         }
 
+        /// <summary>The date time tests.</summary>
         private static DateTime[] _dateTimeTests = new[] {
 			DateTime.Now,
 			DateTime.UtcNow,
@@ -202,6 +223,9 @@ namespace NServiceKit.Text.Tests.Utils
         [TestCase(1)]
         [TestCase(2)]
         //[TestCase(3)] //.NET Date BUG see: Test_MS_Dates
+
+        /// <summary>Assert date is equal.</summary>
+        /// <param name="whichDate">The which date.</param>
         [TestCase(4)]
         [TestCase(5)]
         [TestCase(6)]
@@ -247,11 +271,16 @@ namespace NServiceKit.Text.Tests.Utils
             AssertDatesAreEqual(wcfDate, dateTime, "wcf date");
 		}
 
+        /// <summary>Assert dates are equal.</summary>
+        /// <param name="toDateTime">to date time.</param>
+        /// <param name="dateTime">  The date time.</param>
+        /// <param name="which">     The which.</param>
         private void AssertDatesAreEqual(DateTime toDateTime, DateTime dateTime, string which=null)
         {
 			Assert.That(toDateTime.ToStableUniversalTime().RoundToMs(), Is.EqualTo(dateTime.ToStableUniversalTime().RoundToMs()), which);
         }
 
+        /// <summary>Can serialize new date time.</summary>
         [Test]
         public void Can_Serialize_new_DateTime()
         {
@@ -260,6 +289,8 @@ namespace NServiceKit.Text.Tests.Utils
             Assert.That(convertedUnixTimeMs.FromUnixTimeMs(), Is.EqualTo(newDateTime));
         }
 
+        /// <summary>Tests milliseconds dates.</summary>
+        /// <param name="whichDate">The which date.</param>
         [Explicit("Test .NET Date Serialization behavior")]
         [TestCase(0)]
         [TestCase(1)]
@@ -284,27 +315,34 @@ namespace NServiceKit.Text.Tests.Utils
 	    }
     }
 
+    /// <summary>A date time ISO 8601 tests.</summary>
     [TestFixture]
     public class DateTimeISO8601Tests
         : TestBase
     {
+        /// <summary>A test object.</summary>
         public class TestObject
         {
+            /// <summary>Gets or sets the Date/Time of the date.</summary>
+            /// <value>The date.</value>
             public DateTime Date { get; set; }
         }
 
+        /// <summary>Tests fixture set up.</summary>
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
             JsConfig.DateHandler = JsonDateHandler.ISO8601;
         }
 
+        /// <summary>Tests fixture tear down.</summary>
         [TestFixtureTearDown]
         public void TestFixtureTearDown()
         {
             JsConfig.Reset();            
         }
 
+        /// <summary>Date time is serialized as UTC and deserialized as local.</summary>
         [Test]
         public void DateTime_Is_Serialized_As_Utc_and_Deserialized_as_local()
         {

@@ -10,27 +10,30 @@ using System.Threading;
 #if !SILVERLIGHT && !MONOTOUCH && !XBOX
 namespace NServiceKit.Text.FastMember
 {
-    /// <summary>
-    /// Provides by-name member-access to objects of a given type
-    /// </summary>
+    /// <summary>Provides by-name member-access to objects of a given type.</summary>
     public abstract class TypeAccessor
     {
-        // hash-table has better read-without-locking semantics than dictionary
+        /// <summary>hash-table has better read-without-locking semantics than dictionary.</summary>
         private static readonly Hashtable typeLookyp = new Hashtable();
 
-        /// <summary>
-        /// Does this type support new instances via a parameterless constructor?
-        /// </summary>
+        /// <summary>Does this type support new instances via a parameterless constructor?</summary>
+        /// <value>true if create new supported, false if not.</value>
         public virtual bool CreateNewSupported { get { return false; } }
-        /// <summary>
-        /// Create a new instance of this type
-        /// </summary>
+
+        /// <summary>Create a new instance of this type.</summary>
+        /// <exception cref="NotSupportedException">Thrown when the requested operation is not supported.</exception>
+        /// <returns>The new new.</returns>
         public virtual object CreateNew() { throw new NotSupportedException();}
 
         /// <summary>
-        /// Provides a type-specific accessor, allowing by-name access for all objects of that type
+        /// Provides a type-specific accessor, allowing by-name access for all objects of that type.
         /// </summary>
-        /// <remarks>The accessor is cached internally; a pre-existing accessor may be returned</remarks>
+        /// <remarks>
+        /// The accessor is cached internally; a pre-existing accessor may be returned.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        /// <param name="type">The type.</param>
+        /// <returns>A TypeAccessor.</returns>
         public static TypeAccessor Create(Type type)
         {
             if(type == null) throw new ArgumentNullException("type");
@@ -61,10 +64,22 @@ namespace NServiceKit.Text.FastMember
 		//    }
 		//}
 
+        /// <summary>The assembly.</summary>
         private static AssemblyBuilder assembly;
+
+        /// <summary>Gets the module.</summary>
+        /// <value>The module.</value>
         private static ModuleBuilder module;
+
+        /// <summary>The counter.</summary>
         private static int counter;
 
+        /// <summary>Writes a getter.</summary>
+        /// <param name="il">      The il.</param>
+        /// <param name="type">    The type.</param>
+        /// <param name="props">   The properties.</param>
+        /// <param name="fields">  The fields.</param>
+        /// <param name="isStatic">true if this object is static.</param>
         private static void WriteGetter(ILGenerator il, Type type, PropertyInfo[] props, FieldInfo[] fields, bool isStatic)
         {
             LocalBuilder loc = type.IsValueType ? il.DeclareLocal(type) : null;
@@ -113,6 +128,13 @@ namespace NServiceKit.Text.FastMember
             il.Emit(OpCodes.Newobj, typeof(ArgumentOutOfRangeException).GetConstructor(new Type[] { typeof(string) }));
             il.Emit(OpCodes.Throw);
         }
+
+        /// <summary>Writes a setter.</summary>
+        /// <param name="il">      The il.</param>
+        /// <param name="type">    The type.</param>
+        /// <param name="props">   The properties.</param>
+        /// <param name="fields">  The fields.</param>
+        /// <param name="isStatic">true if this object is static.</param>
         private static void WriteSetter(ILGenerator il, Type type, PropertyInfo[] props, FieldInfo[] fields, bool isStatic)
         {
             if (type.IsValueType)
@@ -168,35 +190,70 @@ namespace NServiceKit.Text.FastMember
                 il.Emit(OpCodes.Throw);
             }
         }
+
+        /// <summary>The strinq equals.</summary>
         private static readonly MethodInfo strinqEquals = typeof(string).GetMethod("op_Equality", new Type[] { typeof(string), typeof(string) });
 
+        /// <summary>A delegate accessor.</summary>
         sealed class DelegateAccessor : TypeAccessor
         {
+            /// <summary>The getter.</summary>
             private readonly Func<object, string, object> getter;
+
+            /// <summary>The setter.</summary>
             private readonly Action<object, string, object> setter;
+
+            /// <summary>The constructor.</summary>
             private readonly Func<object> ctor;
+
+            /// <summary>
+            /// Initializes a new instance of the NServiceKit.Text.FastMember.TypeAccessor.DelegateAccessor
+            /// class.
+            /// </summary>
+            /// <param name="getter">The getter.</param>
+            /// <param name="setter">The setter.</param>
+            /// <param name="ctor">  The constructor.</param>
             public DelegateAccessor(Func<object, string, object> getter, Action<object, string, object> setter, Func<object> ctor)
             {
                 this.getter = getter;
                 this.setter = setter;
                 this.ctor = ctor;
             }
+
+            /// <summary>Does this type support new instances via a parameterless constructor?</summary>
+            /// <value>true if create new supported, false if not.</value>
             public override bool CreateNewSupported { get { return ctor != null; } }
+
+            /// <summary>Create a new instance of this type.</summary>
+            /// <returns>The new new.</returns>
             public override object CreateNew()
             {
                 return ctor != null ? ctor() : base.CreateNew();
             }
+
+            /// <summary>Get or set the value of a named member on the target instance.</summary>
+            /// <param name="target">Target for the.</param>
+            /// <param name="name">  The name.</param>
+            /// <returns>The indexed item.</returns>
             public override object this[object target, string name]
             {
                 get { return getter(target, name); }
                 set { setter(target, name, value); }
             }
         }
+
+        /// <summary>Query if 'type' is fully public.</summary>
+        /// <param name="type">The type.</param>
+        /// <returns>true if fully public, false if not.</returns>
         private static bool IsFullyPublic(Type type)
         {
             while (type.IsNestedPublic) type = type.DeclaringType;
             return type.IsPublic;
         }
+
+        /// <summary>Create a new instance of this type.</summary>
+        /// <param name="type">The type.</param>
+        /// <returns>The new new.</returns>
         static TypeAccessor CreateNew(Type type)
         {
 			//if (typeof(IDynamicMetaObjectProvider).IsAssignableFrom(type))
@@ -275,6 +332,10 @@ namespace NServiceKit.Text.FastMember
             return (TypeAccessor)Activator.CreateInstance(tb.CreateType());
         }
 
+        /// <summary>Casts.</summary>
+        /// <param name="il">  The il.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="addr">The address.</param>
         private static void Cast(ILGenerator il, Type type, LocalBuilder addr)
         {
             if(type == typeof(object)) {}
@@ -293,9 +354,10 @@ namespace NServiceKit.Text.FastMember
             }
         }
 
-        /// <summary>
-        /// Get or set the value of a named member on the target instance
-        /// </summary>
+        /// <summary>Get or set the value of a named member on the target instance.</summary>
+        /// <param name="target">Target for the.</param>
+        /// <param name="name">  The name.</param>
+        /// <returns>The indexed item.</returns>
         public abstract object this[object target, string name]
         {
             get; set;

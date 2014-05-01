@@ -6,51 +6,105 @@ using System.Linq;
 
 namespace NServiceKit.Text.Tests
 {
+    /// <summary>A module.</summary>
     public class Module
     {
+        /// <summary>Initializes a new instance of the NServiceKit.Text.Tests.Module class.</summary>
         public Module()
         {
             ExtendedData = new Dictionary<string, object>();
         }
 
+        /// <summary>Gets or sets the name.</summary>
+        /// <value>The name.</value>
         public string Name { get; set; }
+
+        /// <summary>Gets or sets the version.</summary>
+        /// <value>The version.</value>
         public string Version { get; set; }
+
+        /// <summary>Gets or sets information describing the extended.</summary>
+        /// <value>Information describing the extended.</value>
         public IDictionary<string, object> ExtendedData { get; set; }
     }
 
+    /// <summary>A stack frame.</summary>
     public class StackFrame
     {
+        /// <summary>
+        /// Initializes a new instance of the NServiceKit.Text.Tests.StackFrame class.
+        /// </summary>
         public StackFrame()
         {
             ExtendedData = new Dictionary<string, object>();
             Parameters = new Collection<Parameter>();
         }
 
+        /// <summary>Gets or sets the filename of the file.</summary>
+        /// <value>The name of the file.</value>
         public string FileName { get; set; }
+
+        /// <summary>Gets or sets the line number.</summary>
+        /// <value>The line number.</value>
         public int LineNumber { get; set; }
+
+        /// <summary>Gets or sets the column.</summary>
+        /// <value>The column.</value>
         public int Column { get; set; }
+
+        /// <summary>Gets or sets information describing the extended.</summary>
+        /// <value>Information describing the extended.</value>
         public IDictionary<string, object> ExtendedData { get; set; }
+
+        /// <summary>Gets or sets the type.</summary>
+        /// <value>The type.</value>
         public string Type { get; set; }
+
+        /// <summary>Gets or sets the namespace.</summary>
+        /// <value>The namespace.</value>
         public string Namespace { get; set; }
+
+        /// <summary>Gets or sets the module.</summary>
+        /// <value>The module.</value>
         public Module Module { get; set; }
+
+        /// <summary>Gets or sets the method.</summary>
+        /// <value>The method.</value>
         public string Method { get; set; }
+
+        /// <summary>Gets or sets options for controlling the operation.</summary>
+        /// <value>The parameters.</value>
         public ICollection<Parameter> Parameters { get; set; }
     }
 
+    /// <summary>A parameter.</summary>
     public class Parameter
     {
+        /// <summary>
+        /// Initializes a new instance of the NServiceKit.Text.Tests.Parameter class.
+        /// </summary>
         public Parameter()
         {
             ExtendedData = new Dictionary<string, object>();
         }
 
+        /// <summary>Gets or sets the name.</summary>
+        /// <value>The name.</value>
         public string Name { get; set; }
+
+        /// <summary>Gets or sets the type.</summary>
+        /// <value>The type.</value>
         public string Type { get; set; }
+
+        /// <summary>Gets or sets information describing the extended.</summary>
+        /// <value>Information describing the extended.</value>
         public IDictionary<string, object> ExtendedData { get; set; }
     }
 
+    /// <summary>An error.</summary>
     public class Error
     {
+        /// <summary>Initializes a new instance of the NServiceKit.Text.Tests.Error class.</summary>
         public Error()
         {
             ExtendedData = new Dictionary<string, object>();
@@ -58,27 +112,64 @@ namespace NServiceKit.Text.Tests
             StackTrace = new Collection<StackFrame>();
         }
 
+        /// <summary>Gets or sets the identifier.</summary>
+        /// <value>The identifier.</value>
         public string Id { get; set; }
+
+        /// <summary>Gets or sets the message.</summary>
+        /// <value>The message.</value>
         public string Message { get; set; }
+
+        /// <summary>Gets or sets the type.</summary>
+        /// <value>The type.</value>
         public string Type { get; set; }
+
+        /// <summary>Gets or sets the module.</summary>
+        /// <value>The module.</value>
         public Module Module { get; set; }
+
+        /// <summary>Gets or sets the description.</summary>
+        /// <value>The description.</value>
         public string Description { get; set; }
+
+        /// <summary>Gets or sets the occurrence date.</summary>
+        /// <value>The occurrence date.</value>
         public DateTime OccurrenceDate { get; set; }
+
+        /// <summary>Gets or sets the code.</summary>
+        /// <value>The code.</value>
         public string Code { get; set; }
+
+        /// <summary>Gets or sets information describing the extended.</summary>
+        /// <value>Information describing the extended.</value>
         public IDictionary<string, object> ExtendedData { get; set; }
+
+        /// <summary>Gets or sets the tags.</summary>
+        /// <value>The tags.</value>
         public HashSet<string> Tags { get; set; }
 
+        /// <summary>Gets or sets the inner.</summary>
+        /// <value>The inner.</value>
         public Error Inner { get; set; }
 
+        /// <summary>Gets or sets the stack trace.</summary>
+        /// <value>The stack trace.</value>
         public ICollection<StackFrame> StackTrace { get; set; }
+
+        /// <summary>Gets or sets the contact.</summary>
+        /// <value>The contact.</value>
         public string Contact { get; set; }
+
+        /// <summary>Gets or sets the notes.</summary>
+        /// <value>The notes.</value>
         public string Notes { get; set; }
     }
 
-
+    /// <summary>A cyclical dependency tests.</summary>
     [TestFixture]
     public class CyclicalDependencyTests : TestBase
     {
+        /// <summary>Can serialize error.</summary>
         [Test]
         public void Can_serialize_Error()
         {
@@ -153,12 +244,19 @@ namespace NServiceKit.Text.Tests
             Assert.That(from.Notes, Is.EqualTo(dto.Notes));
         }
 
+        /// <summary>A person.</summary>
         class person
         {
+            /// <summary>Gets or sets the name.</summary>
+            /// <value>The name.</value>
             public string name { get; set; }
+
+            /// <summary>Gets or sets the teacher.</summary>
+            /// <value>The teacher.</value>
             public person teacher { get; set; }
         }
 
+        /// <summary>Can limit cyclical dependencies.</summary>
         [Test]
         public void Can_limit_cyclical_dependencies()
         {

@@ -12,11 +12,16 @@ using System.Xml;
 namespace NServiceKit.Text
 {
 #if !XBOX
+    /// <summary>An XML serializer.</summary>
     public class XmlSerializer
     {
+        /// <summary>The quotas.</summary>
         private readonly XmlDictionaryReaderQuotas quotas;
+
+        /// <summary>Options for controlling the operation.</summary>
         private static readonly XmlWriterSettings XSettings = new XmlWriterSettings();
 
+        /// <summary>The instance.</summary>
         public static XmlSerializer Instance
             = new XmlSerializer(
 #if !SILVERLIGHT && !WINDOWS_PHONE && !MONOTOUCH
@@ -24,6 +29,9 @@ namespace NServiceKit.Text
 #endif
 );
 
+        /// <summary>Initializes a new instance of the NServiceKit.Text.XmlSerializer class.</summary>
+        /// <param name="quotas">            The quotas.</param>
+        /// <param name="omitXmlDeclaration">true to omit XML declaration.</param>
         public XmlSerializer(XmlDictionaryReaderQuotas quotas=null, bool omitXmlDeclaration = false)
         {
             this.quotas = quotas;
@@ -31,6 +39,12 @@ namespace NServiceKit.Text
             XSettings.OmitXmlDeclaration = omitXmlDeclaration;
         }
 
+        /// <summary>true this object to the given stream.</summary>
+        /// <exception cref="SerializationException">Thrown when a Serialization error condition occurs.</exception>
+        /// <param name="xml">   The XML.</param>
+        /// <param name="type">  The type.</param>
+        /// <param name="quotas">The quotas.</param>
+        /// <returns>An object.</returns>
         private static object Deserialize(string xml, Type type, XmlDictionaryReaderQuotas quotas)
         {
             try
@@ -57,22 +71,38 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>Deserialize from string.</summary>
+        /// <param name="xml"> The XML.</param>
+        /// <param name="type">The type.</param>
+        /// <returns>An object.</returns>
         public static object DeserializeFromString(string xml, Type type)
         {
             return Deserialize(xml, type, Instance.quotas);
         }
 
+        /// <summary>Deserialize from string.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="xml">The XML.</param>
+        /// <returns>A T.</returns>
         public static T DeserializeFromString<T>(string xml)
         {
             var type = typeof(T);
             return (T)Deserialize(xml, type, Instance.quotas);
         }
 
+        /// <summary>Deserialize from reader.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="reader">The reader.</param>
+        /// <returns>A T.</returns>
         public static T DeserializeFromReader<T>(TextReader reader)
         {
             return DeserializeFromString<T>(reader.ReadToEnd());
         }
 
+        /// <summary>Deserialize from stream.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="stream">The stream.</param>
+        /// <returns>A T.</returns>
         public static T DeserializeFromStream<T>(Stream stream)
         {
             var serializer = new DataContractSerializer(typeof(T));
@@ -80,12 +110,21 @@ namespace NServiceKit.Text
             return (T)serializer.ReadObject(stream);
         }
 
+        /// <summary>Deserialize from stream.</summary>
+        /// <param name="type">  The type.</param>
+        /// <param name="stream">The stream.</param>
+        /// <returns>An object.</returns>
         public static object DeserializeFromStream(Type type, Stream stream)
         {
             var serializer = new DataContractSerializer(type);
             return serializer.ReadObject(stream);
         }
 
+        /// <summary>Serialize to string.</summary>
+        /// <exception cref="SerializationException">Thrown when a Serialization error condition occurs.</exception>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="from">Source for the.</param>
+        /// <returns>A string.</returns>
         public static string SerializeToString<T>(T from)
         {
             try
@@ -109,6 +148,11 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>Serialize to writer.</summary>
+        /// <exception cref="SerializationException">Thrown when a Serialization error condition occurs.</exception>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="value"> The value.</param>
+        /// <param name="writer">The writer.</param>
         public static void SerializeToWriter<T>(T value, TextWriter writer)
         {
             try
@@ -129,6 +173,9 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>Serialize to stream.</summary>
+        /// <param name="obj">   The object.</param>
+        /// <param name="stream">The stream.</param>
         public static void SerializeToStream(object obj, Stream stream)
         {
 #if !SILVERLIGHT
@@ -144,6 +191,10 @@ namespace NServiceKit.Text
 
 
 #if !SILVERLIGHT && !MONOTOUCH
+        /// <summary>Compress to stream.</summary>
+        /// <typeparam name="TXmlDto">Type of the XML dto.</typeparam>
+        /// <param name="from">  Source for the.</param>
+        /// <param name="stream">The stream.</param>
         public static void CompressToStream<TXmlDto>(TXmlDto from, Stream stream)
         {
             using (var deflateStream = new DeflateStream(stream, CompressionMode.Compress))
@@ -155,6 +206,10 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>Compress the given from.</summary>
+        /// <typeparam name="TXmlDto">Type of the XML dto.</typeparam>
+        /// <param name="from">Source for the.</param>
+        /// <returns>A byte[].</returns>
         public static byte[] Compress<TXmlDto>(TXmlDto from)
         {
             using (var ms = new MemoryStream())

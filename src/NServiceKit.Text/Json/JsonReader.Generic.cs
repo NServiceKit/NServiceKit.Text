@@ -19,12 +19,18 @@ using NServiceKit.Text.Common;
 
 namespace NServiceKit.Text.Json
 {
+    /// <summary>A JSON reader.</summary>
 	internal static class JsonReader
 	{
+        /// <summary>The instance.</summary>
 		public static readonly JsReader<JsonTypeSerializer> Instance = new JsReader<JsonTypeSerializer>();
 
+        /// <summary>The parse function cache.</summary>
 		private static Dictionary<Type, ParseFactoryDelegate> ParseFnCache = new Dictionary<Type, ParseFactoryDelegate>();
-        
+
+        /// <summary>Gets parse function.</summary>
+        /// <param name="type">The type.</param>
+        /// <returns>The parse function.</returns>
 		public static ParseStringDelegate GetParseFn(Type type)
 		{
 			ParseFactoryDelegate parseFactoryFn;
@@ -50,20 +56,32 @@ namespace NServiceKit.Text.Json
 		}
 	}
 
+    /// <summary>A JSON reader.</summary>
+    /// <typeparam name="T">Generic type parameter.</typeparam>
 	public static class JsonReader<T>
 	{
+        /// <summary>The read function.</summary>
 		private static readonly ParseStringDelegate ReadFn;
 
+        /// <summary>
+        /// Initializes static members of the NServiceKit.Text.Json.JsonReader&lt;T&gt; class.
+        /// </summary>
 		static JsonReader()
 		{
 			ReadFn = JsonReader.Instance.GetParseFn<T>();
 		}
-		
+
+        /// <summary>Gets parse function.</summary>
+        /// <returns>The parse function.</returns>
 		public static ParseStringDelegate GetParseFn()
 		{
 			return ReadFn ?? Parse;
 		}
 
+        /// <summary>Parses.</summary>
+        /// <exception cref="NotSupportedException">Thrown when the requested operation is not supported.</exception>
+        /// <param name="value">The value.</param>
+        /// <returns>An object.</returns>
 		public static object Parse(string value)
 		{
 			if (ReadFn == null)

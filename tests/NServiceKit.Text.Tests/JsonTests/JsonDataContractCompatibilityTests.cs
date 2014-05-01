@@ -6,11 +6,12 @@ using System.Collections.Generic;
 
 namespace NServiceKit.Text.Tests.JsonTests
 {
+    /// <summary>A JSON data contract compatibility tests.</summary>
     [TestFixture]
     public class JsonDataContractCompatibilityTests
         : TestBase
     {
-
+        /// <summary>Can serialize a movie.</summary>
         [Test]
         public void Can_serialize_a_movie()
         {
@@ -29,6 +30,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             Assert.That(ssJson, Is.EqualTo(wcfJson));
         }
 
+        /// <summary>Respects emit default value.</summary>
         [Test]
         public void Respects_EmitDefaultValue()
         {
@@ -45,6 +47,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             }
         }
 
+        /// <summary>Can deserialize empty type.</summary>
         [Test]
         public void Can_deserialize_empty_type()
         {

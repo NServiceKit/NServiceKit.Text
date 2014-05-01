@@ -6,14 +6,25 @@ using NServiceKit.Text.Json;
 
 namespace NServiceKit.Text.Common
 {
-    // Provides a contract for mapping properties to their type accessors
+    /// <summary>Provides a contract for mapping properties to their type accessors.</summary>
     internal interface IPropertyNameResolver
     {
+        /// <summary>Gets type accessor for property.</summary>
+        /// <param name="propertyName">   Name of the property.</param>
+        /// <param name="typeAccessorMap">The type accessor map.</param>
+        /// <returns>The type accessor for property.</returns>
         TypeAccessor GetTypeAccessorForProperty(string propertyName, Dictionary<string, TypeAccessor> typeAccessorMap);
     }
-    // The default behavior is that the target model must match property names exactly
+
+    /// <summary>
+    /// The default behavior is that the target model must match property names exactly.
+    /// </summary>
     internal class DefaultPropertyNameResolver : IPropertyNameResolver
     {
+        /// <summary>Gets type accessor for property.</summary>
+        /// <param name="propertyName">   Name of the property.</param>
+        /// <param name="typeAccessorMap">The type accessor map.</param>
+        /// <returns>The type accessor for property.</returns>
         public virtual TypeAccessor GetTypeAccessorForProperty(string propertyName, Dictionary<string, TypeAccessor> typeAccessorMap)
         {
             TypeAccessor typeAccessor;
@@ -21,10 +32,17 @@ namespace NServiceKit.Text.Common
             return typeAccessor;
         }
     }
-    // The lenient behavior is that properties on the target model can be .NET-cased, while the source JSON can differ
+
+    /// <summary>
+    /// The lenient behavior is that properties on the target model can be .NET-cased, while the
+    /// source JSON can differ.
+    /// </summary>
     internal class LenientPropertyNameResolver : DefaultPropertyNameResolver
     {
-
+        /// <summary>Gets type accessor for property.</summary>
+        /// <param name="propertyName">   Name of the property.</param>
+        /// <param name="typeAccessorMap">The type accessor map.</param>
+        /// <returns>The type accessor for property.</returns>
         public override TypeAccessor GetTypeAccessorForProperty(string propertyName, Dictionary<string, TypeAccessor> typeAccessorMap)
         {
             TypeAccessor typeAccessor;
@@ -35,6 +53,9 @@ namespace NServiceKit.Text.Common
                        : base.GetTypeAccessorForProperty(propertyName, typeAccessorMap);
         }
 
+        /// <summary>Transform from lowercase underscore.</summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <returns>A string.</returns>
         private static string TransformFromLowercaseUnderscore(string propertyName)
         {
             // "lowercase-hyphen" -> "lowercase_underscore" -> LowercaseUnderscore
@@ -43,14 +64,31 @@ namespace NServiceKit.Text.Common
 
     }
 
+    /// <summary>A deserialize type reference json.</summary>
     internal static class DeserializeTypeRefJson
     {
+        /// <summary>The default property name resolver.</summary>
         public static readonly IPropertyNameResolver DefaultPropertyNameResolver = new DefaultPropertyNameResolver();
+
+        /// <summary>The lenient property name resolver.</summary>
         public static readonly IPropertyNameResolver LenientPropertyNameResolver = new LenientPropertyNameResolver();
+
+        /// <summary>The property name resolver.</summary>
         public static IPropertyNameResolver PropertyNameResolver = DefaultPropertyNameResolver;
 
+        /// <summary>The serializer.</summary>
         private static readonly JsonTypeSerializer Serializer = (JsonTypeSerializer)JsonTypeSerializer.Instance;
 
+        /// <summary>String to type.</summary>
+        /// <exception cref="CreateSerializationError"> Thrown when a create serialization error error
+        /// condition occurs.</exception>
+        /// <exception cref="GetSerializationException">Thrown when a Get Serialization error condition
+        /// occurs.</exception>
+        /// <param name="type">           The type.</param>
+        /// <param name="strType">        The type.</param>
+        /// <param name="ctorFn">         The constructor function.</param>
+        /// <param name="typeAccessorMap">The type accessor map.</param>
+        /// <returns>An object.</returns>
         internal static object StringToType(
         Type type,
         string strType,

@@ -8,10 +8,11 @@ using NServiceKit.Text.Common;
 
 namespace NServiceKit.Text.Tests.JsonTests
 {
+    /// <summary>A polymorphic instance test.</summary>
 	[TestFixture]
 	public class PolymorphicInstanceTest 
 	{
-
+        /// <summary>Sets the up.</summary>
 		[SetUp]
 		public void SetUp()
 		{
@@ -19,6 +20,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 			JsConfig<ICat>.ExcludeTypeInfo = false;
 		}
 
+        /// <summary>Can deserialise polymorphic dog exact.</summary>
 		[Test]
 		public void Can_deserialise_polymorphic_dog_exact()
 		{
@@ -32,6 +34,9 @@ namespace NServiceKit.Text.Tests.JsonTests
 
 		}
 
+        /// <summary>
+        /// Can deserialise polymorphic list exact with no side effect for bad type position.
+        /// </summary>
 		[Test]
 		public void Can_deserialise_polymorphic_list_exact_with_no_side_effect_for_bad_type_position()
 		{

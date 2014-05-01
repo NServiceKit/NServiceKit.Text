@@ -4,8 +4,10 @@ using NUnit.Framework;
 
 namespace NServiceKit.Text.Tests.DynamicModels
 {
+    /// <summary>A google maps API tests.</summary>
     public class GoogleMapsApiTests
     {
+        /// <summary>The JSON dto.</summary>
         private const string JsonDto =
             @"{
    ""results"" : [
@@ -311,47 +313,99 @@ namespace NServiceKit.Text.Tests.DynamicModels
    ""status"" : ""OK""
 }";
 
+        /// <summary>A geo location response.</summary>
         public class GeoLocationResponse
         {
+            /// <summary>Gets or sets the status.</summary>
+            /// <value>The status.</value>
             public string Status { get; set; }
+
+            /// <summary>Gets or sets the results.</summary>
+            /// <value>The results.</value>
             public List<GeoLocationResults> Results { get; set; }
         }
 
+        /// <summary>A geo location results.</summary>
         public class GeoLocationResults
         {
+            /// <summary>Gets or sets the address components.</summary>
+            /// <value>The address components.</value>
             public List<AddressComponent> Address_Components { get; set; }
+
+            /// <summary>Gets or sets the formatted address.</summary>
+            /// <value>The formatted address.</value>
             public string Formatted_Address { get; set; }
+
+            /// <summary>Gets or sets the geometry.</summary>
+            /// <value>The geometry.</value>
             public Geometry Geometry { get; set; }
+
+            /// <summary>Gets or sets the types.</summary>
+            /// <value>The types.</value>
             public string[] Types { get; set; }
         }
 
+        /// <summary>A geometry.</summary>
         public class Geometry
         {
+            /// <summary>Gets or sets the bounds.</summary>
+            /// <value>The bounds.</value>
             public GeometryBounds Bounds { get; set; }
+
+            /// <summary>Gets or sets the location.</summary>
+            /// <value>The location.</value>
             public GeometryLatLong Location { get; set; }
+
+            /// <summary>Gets or sets the type of the location.</summary>
+            /// <value>The type of the location.</value>
             public string Location_Type { get; set; }
+
+            /// <summary>Gets or sets the viewport.</summary>
+            /// <value>The viewport.</value>
             public GeometryBounds Viewport { get; set; }
         }
 
+        /// <summary>A geometry bounds.</summary>
         public class GeometryBounds
         {
+            /// <summary>Gets or sets the north east.</summary>
+            /// <value>The north east.</value>
             public GeometryLatLong NorthEast { get; set; }
+
+            /// <summary>Gets or sets the south west.</summary>
+            /// <value>The south west.</value>
             public GeometryLatLong SouthWest { get; set; }
         }
 
+        /// <summary>A geometry lat long.</summary>
         public class GeometryLatLong
         {
+            /// <summary>Gets or sets the lat.</summary>
+            /// <value>The lat.</value>
             public string Lat { get; set; }
+
+            /// <summary>Gets or sets the. </summary>
+            /// <value>The lng.</value>
             public string Lng { get; set; }
         }
 
+        /// <summary>The address component.</summary>
         public class AddressComponent
         {
+            /// <summary>Gets or sets the name of the long.</summary>
+            /// <value>The name of the long.</value>
             public string Long_Name { get; set; }
+
+            /// <summary>Gets or sets the name of the short.</summary>
+            /// <value>The name of the short.</value>
             public string Short_Name { get; set; }
+
+            /// <summary>Gets or sets the types.</summary>
+            /// <value>The types.</value>
             public List<string> Types { get; set; }
         }
 
+        /// <summary>Can parse g maps API.</summary>
         [Test]
         public void Can_parse_GMaps_api()
         {

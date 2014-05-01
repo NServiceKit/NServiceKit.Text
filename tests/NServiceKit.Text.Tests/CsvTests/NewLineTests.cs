@@ -5,9 +5,11 @@ using NServiceKit.Text.Tests.Support;
 
 namespace NServiceKit.Text.Tests.CsvTests
 {
+    /// <summary>A new line tests.</summary>
 	[TestFixture]
 	public class NewLineTests
 	{
+        /// <summary>Serializes adhoc data.</summary>
 		[Test]
 		public void Serializes_adhoc_data()
 		{
@@ -40,12 +42,15 @@ namespace NServiceKit.Text.Tests.CsvTests
 				+ Environment.NewLine
 			));
 		}
+
+        /// <summary>Tear down.</summary>
         [TearDown]
         public void TearDown()
         {
             CsvConfig.Reset();
         }
 
+        /// <summary>Serializes adhoc data pipe separator.</summary>
 		[Test]
 		public void Serializes_adhoc_data_pipe_separator()
 		{
@@ -80,6 +85,7 @@ namespace NServiceKit.Text.Tests.CsvTests
 			));
 		}
 
+        /// <summary>Serializes adhoc data pipe delimiter.</summary>
 		[Test]
 		public void Serializes_adhoc_data_pipe_delimiter()
 		{

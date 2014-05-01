@@ -22,24 +22,35 @@ using NServiceKit.Text.Json;
 
 namespace NServiceKit.Text
 {
-	/// <summary>
-	/// Creates an instance of a Type from a string value
-	/// </summary>
+    /// <summary>Creates an instance of a Type from a string value.</summary>
 	public static class JsonSerializer
 	{
+        /// <summary>The UTF 8 encoding without bom.</summary>
 		private static readonly UTF8Encoding UTF8EncodingWithoutBom = new UTF8Encoding(false);
 
+        /// <summary>Deserialize from string.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="value">The value.</param>
+        /// <returns>A T.</returns>
 		public static T DeserializeFromString<T>(string value)
 		{
 			if (string.IsNullOrEmpty(value)) return default(T);
 			return (T)JsonReader<T>.Parse(value);
 		}
 
+        /// <summary>Deserialize from reader.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="reader">The reader.</param>
+        /// <returns>A T.</returns>
 		public static T DeserializeFromReader<T>(TextReader reader)
 		{
 			return DeserializeFromString<T>(reader.ReadToEnd());
 		}
 
+        /// <summary>Deserialize from string.</summary>
+        /// <param name="value">The value.</param>
+        /// <param name="type"> The type.</param>
+        /// <returns>An object.</returns>
 		public static object DeserializeFromString(string value, Type type)
 		{
 			return string.IsNullOrEmpty(value)
@@ -47,11 +58,19 @@ namespace NServiceKit.Text
 					: JsonReader.GetParseFn(type)(value);
 		}
 
+        /// <summary>Deserialize from reader.</summary>
+        /// <param name="reader">The reader.</param>
+        /// <param name="type">  The type.</param>
+        /// <returns>An object.</returns>
 		public static object DeserializeFromReader(TextReader reader, Type type)
 		{
 			return DeserializeFromString(reader.ReadToEnd(), type);
 		}
 
+        /// <summary>Serialize to string.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="value">The value.</param>
+        /// <returns>A string.</returns>
 		public static string SerializeToString<T>(T value)
 		{
             if (value == null || value is Delegate) return null;
@@ -78,6 +97,10 @@ namespace NServiceKit.Text
 			return sb.ToString();
 		}
 
+        /// <summary>Serialize to string.</summary>
+        /// <param name="value">The value.</param>
+        /// <param name="type"> The type.</param>
+        /// <returns>A string.</returns>
 		public static string SerializeToString(object value, Type type)
 		{
 			if (value == null) return null;
@@ -97,6 +120,10 @@ namespace NServiceKit.Text
 			return sb.ToString();
 		}
 
+        /// <summary>Serialize to writer.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="value"> The value.</param>
+        /// <param name="writer">The writer.</param>
 		public static void SerializeToWriter<T>(T value, TextWriter writer)
 		{
 			if (value == null) return;
@@ -116,6 +143,10 @@ namespace NServiceKit.Text
 			JsonWriter<T>.WriteRootObject(writer, value);
 		}
 
+        /// <summary>Serialize to writer.</summary>
+        /// <param name="value"> The value.</param>
+        /// <param name="type">  The type.</param>
+        /// <param name="writer">The writer.</param>
 		public static void SerializeToWriter(object value, Type type, TextWriter writer)
 		{
 			if (value == null) return;
@@ -128,6 +159,10 @@ namespace NServiceKit.Text
 			JsonWriter.GetWriteFn(type)(writer, value);
 		}
 
+        /// <summary>Serialize to stream.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="value"> The value.</param>
+        /// <param name="stream">The stream.</param>
 		public static void SerializeToStream<T>(T value, Stream stream)
 		{
 			if (value == null) return;
@@ -144,6 +179,10 @@ namespace NServiceKit.Text
 			writer.Flush();
 		}
 
+        /// <summary>Serialize to stream.</summary>
+        /// <param name="value"> The value.</param>
+        /// <param name="type">  The type.</param>
+        /// <param name="stream">The stream.</param>
 		public static void SerializeToStream(object value, Type type, Stream stream)
 		{
 			var writer = new StreamWriter(stream, UTF8EncodingWithoutBom);
@@ -151,6 +190,10 @@ namespace NServiceKit.Text
 			writer.Flush();
 		}
 
+        /// <summary>Deserialize from stream.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="stream">The stream.</param>
+        /// <returns>A T.</returns>
 		public static T DeserializeFromStream<T>(Stream stream)
 		{
 			using (var reader = new StreamReader(stream, UTF8EncodingWithoutBom))
@@ -159,6 +202,10 @@ namespace NServiceKit.Text
 			}
 		}
 
+        /// <summary>Deserialize from stream.</summary>
+        /// <param name="type">  The type.</param>
+        /// <param name="stream">The stream.</param>
+        /// <returns>An object.</returns>
 		public static object DeserializeFromStream(Type type, Stream stream)
 		{
 			using (var reader = new StreamReader(stream, UTF8EncodingWithoutBom))
@@ -168,6 +215,10 @@ namespace NServiceKit.Text
 		}
 
 #if !WINDOWS_PHONE && !SILVERLIGHT
+        /// <summary>Deserialize response.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="webRequest">The web request.</param>
+        /// <returns>A T.</returns>
 		public static T DeserializeResponse<T>(WebRequest webRequest)
 		{
 #if NETFX_CORE
@@ -190,6 +241,11 @@ namespace NServiceKit.Text
 #endif
 		}
 
+        /// <summary>Deserialize response.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="type">      The type.</param>
+        /// <param name="webRequest">The web request.</param>
+        /// <returns>A T.</returns>
 		public static object DeserializeResponse<T>(Type type, WebRequest webRequest)
 		{
 #if NETFX_CORE
@@ -212,6 +268,10 @@ namespace NServiceKit.Text
 #endif
 		}
 
+        /// <summary>Deserialize request.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="webRequest">The web request.</param>
+        /// <returns>A T.</returns>
 		public static T DeserializeRequest<T>(WebRequest webRequest)
 		{
 #if NETFX_CORE
@@ -228,6 +288,10 @@ namespace NServiceKit.Text
 #endif
 		}
 
+        /// <summary>Deserialize request.</summary>
+        /// <param name="type">      The type.</param>
+        /// <param name="webRequest">The web request.</param>
+        /// <returns>An object.</returns>
 		public static object DeserializeRequest(Type type, WebRequest webRequest)
 		{
 #if NETFX_CORE
@@ -244,6 +308,11 @@ namespace NServiceKit.Text
 #endif
 		}
 #endif
+
+        /// <summary>Deserialize response.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="webResponse">The web response.</param>
+        /// <returns>A T.</returns>
 		public static T DeserializeResponse<T>(WebResponse webResponse)
 		{
 			using (var stream = webResponse.GetResponseStream())
@@ -252,6 +321,10 @@ namespace NServiceKit.Text
 			}
 		}
 
+        /// <summary>Deserialize response.</summary>
+        /// <param name="type">       The type.</param>
+        /// <param name="webResponse">The web response.</param>
+        /// <returns>An object.</returns>
 		public static object DeserializeResponse(Type type, WebResponse webResponse)
 		{
 			using (var stream = webResponse.GetResponseStream())

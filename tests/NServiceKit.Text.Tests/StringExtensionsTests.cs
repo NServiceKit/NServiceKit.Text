@@ -4,9 +4,11 @@ using NUnit.Framework;
 
 namespace NServiceKit.Text.Tests
 {
+    /// <summary>A string extensions tests.</summary>
 	[TestFixture]
 	public class StringExtensionsTests
 	{
+        /// <summary>Can split on first character needle.</summary>
 		[Test]
 		public void Can_SplitOnFirst_char_needle()
 		{
@@ -15,6 +17,7 @@ namespace NServiceKit.Text.Tests
 			Assert.That(parts[1], Is.EqualTo("pass@w:rd"));
 		}
 
+        /// <summary>Can split on first string needle.</summary>
 		[Test]
 		public void Can_SplitOnFirst_string_needle()
 		{
@@ -23,6 +26,7 @@ namespace NServiceKit.Text.Tests
 			Assert.That(parts[1], Is.EqualTo("pass@w:rd"));
 		}
 
+        /// <summary>Can split on last character needle.</summary>
 		[Test]
 		public void Can_SplitOnLast_char_needle()
 		{
@@ -31,6 +35,7 @@ namespace NServiceKit.Text.Tests
 			Assert.That(parts[1], Is.EqualTo("pass@word"));
 		}
 
+        /// <summary>Can split on last string needle.</summary>
 		[Test]
 		public void Can_SplitOnLast_string_needle()
 		{
@@ -39,9 +44,13 @@ namespace NServiceKit.Text.Tests
 			Assert.That(parts[1], Is.EqualTo("pass@word"));
 		}
 
+        /// <summary>The dir separator.</summary>
 		private static readonly char DirSep = Path.DirectorySeparatorChar;
+
+        /// <summary>The path. directory separator character.</summary>
 		private static readonly char AltDirSep = Path.DirectorySeparatorChar == '/' ? '\\' : '/';
 
+        /// <summary>Does get parent directory.</summary>
 		[Test]
 		public void Does_get_ParentDirectory()
 		{
@@ -57,6 +66,7 @@ namespace NServiceKit.Text.Tests
 			Assert.That(filePathWithExt.ParentDirectory().ParentDirectory().ParentDirectory(), Is.Null);
 		}
 
+        /// <summary>Does get parent directory of alternate directory seperator.</summary>
 		[Test]
 		public void Does_get_ParentDirectory_of_AltDirectorySeperator()
 		{
@@ -72,6 +82,7 @@ namespace NServiceKit.Text.Tests
 			Assert.That(filePathWithExt.ParentDirectory().ParentDirectory().ParentDirectory(), Is.Null);
 		}
 
+        /// <summary>Does not alter filepath without extension.</summary>
 		[Test]
 		public void Does_not_alter_filepath_without_extension()
 		{
@@ -81,6 +92,7 @@ namespace NServiceKit.Text.Tests
 			Assert.That("path/to/file.ext".WithoutExtension(), Is.EqualTo("path/to/file"));
 		}
 
+        /// <summary>Does find index of any strings.</summary>
 		[Test]
 		public void Does_find_IndexOfAny_strings()
 		{
@@ -90,6 +102,7 @@ namespace NServiceKit.Text.Tests
 			Assert.That(pos, Is.EqualTo("text with ".Length));
 		}
 
+        /// <summary>Does extract content first pattern from document without marker.</summary>
 		[Test]
 		public void Does_ExtractContent_first_pattern_from_Document_without_marker()
 		{
@@ -99,6 +112,7 @@ namespace NServiceKit.Text.Tests
 			Assert.That(extract, Is.EqualTo("comment"));
 		}
 
+        /// <summary>Does extract contents from document.</summary>
 		[Test]
 		public void Does_ExtractContents_from_Document()
 		{
@@ -108,6 +122,7 @@ namespace NServiceKit.Text.Tests
 			Assert.That(extract, Is.EqualTo("Contents"));
 		}
 
+        /// <summary>Can URL encode string.</summary>
         [Test]
         public void Can_Url_Encode_String()
         {
@@ -123,6 +138,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(decoded, Is.EqualTo(text));
         }
 
+        /// <summary>Can to camel case string.</summary>
         [Test]
         public void Can_ToCamelCase_String()
         {
@@ -154,6 +170,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(((string)null).ToCamelCase(), Is.EqualTo((string)null));
         }
 
+        /// <summary>Can to title case string.</summary>
         [Test]
         public void Can_ToTitleCase_String()
         {
@@ -163,6 +180,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(ttc, Is.EqualTo("AbcDef"));
         }
 
+        /// <summary>Can to title case empty string.</summary>
         [Test]
         public void Can_ToTitleCase_Empty_String()
         {
@@ -172,6 +190,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(ttc, Is.EqualTo(""));
         }
 
+        /// <summary>Can URL encode unicode string.</summary>
 	    [Test]
         public void Can_Url_Encode_Unicode_String()
         {

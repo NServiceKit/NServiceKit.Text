@@ -23,11 +23,17 @@ using NServiceKit.Text.Json;
 
 namespace NServiceKit.Text.Common
 {
+    /// <summary>A deserialize type.</summary>
+    /// <typeparam name="TSerializer">Type of the serializer.</typeparam>
     internal static class DeserializeType<TSerializer>
         where TSerializer : ITypeSerializer
     {
+        /// <summary>The serializer.</summary>
         private static readonly ITypeSerializer Serializer = JsWriter.GetTypeSerializer<TSerializer>();
 
+        /// <summary>Gets parse method.</summary>
+        /// <param name="typeConfig">The type configuration.</param>
+        /// <returns>The parse method.</returns>
         public static ParseStringDelegate GetParseMethod(TypeConfig typeConfig)
         {
             var type = typeConfig.Type;
@@ -44,6 +50,9 @@ namespace NServiceKit.Text.Common
                 : value => DeserializeTypeRefJsv.StringToType(type, value, ctorFn, map);
         }
 
+        /// <summary>Object string to type.</summary>
+        /// <param name="strType">The type.</param>
+        /// <returns>An object.</returns>
         public static object ObjectStringToType(string strType)
         {
             var type = ExtractType(strType);
@@ -74,6 +83,9 @@ namespace NServiceKit.Text.Common
             return Serializer.UnescapeString(strType);
         }
 
+        /// <summary>Extracts the type described by strType.</summary>
+        /// <param name="strType">The type.</param>
+        /// <returns>The extracted type.</returns>
         public static Type ExtractType(string strType)
         {
             var typeAttrInObject = Serializer.TypeAttrInObject;
@@ -104,6 +116,10 @@ namespace NServiceKit.Text.Common
             return null;
         }
 
+        /// <summary>Parse abstract type.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="value">The value.</param>
+        /// <returns>An object.</returns>
         public static object ParseAbstractType<T>(string value)
         {
             if (typeof(T).IsAbstract())
@@ -120,6 +136,9 @@ namespace NServiceKit.Text.Common
             return null;
         }
 
+        /// <summary>Parse quoted primitive.</summary>
+        /// <param name="value">The value.</param>
+        /// <returns>An object.</returns>
         public static object ParseQuotedPrimitive(string value)
         {
             if (string.IsNullOrEmpty(value)) return null;
@@ -151,6 +170,9 @@ namespace NServiceKit.Text.Common
             return Serializer.UnescapeString(value);
         }
 
+        /// <summary>Parse primitive.</summary>
+        /// <param name="value">The value.</param>
+        /// <returns>An object.</returns>
         public static object ParsePrimitive(string value)
         {
             if (string.IsNullOrEmpty(value)) return null;
@@ -187,6 +209,10 @@ namespace NServiceKit.Text.Common
             return null;
         }
 
+        /// <summary>Parse primitive.</summary>
+        /// <param name="value">    The value.</param>
+        /// <param name="firstChar">The first character.</param>
+        /// <returns>An object.</returns>
         internal static object ParsePrimitive(string value, char firstChar)
         {
             if (typeof(TSerializer) == typeof(JsonTypeSerializer))
@@ -199,12 +225,22 @@ namespace NServiceKit.Text.Common
         }
     }
 
+    /// <summary>A type accessor.</summary>
     internal class TypeAccessor
     {
+        /// <summary>The get property.</summary>
         internal ParseStringDelegate GetProperty;
+
+        /// <summary>The set property.</summary>
         internal SetPropertyDelegate SetProperty;
+
+        /// <summary>Type of the property.</summary>
         internal Type PropertyType;
 
+        /// <summary>Extracts the type.</summary>
+        /// <param name="Serializer">The serializer.</param>
+        /// <param name="strType">   The type.</param>
+        /// <returns>The extracted type.</returns>
         public static Type ExtractType(ITypeSerializer Serializer, string strType)
         {
             var typeAttrInObject = Serializer.TypeAttrInObject;
@@ -225,6 +261,11 @@ namespace NServiceKit.Text.Common
             return null;
         }
 
+        /// <summary>Creates a new TypeAccessor.</summary>
+        /// <param name="serializer">  The serializer.</param>
+        /// <param name="typeConfig">  The type configuration.</param>
+        /// <param name="propertyInfo">Information describing the property.</param>
+        /// <returns>A TypeAccessor.</returns>
         public static TypeAccessor Create(ITypeSerializer serializer, TypeConfig typeConfig, PropertyInfo propertyInfo)
         {
             return new TypeAccessor
@@ -235,6 +276,10 @@ namespace NServiceKit.Text.Common
             };
         }
 
+        /// <summary>Gets set property method.</summary>
+        /// <param name="typeConfig">  The type configuration.</param>
+        /// <param name="propertyInfo">Information describing the property.</param>
+        /// <returns>The set property method.</returns>
         private static SetPropertyDelegate GetSetPropertyMethod(TypeConfig typeConfig, PropertyInfo propertyInfo)
         {
             if (propertyInfo.ReflectedType() != propertyInfo.DeclaringType)
@@ -278,7 +323,9 @@ namespace NServiceKit.Text.Common
         }
 
 #if !SILVERLIGHT && !MONOTOUCH && !XBOX
-
+        /// <summary>Creates il property setter.</summary>
+        /// <param name="propertyInfo">Information describing the property.</param>
+        /// <returns>The new il property setter.</returns>
         private static SetPropertyDelegate CreateIlPropertySetter(PropertyInfo propertyInfo)
         {
             var propSetMethod = propertyInfo.GetSetMethod(true);
@@ -303,6 +350,9 @@ namespace NServiceKit.Text.Common
             return (SetPropertyDelegate)setter.CreateDelegate(typeof(SetPropertyDelegate));
         }
 
+        /// <summary>Creates il field setter.</summary>
+        /// <param name="fieldInfo">Information describing the field.</param>
+        /// <returns>The new il field setter.</returns>
         private static SetPropertyDelegate CreateIlFieldSetter(FieldInfo fieldInfo)
         {
             var setter = CreateDynamicSetMethod(fieldInfo);
@@ -323,6 +373,9 @@ namespace NServiceKit.Text.Common
             return (SetPropertyDelegate)setter.CreateDelegate(typeof(SetPropertyDelegate));
         }
 
+        /// <summary>Creates dynamic set method.</summary>
+        /// <param name="memberInfo">Information describing the member.</param>
+        /// <returns>The new dynamic set method.</returns>
         private static DynamicMethod CreateDynamicSetMethod(MemberInfo memberInfo)
         {
             var args = new[] { typeof(object), typeof(object) };
@@ -335,6 +388,10 @@ namespace NServiceKit.Text.Common
         }
 #endif
 
+        /// <summary>Gets set property method.</summary>
+        /// <param name="type">        The type.</param>
+        /// <param name="propertyInfo">Information describing the property.</param>
+        /// <returns>The set property method.</returns>
         internal static SetPropertyDelegate GetSetPropertyMethod(Type type, PropertyInfo propertyInfo)
         {
             if (!propertyInfo.CanWrite || propertyInfo.GetIndexParameters().Any()) return null;
@@ -347,6 +404,10 @@ namespace NServiceKit.Text.Common
 #endif
         }
 
+        /// <summary>Gets set field method.</summary>
+        /// <param name="type">     The type.</param>
+        /// <param name="fieldInfo">Information describing the field.</param>
+        /// <returns>The set field method.</returns>
         internal static SetPropertyDelegate GetSetFieldMethod(Type type, FieldInfo fieldInfo)
         {
 
@@ -357,7 +418,11 @@ namespace NServiceKit.Text.Common
 #endif
         }
 
-
+        /// <summary>Creates a new TypeAccessor.</summary>
+        /// <param name="serializer">The serializer.</param>
+        /// <param name="typeConfig">The type configuration.</param>
+        /// <param name="fieldInfo"> Information describing the field.</param>
+        /// <returns>A TypeAccessor.</returns>
         public static TypeAccessor Create(ITypeSerializer serializer, TypeConfig typeConfig, FieldInfo fieldInfo)
         {
             return new TypeAccessor
@@ -369,6 +434,10 @@ namespace NServiceKit.Text.Common
             
         }
 
+        /// <summary>Gets set field method.</summary>
+        /// <param name="typeConfig">The type configuration.</param>
+        /// <param name="fieldInfo"> Information describing the field.</param>
+        /// <returns>The set field method.</returns>
 		private static SetPropertyDelegate GetSetFieldMethod(TypeConfig typeConfig, FieldInfo fieldInfo)
 		{
             if (fieldInfo.ReflectedType() != fieldInfo.DeclaringType)

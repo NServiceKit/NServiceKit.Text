@@ -12,9 +12,11 @@ using NServiceKit.Text.WP;
 
 namespace NServiceKit.Text
 {
+    /// <summary>The js configuration.</summary>
     public static class
         JsConfig
     {
+        /// <summary>Initializes static members of the NServiceKit.Text.JsConfig class.</summary>
         static JsConfig()
         {
             //In-built default serialization, to Deserialize Color struct do:
@@ -23,11 +25,61 @@ namespace NServiceKit.Text
             Reset();
         }
 
+        /// <summary>Begins a scope.</summary>
+        /// <returns>A JsConfigScope.</returns>
         public static JsConfigScope BeginScope()
         {
             return new JsConfigScope();
         }
 
+        /// <summary>Withs.</summary>
+        /// <param name="convertObjectTypesIntoStringDictionary">Dictionary of convert object types into
+        /// strings.</param>
+        /// <param name="tryToParsePrimitiveTypeValues">         The try to parse primitive type values.</param>
+        /// <param name="tryToParseNumericType">                 Type of the try to parse numeric.</param>
+        /// <param name="includeNullValues">                     The include null values.</param>
+        /// <param name="excludeTypeInfo">                       Information describing the exclude type.</param>
+        /// <param name="includeTypeInfo">                       Information describing the include type.</param>
+        /// <param name="emitCamelCaseNames">                    <see langword="true"/> if the
+        /// <see cref="ITypeSerializer"/> is configured to take advantage of
+        /// <see cref="CLSCompliantAttribute"/> specification, to support user-friendly serialized
+        /// formats, ie emitting camelCasing for JSON and parsing member names and enum values in a case-
+        /// insensitive manner.</param>
+        /// <param name="emitLowercaseUnderscoreNames">          <see langword="true"/> if the
+        /// <see cref="ITypeSerializer"/> is configured to support web- friendly serialized formats, ie
+        /// emitting lowercase_underscore_casing for JSON.</param>
+        /// <param name="dateHandler">                           The date handler.</param>
+        /// <param name="timeSpanHandler">                       Sets which format to use when serializing
+        /// TimeSpans.</param>
+        /// <param name="preferInterfaces">                      The prefer interfaces.</param>
+        /// <param name="throwOnDeserializationError">           Gets or sets a value indicating if the
+        /// framework should throw serialization exceptions or continue regardless of deserialization
+        /// errors. If <see langword="true"/>  the framework will throw; otherwise, it will parse as many
+        /// fields as possible. The default is
+        /// <see langword="false"/>.</param>
+        /// <param name="typeAttr">                              The type attribute.</param>
+        /// <param name="typeWriter">                            The type writer.</param>
+        /// <param name="typeFinder">                            The type finder.</param>
+        /// <param name="treatEnumAsInteger">                    The treat enum as integer.</param>
+        /// <param name="alwaysUseUtc">                          Gets or sets a value indicating if the
+        /// framework should always convert <see cref="DateTime"/>to UTC format instead of local time.</param>
+        /// <param name="assumeUtc">                             Gets or sets a value indicating if the
+        /// framework should always assume <see cref="DateTime"/>is in UTC format if Kind is Unspecified.</param>
+        /// <param name="appendUtcOffset">                       Gets or sets whether we should append the
+        /// Utc offset when we serialize Utc dates. Defaults to no. Only supported for when the
+        /// JsConfig.DateHandler == JsonDateHandler.TimestampOffset.</param>
+        /// <param name="escapeUnicode">                         Gets or sets a value indicating if
+        /// unicode symbols should be serialized as "\uXXXX".</param>
+        /// <param name="includePublicFields">                   If set to true, Interface types will be
+        /// prefered over concrete types when serializing.</param>
+        /// <param name="maxDepth">                              Sets the maximum depth to avoid circular
+        /// dependencies.</param>
+        /// <param name="modelFactory">                          Set this to enable your own type
+        /// construction provider. This is helpful for integration with IoC containers where you need to
+        /// call the container constructor. Return null if you don't know how to construct the type and
+        /// the parameterless constructor will be used.</param>
+        /// <param name="excludePropertyReferences">             The exclude property references.</param>
+        /// <returns>A JsConfigScope.</returns>
         public static JsConfigScope With(
             bool? convertObjectTypesIntoStringDictionary = null,
             bool? tryToParsePrimitiveTypeValues = null,
@@ -82,7 +134,13 @@ namespace NServiceKit.Text
             };
         }
 
+        /// <summary>Dictionary of convert object types into strings.</summary>
         private static bool? sConvertObjectTypesIntoStringDictionary;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the convert object types into string dictionary.
+        /// </summary>
+        /// <value>true if convert object types into string dictionary, false if not.</value>
         public static bool ConvertObjectTypesIntoStringDictionary
         {
             get
@@ -97,7 +155,13 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>The try to parse primitive type values.</summary>
         private static bool? sTryToParsePrimitiveTypeValues;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the try to parse primitive type values.
+        /// </summary>
+        /// <value>true if try to parse primitive type values, false if not.</value>
         public static bool TryToParsePrimitiveTypeValues
         {
             get
@@ -112,7 +176,11 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>Type of the try to parse numeric.</summary>
 		private static bool? sTryToParseNumericType;
+
+        /// <summary>Gets or sets a value indicating whether the try to parse numeric type.</summary>
+        /// <value>true if try to parse numeric type, false if not.</value>
 		public static bool TryToParseNumericType
 		{
 			get
@@ -127,7 +195,13 @@ namespace NServiceKit.Text
 			}
 		}
 
+        /// <summary>The include null values.</summary>
         private static bool? sIncludeNullValues;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the null values should be included.
+        /// </summary>
+        /// <value>true if include null values, false if not.</value>
         public static bool IncludeNullValues
         {
             get
@@ -142,7 +216,11 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>The treat enum as integer.</summary>
         private static bool? sTreatEnumAsInteger;
+
+        /// <summary>Gets or sets a value indicating whether the treat enum as integer.</summary>
+        /// <value>true if treat enum as integer, false if not.</value>
         public static bool TreatEnumAsInteger
         {
             get
@@ -157,7 +235,11 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>Information describing the exclude type.</summary>
         private static bool? sExcludeTypeInfo;
+
+        /// <summary>Gets or sets a value indicating whether the exclude type information.</summary>
+        /// <value>true if exclude type information, false if not.</value>
         public static bool ExcludeTypeInfo
         {
             get
@@ -172,7 +254,13 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>Information describing the include type.</summary>
         private static bool? sIncludeTypeInfo;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the type information should be included.
+        /// </summary>
+        /// <value>true if include type information, false if not.</value>
         public static bool IncludeTypeInfo
         {
             get
@@ -187,7 +275,11 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>The type attribute.</summary>
         private static string sTypeAttr;
+
+        /// <summary>Gets or sets the type attribute.</summary>
+        /// <value>The type attribute.</value>
         public static string TypeAttr
         {
             get
@@ -204,8 +296,14 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>The JSON type attribute in object.</summary>
         private static string sJsonTypeAttrInObject;
+
+        /// <summary>The default JSON type attribute in object.</summary>
         private static readonly string defaultJsonTypeAttrInObject = JsonTypeSerializer.GetTypeAttrInObject(TypeAttr);
+
+        /// <summary>Gets or sets the JSON type attribute in object.</summary>
+        /// <value>The JSON type attribute in object.</value>
         internal static string JsonTypeAttrInObject
         {
             get
@@ -220,8 +318,14 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>The jsv type attribute in object.</summary>
         private static string sJsvTypeAttrInObject;
+
+        /// <summary>The default jsv type attribute in object.</summary>
         private static readonly string defaultJsvTypeAttrInObject = JsvTypeSerializer.GetTypeAttrInObject(TypeAttr);
+
+        /// <summary>Gets or sets the jsv type attribute in object.</summary>
+        /// <value>The jsv type attribute in object.</value>
         internal static string JsvTypeAttrInObject
         {
             get
@@ -236,7 +340,11 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>The type writer.</summary>
         private static Func<Type, string> sTypeWriter;
+
+        /// <summary>Gets or sets the type writer.</summary>
+        /// <value>The type writer.</value>
         public static Func<Type, string> TypeWriter
         {
             get
@@ -251,7 +359,11 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>The type finder.</summary>
         private static Func<string, Type> sTypeFinder;
+
+        /// <summary>Gets or sets the type finder.</summary>
+        /// <value>The type finder.</value>
         public static Func<string, Type> TypeFinder
         {
             get
@@ -266,7 +378,11 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>The date handler.</summary>
         private static JsonDateHandler? sDateHandler;
+
+        /// <summary>Gets or sets the date handler.</summary>
+        /// <value>The date handler.</value>
         public static JsonDateHandler DateHandler
         {
             get
@@ -281,10 +397,11 @@ namespace NServiceKit.Text
             }
         }
 
-        /// <summary>
-        /// Sets which format to use when serializing TimeSpans
-        /// </summary>
+        /// <summary>Sets which format to use when serializing TimeSpans.</summary>
         private static JsonTimeSpanHandler? sTimeSpanHandler;
+
+        /// <summary>Gets or sets the time span handler.</summary>
+        /// <value>The time span handler.</value>
         public static JsonTimeSpanHandler TimeSpanHandler
         {
             get
@@ -299,14 +416,16 @@ namespace NServiceKit.Text
             }
         }
 
-
         /// <summary>
-        /// <see langword="true"/> if the <see cref="ITypeSerializer"/> is configured
-        /// to take advantage of <see cref="CLSCompliantAttribute"/> specification,
-        /// to support user-friendly serialized formats, ie emitting camelCasing for JSON
-        /// and parsing member names and enum values in a case-insensitive manner.
+        /// <see langword="true"/> if the <see cref="ITypeSerializer"/> is configured to take advantage
+        /// of <see cref="CLSCompliantAttribute"/> specification, to support user-friendly serialized
+        /// formats, ie emitting camelCasing for JSON and parsing member names and enum values in a case-
+        /// insensitive manner.
         /// </summary>
         private static bool? sEmitCamelCaseNames;
+
+        /// <summary>Gets or sets a value indicating whether the emit camel case names.</summary>
+        /// <value>true if emit camel case names, false if not.</value>
         public static bool EmitCamelCaseNames
         {
             // obeying the use of ThreadStatic, but allowing for setting JsConfig once as is the normal case
@@ -323,10 +442,15 @@ namespace NServiceKit.Text
         }
 
         /// <summary>
-        /// <see langword="true"/> if the <see cref="ITypeSerializer"/> is configured
-        /// to support web-friendly serialized formats, ie emitting lowercase_underscore_casing for JSON
+        /// <see langword="true"/> if the <see cref="ITypeSerializer"/> is configured to support web-
+        /// friendly serialized formats, ie emitting lowercase_underscore_casing for JSON.
         /// </summary>
         private static bool? sEmitLowercaseUnderscoreNames;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the emit lowercase underscore names.
+        /// </summary>
+        /// <value>true if emit lowercase underscore names, false if not.</value>
         public static bool EmitLowercaseUnderscoreNames
         {
             // obeying the use of ThreadStatic, but allowing for setting JsConfig once as is the normal case
@@ -342,10 +466,11 @@ namespace NServiceKit.Text
             }
         }
 
-        /// <summary>
-        /// Define how property names are mapped during deserialization
-        /// </summary>
+        /// <summary>Define how property names are mapped during deserialization.</summary>
         private static JsonPropertyConvention propertyConvention;
+
+        /// <summary>Gets or sets the property convention.</summary>
+        /// <value>The property convention.</value>
         public static JsonPropertyConvention PropertyConvention
         {
             get { return propertyConvention; }
@@ -364,13 +489,18 @@ namespace NServiceKit.Text
             }
         }
 
-
         /// <summary>
-        /// Gets or sets a value indicating if the framework should throw serialization exceptions
-        /// or continue regardless of deserialization errors. If <see langword="true"/>  the framework
-        /// will throw; otherwise, it will parse as many fields as possible. The default is <see langword="false"/>.
+        /// Gets or sets a value indicating if the framework should throw serialization exceptions or
+        /// continue regardless of deserialization errors. If <see langword="true"/>  the framework will
+        /// throw; otherwise, it will parse as many fields as possible. The default is
+        /// <see langword="false"/>.
         /// </summary>
         private static bool? sThrowOnDeserializationError;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the throw on deserialization error.
+        /// </summary>
+        /// <value>true if throw on deserialization error, false if not.</value>
         public static bool ThrowOnDeserializationError
         {
             // obeying the use of ThreadStatic, but allowing for setting JsConfig once as is the normal case
@@ -387,9 +517,13 @@ namespace NServiceKit.Text
         }
 
         /// <summary>
-        /// Gets or sets a value indicating if the framework should always convert <see cref="DateTime"/> to UTC format instead of local time. 
+        /// Gets or sets a value indicating if the framework should always convert <see cref="DateTime"/>
+        /// to UTC format instead of local time.
         /// </summary>
         private static bool? sAlwaysUseUtc;
+
+        /// <summary>Gets or sets a value indicating whether the always use UTC.</summary>
+        /// <value>true if always use utc, false if not.</value>
         public static bool AlwaysUseUtc
         {
             // obeying the use of ThreadStatic, but allowing for setting JsConfig once as is the normal case
@@ -406,9 +540,13 @@ namespace NServiceKit.Text
         }
 
         /// <summary>
-        /// Gets or sets a value indicating if the framework should always assume <see cref="DateTime"/> is in UTC format if Kind is Unspecified. 
+        /// Gets or sets a value indicating if the framework should always assume <see cref="DateTime"/>
+        /// is in UTC format if Kind is Unspecified.
         /// </summary>
         private static bool? sAssumeUtc;
+
+        /// <summary>Gets or sets a value indicating whether the assume UTC.</summary>
+        /// <value>true if assume utc, false if not.</value>
         public static bool AssumeUtc
         {
             // obeying the use of ThreadStatic, but allowing for setting JsConfig once as is the normal case
@@ -425,10 +563,13 @@ namespace NServiceKit.Text
         }
 
         /// <summary>
-        /// Gets or sets whether we should append the Utc offset when we serialize Utc dates. Defaults to no.
-        /// Only supported for when the JsConfig.DateHandler == JsonDateHandler.TimestampOffset
+        /// Gets or sets whether we should append the Utc offset when we serialize Utc dates. Defaults to
+        /// no. Only supported for when the JsConfig.DateHandler == JsonDateHandler.TimestampOffset.
         /// </summary>
         private static bool? sAppendUtcOffset;
+
+        /// <summary>Gets or sets the append UTC offset.</summary>
+        /// <value>The append UTC offset.</value>
         public static bool? AppendUtcOffset
         {
             // obeying the use of ThreadStatic, but allowing for setting JsConfig once as is the normal case
@@ -448,6 +589,9 @@ namespace NServiceKit.Text
         /// Gets or sets a value indicating if unicode symbols should be serialized as "\uXXXX".
         /// </summary>
         private static bool? sEscapeUnicode;
+
+        /// <summary>Gets or sets a value indicating whether the escape unicode.</summary>
+        /// <value>true if escape unicode, false if not.</value>
         public static bool EscapeUnicode
         {
             // obeying the use of ThreadStatic, but allowing for setting JsConfig once as is the normal case
@@ -463,14 +607,19 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>The has serialize function.</summary>
         internal static HashSet<Type> HasSerializeFn = new HashSet<Type>();
 
+        /// <summary>List of types of the treat value as references.</summary>
         public static HashSet<Type> TreatValueAsRefTypes = new HashSet<Type>();
 
+        /// <summary>The prefer interfaces.</summary>
         private static bool? sPreferInterfaces;
+
         /// <summary>
         /// If set to true, Interface types will be prefered over concrete types when serializing.
         /// </summary>
+        /// <value>true if prefer interfaces, false if not.</value>
         public static bool PreferInterfaces
         {
             get
@@ -485,16 +634,23 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>Treat as reference type.</summary>
+        /// <param name="valueType">Type of the value.</param>
+        /// <returns>true if it succeeds, false if it fails.</returns>
         internal static bool TreatAsRefType(Type valueType)
         {
             return TreatValueAsRefTypes.Contains(valueType.IsGeneric() ? valueType.GenericTypeDefinition() : valueType);
         }
 
-
         /// <summary>
         /// If set to true, Interface types will be prefered over concrete types when serializing.
         /// </summary>
         private static bool? sIncludePublicFields;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the public fields should be included.
+        /// </summary>
+        /// <value>true if include public fields, false if not.</value>
         public static bool IncludePublicFields
         {
             get
@@ -509,10 +665,11 @@ namespace NServiceKit.Text
             }
         }
 
-        /// <summary>
-        /// Sets the maximum depth to avoid circular dependencies
-        /// </summary>
+        /// <summary>Sets the maximum depth to avoid circular dependencies.</summary>
         private static int? sMaxDepth;
+
+        /// <summary>Gets or sets the depth of the maximum.</summary>
+        /// <value>The depth of the maximum.</value>
         public static int MaxDepth
         {
             get
@@ -528,11 +685,14 @@ namespace NServiceKit.Text
         }
 
         /// <summary>
-        /// Set this to enable your own type construction provider.
-        /// This is helpful for integration with IoC containers where you need to call the container constructor.
-        /// Return null if you don't know how to construct the type and the parameterless constructor will be used.
+        /// Set this to enable your own type construction provider. This is helpful for integration with
+        /// IoC containers where you need to call the container constructor. Return null if you don't
+        /// know how to construct the type and the parameterless constructor will be used.
         /// </summary>
         private static EmptyCtorFactoryDelegate sModelFactory;
+
+        /// <summary>Gets or sets the model factory.</summary>
+        /// <value>The model factory.</value>
         public static EmptyCtorFactoryDelegate ModelFactory
         {
             get
@@ -547,7 +707,11 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>The exclude property references.</summary>
         private static string[] sExcludePropertyReferences;
+
+        /// <summary>Gets or sets the exclude property references.</summary>
+        /// <value>The exclude property references.</value>
         public static string[] ExcludePropertyReferences {
             get {
                 return (JsConfigScope.Current != null ? JsConfigScope.Current.ExcludePropertyReferences : null)
@@ -558,6 +722,7 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>Resets the given cachesForType.</summary>
 	    public static void Reset()
         {
             foreach (var rawSerializeType in HasSerializeFn.ToArray())
@@ -594,11 +759,18 @@ namespace NServiceKit.Text
             sExcludePropertyReferences = null;
         }
 
+        /// <summary>Resets the given cachesForType.</summary>
+        /// <param name="cachesForType">Type of the caches for.</param>
         public static void Reset(Type cachesForType)
         {
             typeof(JsConfig<>).MakeGenericType(new[] { cachesForType }).InvokeReset();
         }
 
+        /// <summary>
+        /// A Type extension method that executes the reset on a different thread, and waits for the
+        /// result.
+        /// </summary>
+        /// <param name="genericType">The genericType to act on.</param>
         internal static void InvokeReset(this Type genericType)
         {
 #if NETFX_CORE
@@ -836,32 +1008,34 @@ namespace NServiceKit.Text
     }
 #endif
 
+    /// <summary>The js configuration.</summary>
+    /// <typeparam name="T">Generic type parameter.</typeparam>
     public class JsConfig<T>
     {
         /// <summary>
-        /// Always emit type info for this type.  Takes precedence over ExcludeTypeInfo
+        /// Always emit type info for this type.  Takes precedence over ExcludeTypeInfo.
         /// </summary>
         public static bool IncludeTypeInfo = false;
 
-        /// <summary>
-        /// Never emit type info for this type
-        /// </summary>
+        /// <summary>Never emit type info for this type.</summary>
         public static bool ExcludeTypeInfo = false;
 
         /// <summary>
-        /// <see langword="true"/> if the <see cref="ITypeSerializer"/> is configured
-        /// to take advantage of <see cref="CLSCompliantAttribute"/> specification,
-        /// to support user-friendly serialized formats, ie emitting camelCasing for JSON
-        /// and parsing member names and enum values in a case-insensitive manner.
+        /// <see langword="true"/> if the <see cref="ITypeSerializer"/> is configured to take advantage
+        /// of <see cref="CLSCompliantAttribute"/> specification, to support user-friendly serialized
+        /// formats, ie emitting camelCasing for JSON and parsing member names and enum values in a case-
+        /// insensitive manner.
         /// </summary>
         public static bool EmitCamelCaseNames = false;
 
+        /// <summary>List of names of the emit lowercase underscores.</summary>
         public static bool EmitLowercaseUnderscoreNames = false;
 
-        /// <summary>
-        /// Define custom serialization fn for BCL Structs
-        /// </summary>
+        /// <summary>Define custom serialization fn for BCL Structs.</summary>
         private static Func<T, string> serializeFn;
+
+        /// <summary>Gets or sets the serialize function.</summary>
+        /// <value>The serialize function.</value>
         public static Func<T, string> SerializeFn
         {
             get { return serializeFn; }
@@ -877,9 +1051,8 @@ namespace NServiceKit.Text
             }
         }
 
-        /// <summary>
-        /// Opt-in flag to set some Value Types to be treated as a Ref Type
-        /// </summary>
+        /// <summary>Opt-in flag to set some Value Types to be treated as a Ref Type.</summary>
+        /// <value>true if treat value as reference type, false if not.</value>
         public static bool TreatValueAsRefType
         {
             get { return JsConfig.TreatValueAsRefTypes.Contains(typeof(T)); }
@@ -892,18 +1065,18 @@ namespace NServiceKit.Text
             }
         }
 
-        /// <summary>
-        /// Whether there is a fn (raw or otherwise)
-        /// </summary>
+        /// <summary>Whether there is a fn (raw or otherwise)</summary>
+        /// <value>true if this object has serialize function, false if not.</value>
         public static bool HasSerializeFn
         {
             get { return serializeFn != null || rawSerializeFn != null; }
         }
 
-        /// <summary>
-        /// Define custom raw serialization fn
-        /// </summary>
+        /// <summary>Define custom raw serialization fn.</summary>
         private static Func<T, string> rawSerializeFn;
+
+        /// <summary>Gets or sets the raw serialize function.</summary>
+        /// <value>The raw serialize function.</value>
         public static Func<T, string> RawSerializeFn
         {
             get { return rawSerializeFn; }
@@ -919,43 +1092,48 @@ namespace NServiceKit.Text
             }
         }
 
-        /// <summary>
-        /// Define custom serialization hook
-        /// </summary>
+        /// <summary>Define custom serialization hook.</summary>
         private static Func<T, T> onSerializingFn;
+
+        /// <summary>Gets or sets the on serializing function.</summary>
+        /// <value>The on serializing function.</value>
         public static Func<T, T> OnSerializingFn
         {
             get { return onSerializingFn; }
             set { onSerializingFn = value; }
         }
 
-        /// <summary>
-        /// Define custom deserialization fn for BCL Structs
-        /// </summary>
+        /// <summary>Define custom deserialization fn for BCL Structs.</summary>
         public static Func<string, T> DeSerializeFn;
 
-        /// <summary>
-        /// Define custom raw deserialization fn for objects
-        /// </summary>
+        /// <summary>Define custom raw deserialization fn for objects.</summary>
         public static Func<string, T> RawDeserializeFn;
 
+        /// <summary>Gets a value indicating whether this object has deserialize function.</summary>
+        /// <value>true if this object has deserialize function, false if not.</value>
         public static bool HasDeserializeFn
         {
             get { return DeSerializeFn != null || RawDeserializeFn != null; }
         }
 
+        /// <summary>The on deserialized function.</summary>
         private static Func<T, T> onDeserializedFn;
+
+        /// <summary>Gets or sets the on deserialized function.</summary>
+        /// <value>The on deserialized function.</value>
         public static Func<T, T> OnDeserializedFn
         {
             get { return onDeserializedFn; }
             set { onDeserializedFn = value; }
         }
 
-        /// <summary>
-        /// Exclude specific properties of this type from being serialized
-        /// </summary>
+        /// <summary>Exclude specific properties of this type from being serialized.</summary>
         public static string[] ExcludePropertyNames;
 
+        /// <summary>Writes a function.</summary>
+        /// <typeparam name="TSerializer">Type of the serializer.</typeparam>
+        /// <param name="writer">The writer.</param>
+        /// <param name="obj">   The object.</param>
         public static void WriteFn<TSerializer>(TextWriter writer, object obj)
         {
             if (RawSerializeFn != null)
@@ -974,11 +1152,18 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>Parse function.</summary>
+        /// <param name="str">The.</param>
+        /// <returns>An object.</returns>
         public static object ParseFn(string str)
         {
             return DeSerializeFn(str);
         }
 
+        /// <summary>Parse function.</summary>
+        /// <param name="serializer">The serializer.</param>
+        /// <param name="str">       The.</param>
+        /// <returns>An object.</returns>
         internal static object ParseFn(ITypeSerializer serializer, string str)
         {
             if (RawDeserializeFn != null)
@@ -990,13 +1175,15 @@ namespace NServiceKit.Text
                 return DeSerializeFn(serializer.UnescapeString(str));
             }
         }
-        
+
+        /// <summary>Clears the function caches.</summary>
         internal static void ClearFnCaches()
         {
             typeof(JsonWriter<>).MakeGenericType(new[] { typeof(T) }).InvokeReset();
             typeof(JsvWriter<>).MakeGenericType(new[] { typeof(T) }).InvokeReset();
         }
 
+        /// <summary>Resets this object.</summary>
         public static void Reset()
         {
             RawSerializeFn = null;
@@ -1004,6 +1191,7 @@ namespace NServiceKit.Text
         }    
     }
 
+    /// <summary>Values that represent JsonPropertyConvention.</summary>
     public enum JsonPropertyConvention
     {
         /// <summary>
@@ -1016,13 +1204,20 @@ namespace NServiceKit.Text
         Lenient
     }
 
+    /// <summary>Values that represent JsonDateHandler.</summary>
     public enum JsonDateHandler
     {
+        /// <summary>An enum constant representing the timestamp offset option.</summary>
         TimestampOffset,
+
+        /// <summary>An enum constant representing the dcjs compatible option.</summary>
         DCJSCompatible,
+
+        /// <summary>An enum constant representing the ISO 8601 option.</summary>
         ISO8601
     }
 
+    /// <summary>Values that represent JsonTimeSpanHandler.</summary>
     public enum JsonTimeSpanHandler
     {
         /// <summary>

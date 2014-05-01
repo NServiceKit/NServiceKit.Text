@@ -3,6 +3,7 @@ using NServiceKit.Text.Tests.Support;
 
 namespace NServiceKit.Text.Tests
 {
+    /// <summary>An aot tests.</summary>
 	[TestFixture]
 	public class AotTests
 	{

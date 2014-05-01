@@ -8,23 +8,31 @@ using NServiceKit.Common.Tests.Models;
 
 namespace NServiceKit.Text.Tests.JsonTests
 {
+    /// <summary>An escaped characters tests.</summary>
 	[TestFixture]
 	public class EscapedCharsTests
 		: TestBase
 	{
+        /// <summary>A data Model for the nested.</summary>
 		public class NestedModel
 		{
+            /// <summary>Gets or sets the identifier.</summary>
+            /// <value>The identifier.</value>
 			public string Id { get; set; }
 
+            /// <summary>Gets or sets the model.</summary>
+            /// <value>The model.</value>
 			public ModelWithIdAndName Model { get; set; }
 		}
 
+        /// <summary>Tear down.</summary>
         [TearDown]
         public void TearDown()
         {
             JsConfig.Reset();
         }
 
+        /// <summary>Can deserialize text with escaped characters.</summary>
 		[Test]
 		public void Can_deserialize_text_with_escaped_chars()
 		{
@@ -37,6 +45,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 			SerializeAndCompare(model);
 		}
 
+        /// <summary>Can short circuit string with no escape characters.</summary>
 		[Test]
 		public void Can_short_circuit_string_with_no_escape_chars()
 		{
@@ -49,6 +58,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 			SerializeAndCompare(model);
 		}
 
+        /// <summary>Can deserialize JSON with whitespace.</summary>
 		[Test]
 		public void Can_deserialize_json_with_whitespace()
 		{
@@ -65,16 +75,23 @@ namespace NServiceKit.Text.Tests.JsonTests
 			Assert.That(fromJson, Is.EqualTo(model));
 		}
 
+        /// <summary>An inner.</summary>
         public class Inner
         {
+            /// <summary>Gets or sets the int.</summary>
+            /// <value>The int.</value>
             public int Int { get; set; }
         }
-        
+
+        /// <summary>A program.</summary>
         public class Program
         {
+            /// <summary>Gets or sets the inner.</summary>
+            /// <value>The inner.</value>
             public Inner[] Inner { get; set; }
         }
 
+        /// <summary>Can deserialize inner whitespace.</summary>
 	    [Test]
 	    public void Can_deserialize_inner_whitespace()
 	    {
@@ -89,6 +106,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             Assert.That(json, Is.EqualTo(@"{""Inner"":[{""Int"":0}]}"));
         }
 
+        /// <summary>Can deserialize nested JSON with whitespace.</summary>
 		[Test]
 		public void Can_deserialize_nested_json_with_whitespace()
 		{
@@ -110,18 +128,39 @@ namespace NServiceKit.Text.Tests.JsonTests
 			Assert.That(fromJson.Model, Is.EqualTo(model.Model));
 		}
 
-
+        /// <summary>List of model withs.</summary>
 		public class ModelWithList
 		{
+            /// <summary>
+            /// Initializes a new instance of the
+            /// NServiceKit.Text.Tests.JsonTests.EscapedCharsTests.ModelWithList class.
+            /// </summary>
 			public ModelWithList()
 			{
 				this.StringList = new List<string>();
 			}
 
+            /// <summary>Gets or sets the identifier.</summary>
+            /// <value>The identifier.</value>
 			public int Id { get; set; }
+
+            /// <summary>Gets or sets a list of strings.</summary>
+            /// <value>A List of strings.</value>
             public List<string> StringList { get; set; }
+
+            /// <summary>Gets or sets an array of strings.</summary>
+            /// <value>An Array of strings.</value>
             public string[] StringArray { get; set; }
 
+            /// <summary>
+            /// Determines whether the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />.
+            /// </summary>
+            /// <param name="other">The model with list to compare to this object.</param>
+            /// <returns>
+            /// true if the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />; otherwise, false.
+            /// </returns>
 			public bool Equals(ModelWithList other)
 			{
 				if (ReferenceEquals(null, other)) return false;
@@ -129,6 +168,16 @@ namespace NServiceKit.Text.Tests.JsonTests
 				return other.Id == Id && StringList.EquivalentTo(other.StringList);
 			}
 
+            /// <summary>
+            /// Determines whether the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />.
+            /// </summary>
+            /// <param name="obj">The <see cref="T:System.Object" /> to compare with the current
+            /// <see cref="T:System.Object" />.</param>
+            /// <returns>
+            /// true if the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />; otherwise, false.
+            /// </returns>
 			public override bool Equals(object obj)
 			{
 				if (ReferenceEquals(null, obj)) return false;
@@ -137,6 +186,8 @@ namespace NServiceKit.Text.Tests.JsonTests
 				return Equals((ModelWithList)obj);
 			}
 
+            /// <summary>Serves as a hash function for a particular type.</summary>
+            /// <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
 			public override int GetHashCode()
 			{
 				unchecked
@@ -146,6 +197,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 			}
 		}
 
+        /// <summary>Can serialize model with array.</summary>
         [Test]
         public void Can_serialize_Model_with_array()
         {
@@ -157,6 +209,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             SerializeAndCompare(model);
         }
 
+        /// <summary>Can serialize model with list.</summary>
         [Test]
         public void Can_serialize_Model_with_list()
         {
@@ -168,6 +221,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             SerializeAndCompare(model);
         }
 
+        /// <summary>Can serialize model with array of escape characters.</summary>
         [Test]
         public void Can_serialize_Model_with_array_of_escape_chars()
         {
@@ -179,6 +233,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             SerializeAndCompare(model);
         }
 
+        /// <summary>Can serialize model with list of escape characters.</summary>
         [Test]
         public void Can_serialize_Model_with_list_of_escape_chars()
         {
@@ -190,6 +245,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             SerializeAndCompare(model);
         }
 
+        /// <summary>Can deserialize JSON list with whitespace.</summary>
 		[Test]
 		public void Can_deserialize_json_list_with_whitespace()
 		{
@@ -208,6 +264,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 			Assert.That(fromJson, Is.EqualTo(model));
 		}
 
+        /// <summary>Can deserialize basic latin unicode.</summary>
 		[Test]
 		public void Can_deserialize_basic_latin_unicode()
 		{
@@ -220,6 +277,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 			Assert.That(fromJson, Is.EqualTo(model));
 		}
 
+        /// <summary>Can serialize unicode without escape.</summary>
         [Test]
         public void Can_serialize_unicode_without_escape()
         {
@@ -228,6 +286,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             Assert.That(toJson, Is.EqualTo("{\"Name\":\"JříАбвĀašū\"}"));
         }
 
+        /// <summary>Can deserialize unicode without escape.</summary>
         [Test]
         public void Can_deserialize_unicode_without_escape()
         {
@@ -235,6 +294,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             Assert.That(fromJson.Name, Is.EqualTo("JříАбвĀašū"));
         }
 
+        /// <summary>Can serialize unicode with escape.</summary>
         [Test]
         public void Can_serialize_unicode_with_escape()
         {
@@ -244,6 +304,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             Assert.That(toJson, Is.EqualTo("{\"Name\":\"J\\u0159\\u00ED\\u0410\\u0431\\u0432\\u0100a\\u0161\\u016B\"}"));
         }
 
+        /// <summary>Can deserialize unicode with escape.</summary>
         [Test]
         public void Can_deserialize_unicode_with_escape()
         {
@@ -252,6 +313,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             Assert.That(fromJson.Name, Is.EqualTo("JříАбвĀašū"));
         }
 
+        /// <summary>Can serialize array of control characters and unicode.</summary>
         [Test]
         public void Can_serialize_array_of_control_chars_and_unicode()
         {
@@ -263,8 +325,11 @@ namespace NServiceKit.Text.Tests.JsonTests
             Assert.That(json, Is.EqualTo(@"[""\u0018"",""Ω""]"));
         }
 
+        /// <summary>A model.</summary>
         public class Model
         {
+            /// <summary>Gets or sets the name.</summary>
+            /// <value>The name.</value>
             public string Name { get; set; }
         }
 	}

@@ -15,19 +15,31 @@ using System.Globalization;
 
 namespace NServiceKit.Text.Common
 {
+    /// <summary>A deserialize builtin.</summary>
+    /// <typeparam name="T">Generic type parameter.</typeparam>
     public static class DeserializeBuiltin<T>
     {
+        /// <summary>The cached parse function.</summary>
         private static readonly ParseStringDelegate CachedParseFn;
+
+        /// <summary>
+        /// Initializes static members of the NServiceKit.Text.Common.DeserializeBuiltin&lt;T&gt;
+        /// class.
+        /// </summary>
         static DeserializeBuiltin()
         {
             CachedParseFn = GetParseFn();
         }
 
+        /// <summary>Gets the parse.</summary>
+        /// <value>The parse.</value>
         public static ParseStringDelegate Parse
         {
             get { return CachedParseFn; }
         }
 
+        /// <summary>Gets parse function.</summary>
+        /// <returns>The parse function.</returns>
         private static ParseStringDelegate GetParseFn()
         {
             //Note the generic typeof(T) is faster than using var type = typeof(T)

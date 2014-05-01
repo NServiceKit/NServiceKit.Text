@@ -5,9 +5,11 @@ using NServiceKit.Text.Tests.DynamicModels.DataModel;
 
 namespace NServiceKit.Text.Tests.DynamicModels
 {
+    /// <summary>A complex object graph test.</summary>
 	[TestFixture]
 	public class ComplexObjectGraphTest
 	{
+        /// <summary>Should serialize custom collection.</summary>
 		[Test]
 		public void ShouldSerializeCustomCollection()
 		{
@@ -36,6 +38,7 @@ namespace NServiceKit.Text.Tests.DynamicModels
 			//Assert.That(clone, Is.EquivalentTo(orig));
 		}
 
+        /// <summary>Should serialize custom collection dto.</summary>
 		[Test]
 		public void ShouldSerializeCustomCollectionDto()
 		{
@@ -64,6 +67,7 @@ namespace NServiceKit.Text.Tests.DynamicModels
 			Assert.That(clone.SomeType, Is.EqualTo(orig.SomeType));
 		}
 
+        /// <summary>Should serialize custom collection item.</summary>
 		[Test]
 		public void ShouldSerializeCustomCollectionItem()
 		{
@@ -78,6 +82,7 @@ namespace NServiceKit.Text.Tests.DynamicModels
 			Assert.That(clone.Value, Is.EqualTo(orig.Value));
 		}
 
+        /// <summary>Should serialize data container.</summary>
 		[Test]
 		public void ShouldSerializeDataContainer()
 		{
@@ -110,6 +115,7 @@ namespace NServiceKit.Text.Tests.DynamicModels
 			Assert.That(clone.TypeList, Is.EquivalentTo(orig.TypeList));
 		}
 
+        /// <summary>Should serialize object graph.</summary>
 		[Test]
 		public void ShouldSerializeObjectGraph()
 		{
@@ -148,6 +154,7 @@ namespace NServiceKit.Text.Tests.DynamicModels
 			Assert.That(clone.SomeType, Is.EqualTo(orig.SomeType));
 		}
 
+        /// <summary>Can jsv serialize dynamic type and deserialize into strict type.</summary>
         [Test]
         public void Can_JSV_Serialize_DynamicType_and_Deserialize_into_StrictType()
         {
@@ -183,6 +190,7 @@ namespace NServiceKit.Text.Tests.DynamicModels
             Assert.That(dynamicValue.SomeType, Is.EqualTo(origDto.SomeType));
         }
 
+        /// <summary>Can JSON serialize dynamic type and deserialize into strict type.</summary>
         [Test]
         public void Can_JSON_Serialize_DynamicType_and_Deserialize_into_StrictType()
         {

@@ -6,16 +6,19 @@ using NServiceKit.ServiceModel.Serialization;
 
 namespace NServiceKit.Text.Tests
 {
+    /// <summary>A date time offset and time span tests.</summary>
     [TestFixture]
     public class DateTimeOffsetAndTimeSpanTests : TestBase
     {
 #if !MONOTOUCH
+        /// <summary>Tests fixture set up.</summary>
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
             JsonDataContractSerializer.Instance.UseBcl = true;
         }
 
+        /// <summary>Tests fixture tear down.</summary>
         [TestFixtureTearDown]
         public void TestFixtureTearDown()
         {
@@ -23,6 +26,7 @@ namespace NServiceKit.Text.Tests
         }
 #endif
 
+        /// <summary>Can serializable date time offset field.</summary>
         [Test]
         public void Can_Serializable_DateTimeOffset_Field()
         {
@@ -43,6 +47,7 @@ namespace NServiceKit.Text.Tests
             Serialize(fromJson);
         }
 
+        /// <summary>Can serialize time span field.</summary>
         [Test]
         public void Can_serialize_TimeSpan_field()
         {
@@ -61,6 +66,7 @@ namespace NServiceKit.Text.Tests
             Serialize(model);
         }
 
+        /// <summary>Can serialize time span field with standard time span format.</summary>
         [Test]
         public void Can_serialize_TimeSpan_field_with_StandardTimeSpanFormat()
         {
@@ -74,6 +80,7 @@ namespace NServiceKit.Text.Tests
             }
         }
 
+        /// <summary>Can serialize nullable time span field with standard time span format.</summary>
         [Test]
         public void Can_serialize_NullableTimeSpan_field_with_StandardTimeSpanFormat()
         {
@@ -87,6 +94,7 @@ namespace NServiceKit.Text.Tests
             }
         }
 
+        /// <summary>Can serialize null time span field with standard time span format.</summary>
         [Test]
         public void Can_serialize_NullTimeSpan_field_with_StandardTimeSpanFormat()
         {
@@ -98,19 +106,35 @@ namespace NServiceKit.Text.Tests
             }
         }
 
+        /// <summary>A data Model for the sample.</summary>
         public class SampleModel
         {
+            /// <summary>Gets or sets the identifier.</summary>
+            /// <value>The identifier.</value>
             public int Id { get; set; }
 
+            /// <summary>Gets or sets the date.</summary>
+            /// <value>The date.</value>
             public DateTimeOffset Date { get; set; }
+
+            /// <summary>Gets or sets the time span.</summary>
+            /// <value>The time span.</value>
             public TimeSpan TimeSpan { get; set; }
         }
 
+        /// <summary>A data Model for the nullable sample.</summary>
         public class NullableSampleModel
         {
+            /// <summary>Gets or sets the identifier.</summary>
+            /// <value>The identifier.</value>
             public int Id { get; set; }
 
+            /// <summary>Gets or sets the date.</summary>
+            /// <value>The date.</value>
             public DateTimeOffset Date { get; set; }
+
+            /// <summary>Gets or sets the time span.</summary>
+            /// <value>The time span.</value>
             public TimeSpan? TimeSpan { get; set; }
         }
     }

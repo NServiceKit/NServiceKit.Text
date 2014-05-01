@@ -7,10 +7,13 @@ using NServiceKit.ServiceModel.Serialization;
 
 namespace NServiceKit.Text.Tests.JsonTests
 {
+    /// <summary>A JSON date time tests.</summary>
     public class JsonDateTimeTests
     {
+        /// <summary>The local timezone offset.</summary>
         private string _localTimezoneOffset;
 
+        /// <summary>Sets the up.</summary>
         [SetUp]
         public void SetUp()
         {
@@ -19,6 +22,9 @@ namespace NServiceKit.Text.Tests.JsonTests
         }
 
         #region TimestampOffset Tests
+        /// <summary>
+        /// When using timestamp offset and serializing as UTC iterator should deserialize as UTC.
+        /// </summary>
         [Test]
         public void When_using_TimestampOffset_and_serializing_as_Utc_It_should_deserialize_as_Utc()
         {
@@ -32,6 +38,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             Assert.AreEqual(initialDate, deserializedDate);
         }
 
+        /// <summary>Can serialize JSON date timestamp offset UTC.</summary>
         [Test]
         public void Can_serialize_json_date_timestampOffset_utc()
         {
@@ -44,6 +51,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can serialize JSON date timestamp offset local.</summary>
         [Test]
         public void Can_serialize_json_date_timestampOffset_local()
         {
@@ -60,6 +68,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can serialize JSON date timestamp offset unspecified.</summary>
         [Test]
         public void Can_serialize_json_date_timestampOffset_unspecified()
         {
@@ -77,6 +86,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can deserialize JSON date timestamp offset without offset as UTC.</summary>
         [Test]
         public void Can_deserialize_json_date_timestampOffset_withoutOffset_asUtc()
         {
@@ -91,6 +101,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can deserialize JSON date timestamp offset with offset as unspecified.</summary>
         [Test]
         public void Can_deserialize_json_date_timestampOffset_withOffset_asUnspecified()
         {
@@ -105,6 +116,9 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>
+        /// Can deserialize JSON date timestamp offset with zero offset as unspecified.
+        /// </summary>
         [Test]
         public void Can_deserialize_json_date_timestampOffset_withZeroOffset_asUnspecified()
         {
@@ -119,6 +133,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can serialize JSON date timestamp offset unspecified assume UTC.</summary>
         [Test]
         public void Can_serialize_json_date_timestampOffset_unspecified_assume_utc()
         {
@@ -132,6 +147,9 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>
+        /// Can serialize JSON date timestamp offset unspecified append UTC offset.
+        /// </summary>
         [Test]
         public void Can_serialize_json_date_timestampOffset_unspecified_appendUtcOffset()
         {
@@ -148,6 +166,7 @@ namespace NServiceKit.Text.Tests.JsonTests
         #endregion
 
         #region TimeSpan Tests
+        /// <summary>JSON serializer returns time span as string.</summary>
         [Test]
         public void JsonSerializerReturnsTimeSpanAsString()
         {
@@ -155,6 +174,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             Assert.AreEqual("\"PT0.0000001S\"", JsonSerializer.SerializeToString(new TimeSpan(1)));
         }
 
+        /// <summary>JSON deserializer returns time span from string.</summary>
         [Test]
         public void JsonDeserializerReturnsTimeSpanFromString()
         {
@@ -164,6 +184,7 @@ namespace NServiceKit.Text.Tests.JsonTests
         #endregion
 
         #region DCJS Compatibility Tests
+        /// <summary>Can serialize JSON date dcjs compatible UTC.</summary>
         [Test]
         public void Can_serialize_json_date_dcjsCompatible_utc()
         {
@@ -178,6 +199,7 @@ namespace NServiceKit.Text.Tests.JsonTests
         }
 
 #if !__MonoCS__
+        /// <summary>Can serialize JSON date dcjs compatible local.</summary>
         [Test]
         public void Can_serialize_json_date_dcjsCompatible_local()
         {
@@ -191,6 +213,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can serialize JSON date dcjs compatible unspecified.</summary>
         [Test]
         public void Can_serialize_json_date_dcjsCompatible_unspecified()
         {
@@ -206,6 +229,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 #endif
 
 #if !MONOTOUCH
+        /// <summary>Can deserialize JSON date dcjs compatible UTC.</summary>
         [Test]
         public void Can_deserialize_json_date_dcjsCompatible_utc()
         {
@@ -221,6 +245,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can deserialize JSON date dcjs compatible local.</summary>
         [Test]
         public void Can_deserialize_json_date_dcjsCompatible_local()
         {
@@ -236,6 +261,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can deserialize JSON date dcjs compatible unspecified.</summary>
         [Test]
         public void Can_deserialize_json_date_dcjsCompatible_unspecified()
         {
@@ -251,6 +277,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can serialize JSON date dcjs compatible unspecified assume UTC.</summary>
         [Test]
         public void Can_serialize_json_date_dcjsCompatible_unspecified_assume_utc()
         {
@@ -264,6 +291,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can serialize JSON date dcjs compatible unspecified append UTC offset.</summary>
         [Test]
         public void Can_serialize_json_date_dcjsCompatible_unspecified_appendUtcOffset()
         {
@@ -280,6 +308,9 @@ namespace NServiceKit.Text.Tests.JsonTests
         #endregion
 
         #region ISO-8601 Tests
+        /// <summary>
+        /// When using ISO 8601 and serializing as UTC iterator should deserialize as UTC.
+        /// </summary>
         [Test]
         public void When_using_ISO8601_and_serializing_as_Utc_It_should_deserialize_as_Utc()
         {
@@ -294,6 +325,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             Assert.AreEqual(initialDate, deserializedDate);
         }
 
+        /// <summary>Can serialize JSON date ISO 8601 UTC.</summary>
         [Test]
         public void Can_serialize_json_date_iso8601_utc()
         {
@@ -306,6 +338,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can serialize JSON date ISO 8601 local.</summary>
         [Test]
         public void Can_serialize_json_date_iso8601_local()
         {
@@ -321,6 +354,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can serialize JSON date ISO 8601 unspecified.</summary>
         [Test]
         public void Can_serialize_json_date_iso8601_unspecified()
         {
@@ -333,6 +367,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can deserialize JSON date ISO 8601 with z coordinate offset as UTC.</summary>
         [Test]
         public void Can_deserialize_json_date_iso8601_withZOffset_asUtc()
         {
@@ -348,6 +383,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can deserialize JSON date ISO 8601 without offset as unspecified.</summary>
         [Test]
         public void Can_deserialize_json_date_iso8601_withoutOffset_asUnspecified()
         {
@@ -362,6 +398,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can deserialize JSON date ISO 8601 with offset as local.</summary>
         [Test]
         public void Can_deserialize_json_date_iso8601_withOffset_asLocal()
         {
@@ -379,6 +416,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can serialize JSON date ISO 8601 unspecified assume UTC.</summary>
         [Test]
         public void Can_serialize_json_date_iso8601_unspecified_assume_utc()
         {
@@ -392,6 +430,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can serialize JSON date ISO 8601 unspecified append UTC offset.</summary>
         [Test]
         public void Can_serialize_json_date_iso8601_unspecified_appendUtcOffset()
         {
@@ -408,6 +447,7 @@ namespace NServiceKit.Text.Tests.JsonTests
         #endregion
 
         #region ISO-8601 TimeStampOffset Tests
+        /// <summary>Can serialize JSON datetimeoffset ISO 8601 UTC.</summary>
         [Test]
         public void Can_serialize_json_datetimeoffset_iso8601_utc()
         {
@@ -420,6 +460,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can serialize JSON datetimeoffset ISO 8601 specified.</summary>
         [Test]
         public void Can_serialize_json_datetimeoffset_iso8601_specified()
         {
@@ -432,6 +473,9 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>
+        /// Can deserialize JSON datetimeoffset ISO 8601 with z coordinate offset as UTC.
+        /// </summary>
         [Test]
         public void Can_deserialize_json_datetimeoffset_iso8601_withZOffset_asUtc()
         {
@@ -445,6 +489,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can deserialize JSON datetimeoffset ISO 8601 without offset as UTC.</summary>
         [Test]
         public void Can_deserialize_json_datetimeoffset_iso8601_withoutOffset_asUtc()
         {
@@ -458,6 +503,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can deserialize JSON datetimeoffset ISO 8601 with offset as specified.</summary>
         [Test]
         public void Can_deserialize_json_datetimeoffset_iso8601_withOffset_asSpecified()
         {
@@ -474,7 +520,7 @@ namespace NServiceKit.Text.Tests.JsonTests
         #endregion
 
         #region InteropTests
-
+        /// <summary>Can serialize timestamp offset deserialize ISO 8601.</summary>
         [Test]
         public void Can_serialize_TimestampOffset_deserialize_ISO8601()
         {
@@ -490,6 +536,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can serialize ISO 8601 deserialize dcjs compatible.</summary>
         [Test]
         public void Can_serialize_ISO8601_deserialize_DCJSCompatible()
         {
@@ -506,6 +553,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
+        /// <summary>Can deserialize null.</summary>
         [Test]
         public void Can_deserialize_null()
         {
@@ -517,6 +565,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 
         #endregion
 
+        /// <summary>Tests 1.</summary>
         public void Test1()
         {
             var tz = TimeZoneInfo.GetSystemTimeZones().ToList().First(t => t.Id == "Afghanistan Standard Time");
@@ -527,6 +576,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             date.ToJson().Print();
         }
 
+        /// <summary>Converts this object to an unix time tests.</summary>
         [Test]
         public void ToUnixTimeTests()
         {

@@ -4,9 +4,11 @@ using System.Collections.Generic;
 
 namespace NServiceKit.Text.Tests.CsvTests
 {
+    /// <summary>A dictionary tests.</summary>
     [TestFixture]
     public class DictionaryTests
     {
+        /// <summary>Serializes dictionary mismatched keys deserializes tabular CSV.</summary>
         [Test]
         public void Serializes_dictionary_mismatched_keys_deserializes_tabular_csv()
         {
@@ -39,6 +41,7 @@ namespace NServiceKit.Text.Tests.CsvTests
             ));
         }
 
+        /// <summary>Serializes dictionary data.</summary>
         [Test]
         public void Serializes_dictionary_data()
         {
@@ -71,6 +74,7 @@ namespace NServiceKit.Text.Tests.CsvTests
             ));
         }
 
+        /// <summary>Serializes dictionary object data.</summary>
         [Test]
         public void Serializes_dictionary_object_data()
         {
@@ -146,12 +150,14 @@ namespace NServiceKit.Text.Tests.CsvTests
                                  ));
         }
 
+        /// <summary>Tear down.</summary>
         [TearDown]
         public void TearDown()
         {
             CsvConfig.Reset();
         }
 
+        /// <summary>Serializes dictionary data long delimiter.</summary>
         [Test]
         public void Serializes_dictionary_data_long_delimiter()
         {
@@ -185,6 +191,7 @@ namespace NServiceKit.Text.Tests.CsvTests
             ));
         }
 
+        /// <summary>Serializes dictionary data pipe separator.</summary>
         [Test]
         public void Serializes_dictionary_data_pipe_separator()
         {

@@ -8,11 +8,13 @@ using NServiceKit.Text.Tests.JsonTests;
 
 namespace NServiceKit.Text.Tests.Support
 {
+    /// <summary>A benchmark tests.</summary>
 	[Ignore]
 	[TestFixture]
 	public class BenchmarkTests
 		: PerfTestBase
 	{
+        /// <summary>Tests string parsing.</summary>
 		[Test]
 		public void Test_string_parsing()
 		{
@@ -38,6 +40,9 @@ namespace NServiceKit.Text.Tests.Support
 				});
 		}
 
+        /// <summary>Creates random string.</summary>
+        /// <param name="size">The size.</param>
+        /// <returns>The new random string.</returns>
 		public string CreateRandomString(int size)
 		{
 			var randString = new char[size];
@@ -48,25 +53,32 @@ namespace NServiceKit.Text.Tests.Support
 			return new string(randString);
 		}
 
-
+        /// <summary>The escape characters.</summary>
 		static readonly char[] EscapeChars = new char[]
 		{
 			'"', '\n', '\r', '\t', '"', '\\', '\f', '\b',
 		};
+
+        /// <summary>The jsv escape characters.</summary>
 		public static readonly char[] JsvEscapeChars = new[]
     	{
     		'"', ',', '{', '}', '[', ']',
     	};
 
+        /// <summary>The length from largest character.</summary>
 		private const int LengthFromLargestChar = '\\' + 1;
+
+        /// <summary>The has escape characters.</summary>
 		private static readonly bool[] HasEscapeChars = new bool[LengthFromLargestChar];
 
+        /// <summary>Print escape characters.</summary>
 		[Test]
 		public void PrintEscapeChars()
 		{
 			JsvEscapeChars.ToList().OrderBy(x => (int)x).ForEach(x => Console.WriteLine(x + ": " + (int)x));
 		}
 
+        /// <summary>Measure index of escape characters.</summary>
 		[Test]
 		public void MeasureIndexOfEscapeChars()
 		{
@@ -98,10 +110,15 @@ namespace NServiceKit.Text.Tests.Support
 			Console.WriteLine(hasEscapeChars);
 		}
 
+        /// <summary>A runtime type.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
 		public class RuntimeType<T>
 		{
+            /// <summary>The type.</summary>
 			private static Type type = typeof(T);
 
+            /// <summary>Tests variable type.</summary>
+            /// <returns>true if the test passes, false if the test fails.</returns>
 			internal static bool TestVarType()
 			{
 				return type == typeof(byte) || type == typeof(byte?)
@@ -121,6 +138,8 @@ namespace NServiceKit.Text.Tests.Support
 						|| type != typeof(decimal) || type != typeof(decimal?);
 			}
 
+            /// <summary>Tests generic type.</summary>
+            /// <returns>true if the test passes, false if the test fails.</returns>
 			internal static bool TestGenericType()
 			{
 				return typeof(T) == typeof(byte) || typeof(T) == typeof(byte?)
@@ -141,7 +160,7 @@ namespace NServiceKit.Text.Tests.Support
 			}
 		}
 
-
+        /// <summary>Tests variable or generic type.</summary>
 		[Test]
 		public void TestVarOrGenericType()
 		{
@@ -166,6 +185,7 @@ namespace NServiceKit.Text.Tests.Support
 			Console.WriteLine(matchingTypesCount);
 		}
 
+        /// <summary>Tests for list enumeration.</summary>
 		[Test]
 		public void Test_for_list_enumeration()
 		{
@@ -193,6 +213,7 @@ namespace NServiceKit.Text.Tests.Support
 			Console.WriteLine(results);
 		}
 
+        /// <summary>Tests for ilist enumeration.</summary>
 		[Test]
 		public void Test_for_Ilist_enumeration()
 		{

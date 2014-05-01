@@ -5,14 +5,26 @@ using System.Reflection;
 using System.Reflection.Emit;
 
 namespace NServiceKit.Text {
+
+    /// <summary>A dynamic proxy.</summary>
 	public static class DynamicProxy {
+
+        /// <summary>Gets instance for.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <returns>The instance for.</returns>
 		public static T GetInstanceFor<T> () {
 			return (T)GetInstanceFor(typeof(T));
 		}
 
+        /// <summary>The module builder.</summary>
 		static readonly ModuleBuilder ModuleBuilder;
+
+        /// <summary>The dynamic assembly.</summary>
 		static readonly AssemblyBuilder DynamicAssembly;
 
+        /// <summary>Gets instance for.</summary>
+        /// <param name="targetType">Type of the target.</param>
+        /// <returns>The instance for.</returns>
 		public static object GetInstanceFor (Type targetType) {
 			lock (DynamicAssembly)
 			{
@@ -22,17 +34,24 @@ namespace NServiceKit.Text {
 			}
 		}
 
+        /// <summary>Proxy name.</summary>
+        /// <param name="targetType">Type of the target.</param>
+        /// <returns>A string.</returns>
 		static string ProxyName(Type targetType)
 		{
 			return targetType.Name + "Proxy";
 		}
 
+        /// <summary>Initializes static members of the NServiceKit.Text.DynamicProxy class.</summary>
 		static DynamicProxy () {
 			var assemblyName = new AssemblyName("DynImpl");
 			DynamicAssembly = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.RunAndSave);
 			ModuleBuilder = DynamicAssembly.DefineDynamicModule("DynImplModule");
 		}
 
+        /// <summary>Gets constructed type.</summary>
+        /// <param name="targetType">Type of the target.</param>
+        /// <returns>The constructed type.</returns>
 		static Type GetConstructedType (Type targetType) {
 			var typeBuilder = ModuleBuilder.DefineType(targetType.Name + "Proxy", TypeAttributes.Public);
 
@@ -51,6 +70,9 @@ namespace NServiceKit.Text {
 			return typeBuilder.CreateType();
 		}
 
+        /// <summary>Include type.</summary>
+        /// <param name="typeOfT">    Type of the t.</param>
+        /// <param name="typeBuilder">The type builder.</param>
 		static void IncludeType (Type typeOfT, TypeBuilder typeBuilder) {
 			var methodInfos = typeOfT.GetMethods();
 			foreach (var methodInfo in methodInfos) {
@@ -67,6 +89,9 @@ namespace NServiceKit.Text {
 			typeBuilder.AddInterfaceImplementation(typeOfT);
 		}
 
+        /// <summary>Bind method.</summary>
+        /// <param name="typeBuilder">The type builder.</param>
+        /// <param name="methodInfo"> Information describing the method.</param>
 		static void BindMethod (TypeBuilder typeBuilder, MethodInfo methodInfo) {
 			var methodBuilder = typeBuilder.DefineMethod(
 				methodInfo.Name,
@@ -94,6 +119,9 @@ namespace NServiceKit.Text {
 			typeBuilder.DefineMethodOverride(methodBuilder, methodInfo);
 		}
 
+        /// <summary>Bind property.</summary>
+        /// <param name="typeBuilder">The type builder.</param>
+        /// <param name="methodInfo"> Information describing the method.</param>
 		public static void BindProperty (TypeBuilder typeBuilder, MethodInfo methodInfo) {
 			// Backing Field
 			string propertyName = methodInfo.Name.Replace("get_", "");

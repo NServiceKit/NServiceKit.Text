@@ -19,12 +19,18 @@ using NServiceKit.Text.Common;
 
 namespace NServiceKit.Text.Jsv
 {
+    /// <summary>A jsv reader.</summary>
 	public static class JsvReader
 	{ 
+        /// <summary>The instance.</summary>
 		internal static readonly JsReader<JsvTypeSerializer> Instance = new JsReader<JsvTypeSerializer>();
 
+        /// <summary>The parse function cache.</summary>
         private static Dictionary<Type, ParseFactoryDelegate> ParseFnCache = new Dictionary<Type, ParseFactoryDelegate>();
 
+        /// <summary>Gets parse function.</summary>
+        /// <param name="type">The type.</param>
+        /// <returns>The parse function.</returns>
 		public static ParseStringDelegate GetParseFn(Type type)
 		{
 			ParseFactoryDelegate parseFactoryFn;
@@ -50,20 +56,32 @@ namespace NServiceKit.Text.Jsv
 		}
 	}
 
+    /// <summary>A jsv reader.</summary>
+    /// <typeparam name="T">Generic type parameter.</typeparam>
 	public static class JsvReader<T>
 	{
+        /// <summary>The read function.</summary>
 		private static readonly ParseStringDelegate ReadFn;
 
+        /// <summary>
+        /// Initializes static members of the NServiceKit.Text.Jsv.JsvReader&lt;T&gt; class.
+        /// </summary>
 		static JsvReader()
 		{
 			ReadFn = JsvReader.Instance.GetParseFn<T>();
 		}
-		
+
+        /// <summary>Gets parse function.</summary>
+        /// <returns>The parse function.</returns>
 		public static ParseStringDelegate GetParseFn()
 		{
 			return ReadFn ?? Parse;
 		}
 
+        /// <summary>Parses.</summary>
+        /// <exception cref="NotSupportedException">Thrown when the requested operation is not supported.</exception>
+        /// <param name="value">The value.</param>
+        /// <returns>An object.</returns>
 		public static object Parse(string value)
 		{
 			if (ReadFn == null)

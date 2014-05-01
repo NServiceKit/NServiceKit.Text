@@ -13,38 +13,57 @@ using NServiceKit.Text.Common;
 
 namespace NServiceKit.Text.Tests
 {
+    /// <summary>A basic string serializer tests.</summary>
     [TestFixture]
     public class BasicStringSerializerTests
     {
+        /// <summary>all characters used.</summary>
         readonly char[] allCharsUsed = new[] {
 			JsWriter.QuoteChar, JsWriter.ItemSeperator,
 			JsWriter.MapStartChar, JsWriter.MapKeySeperator, JsWriter.MapEndChar,
 			JsWriter.ListEndChar, JsWriter.ListEndChar,
 		};
 
+        /// <summary>The field with invalid characters.</summary>
         readonly string fieldWithInvalidChars = string.Format("all {0} {1} {2} {3} {4} {5} {6} invalid chars",
             JsWriter.QuoteChar, JsWriter.ItemSeperator,
             JsWriter.MapStartChar, JsWriter.MapKeySeperator, JsWriter.MapEndChar,
             JsWriter.ListEndChar, JsWriter.ListEndChar);
 
+        /// <summary>The int values.</summary>
         readonly int[] intValues = new[] { 1, 2, 3, 4, 5 };
+
+        /// <summary>The double values.</summary>
         readonly double[] doubleValues = new[] { 1.0d, 2.0d, 3.0d, 4.0d, 5.0d };
+
+        /// <summary>The string values.</summary>
         readonly string[] stringValues = new[] { "One", "Two", "Three", "Four", "Five" };
+
+        /// <summary>The string values with illegal character.</summary>
         readonly string[] stringValuesWithIllegalChar = new[] { "One", ",", "Three", "Four", "Five" };
 
+        /// <summary>Values that represent TestEnum.</summary>
         public enum TestEnum
         {
+            /// <summary>An enum constant representing the enum value 1 option.</summary>
             EnumValue1,
+
+            /// <summary>An enum constant representing the enum value 2 option.</summary>
             EnumValue2,
         }
 
+        /// <summary>Bitfield of flags for specifying UnsignedFlags.</summary>
         [Flags]
         public enum UnsignedFlags : uint
         {
+            /// <summary>A binary constant representing the enum value 1 flag.</summary>
             EnumValue1 = 0,
+
+            /// <summary>A binary constant representing the enum value 2 flag.</summary>
             EnumValue2 = 1,
         }
 
+        /// <summary>Can convert comma delimited string to list string.</summary>
         [Test]
         public void Can_convert_comma_delimited_string_to_List_String()
         {
@@ -59,6 +78,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(convertedJsonValues, Is.EquivalentTo(stringValues));
         }
 
+        /// <summary>Null or empty string returns null.</summary>
         [Test]
         public void Null_or_Empty_string_returns_null()
         {
@@ -69,6 +89,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(convertedJsvValues, Is.EqualTo(null));
         }
 
+        /// <summary>Empty list string returns empty list.</summary>
         [Test]
         public void Empty_list_string_returns_empty_List()
         {
@@ -76,6 +97,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(convertedStringValues, Is.EqualTo(new List<string>()));
         }
 
+        /// <summary>Null or empty string returns null map.</summary>
         [Test]
         public void Null_or_Empty_string_returns_null_Map()
         {
@@ -86,6 +108,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(convertedStringValues, Is.EqualTo(null));
         }
 
+        /// <summary>Empty map string returns empty list.</summary>
         [Test]
         public void Empty_map_string_returns_empty_List()
         {
@@ -93,6 +116,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(convertedStringValues, Is.EqualTo(new Dictionary<string, string>()));
         }
 
+        /// <summary>Can convert string collection.</summary>
         [Test]
         public void Can_convert_string_collection()
         {
@@ -103,6 +127,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(stringValue, Is.EqualTo(expectedString));
         }
 
+        /// <summary>Can convert enum.</summary>
         [Test]
         public void Can_convert_enum()
         {
@@ -112,6 +137,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(stringValue, Is.EqualTo(expectedString));
         }
 
+        /// <summary>Can convert nullable enum.</summary>
         [Test]
         public void Can_convert_nullable_enum()
         {
@@ -121,6 +147,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(stringValue, Is.EqualTo(expectedString));
         }
 
+        /// <summary>Can convert to nullable enum.</summary>
         [Test]
         public void Can_convert_to_nullable_enum()
         {
@@ -131,6 +158,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(actualValue, Is.EqualTo(enumValue));
         }
 
+        /// <summary>Can convert to nullable enum with null value.</summary>
         [Test]
         public void Can_convert_to_nullable_enum_with_null_value()
         {
@@ -138,6 +166,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(enumValue, Is.Null);
         }
 
+        /// <summary>Can convert nullable enum with null value.</summary>
         [Test]
         public void Can_convert_nullable_enum_with_null_value()
         {
@@ -146,6 +175,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(stringValue, Is.Null);
         }
 
+        /// <summary>Can convert unsigned flags enum.</summary>
         [Test]
         public void Can_convert_unsigned_flags_enum()
         {
@@ -155,6 +185,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(stringValue, Is.EqualTo(expectedString));
         }
 
+        /// <summary>Can convert unique identifier.</summary>
         [Test]
         public void Can_convert_Guid()
         {
@@ -166,6 +197,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(stringValue, Is.EqualTo(expectedString));
         }
 
+        /// <summary>Can convert datetime.</summary>
         [Test]
         public void Can_convert_datetime()
         {
@@ -175,6 +207,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(stringValue, Is.EqualTo(expectedString));
         }
 
+        /// <summary>Can convert to datetime.</summary>
         [Test]
         public void Can_convert_to_datetime()
         {
@@ -185,6 +218,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(actualValue, Is.EqualTo(dateValue));
         }
 
+        /// <summary>Can convert nullable datetime.</summary>
         [Test]
         public void Can_convert_nullable_datetime()
         {
@@ -194,6 +228,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(stringValue, Is.EqualTo(expectedString));
         }
 
+        /// <summary>Can convert to nullable datetime.</summary>
         [Test]
         public void Can_convert_to_nullable_datetime()
         {
@@ -204,6 +239,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(actualValue, Is.EqualTo(dateValue));
         }
 
+        /// <summary>Can convert string list.</summary>
         [Test]
         public void Can_convert_string_List()
         {
@@ -212,6 +248,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(stringValue, Is.EqualTo(expectedString));
         }
 
+        /// <summary>Can convert string array.</summary>
         [Test]
         public void Can_convert_string_array()
         {
@@ -220,6 +257,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(stringValue, Is.EqualTo(expectedString));
         }
 
+        /// <summary>Can convert string list as object.</summary>
         [Test]
         public void Can_convert_string_List_as_object()
         {
@@ -228,6 +266,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(stringValue, Is.EqualTo(expectedString));
         }
 
+        /// <summary>Can convert empty list.</summary>
         [Test]
         public void Can_convert_empty_List()
         {
@@ -236,6 +275,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(stringValue, Is.EqualTo(expectedString));
         }
 
+        /// <summary>Can convert multidimensional array.</summary>
         [Test]
         public void Can_convert_multidimensional_array()
         {
@@ -250,6 +290,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(result, Is.EqualTo("[[[1,0],[1,0]],[[0,1],[0,1]]]"));
         }
 
+        /// <summary>Can convert empty list as object.</summary>
         [Test]
         public void Can_convert_empty_List_as_object()
         {
@@ -258,6 +299,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(stringValue, Is.EqualTo(expectedString));
         }
 
+        /// <summary>Can convert string dictionary.</summary>
         [Test]
         public void Can_convert_string_dictionary()
         {
@@ -270,6 +312,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(stringValue, Is.EqualTo(expectedString));
         }
 
+        /// <summary>Can parse string dictionary.</summary>
         [Test]
         public void Can_parse_string_dictionary()
         {
@@ -282,6 +325,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(parsedDictionary, Is.EquivalentTo(stringDictionary));
         }
 
+        /// <summary>Can convert string dictionary as object.</summary>
         [Test]
         public void Can_convert_string_dictionary_as_object()
         {
@@ -293,6 +337,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(stringValue, Is.EqualTo(expectedString));
         }
 
+        /// <summary>Can convert string dictionary with special characters as object.</summary>
         [Test]
         public void Can_convert_string_dictionary_with_special_chars_as_object()
         {
@@ -307,6 +352,7 @@ namespace NServiceKit.Text.Tests
             Serialize(stringDictionary);
         }
 
+        /// <summary>Can parse string dictionary with special characters as object.</summary>
         [Test]
         public void Can_parse_string_dictionary_with_special_chars_as_object()
         {
@@ -321,6 +367,7 @@ namespace NServiceKit.Text.Tests
             Serialize(stringDictionary);
         }
 
+        /// <summary>Can convert string list with special characters as object.</summary>
         [Test]
         public void Can_convert_string_list_with_special_chars_as_object()
         {
@@ -335,6 +382,7 @@ namespace NServiceKit.Text.Tests
             Serialize(stringList);
         }
 
+        /// <summary>Can parse string list with special characters as object.</summary>
         [Test]
         public void Can_parse_string_list_with_special_chars_as_object()
         {
@@ -349,6 +397,7 @@ namespace NServiceKit.Text.Tests
             Serialize(stringList);
         }
 
+        /// <summary>Can convert byte array with JSON serializer.</summary>
         [Test]
         public void Can_convert_Byte_array_with_JsonSerializer()
         {
@@ -358,6 +407,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(stringValue, Is.EqualTo('"' + expectedString + '"'));
         }
 
+        /// <summary>Can convert byte array.</summary>
         [Test]
         public void Can_convert_Byte_array()
         {
@@ -367,6 +417,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(stringValue, Is.EqualTo(expectedString));
         }
 
+        /// <summary>Can convert to byte array.</summary>
         [Test]
         public void Can_convert_to_Byte_array()
         {
@@ -378,7 +429,10 @@ namespace NServiceKit.Text.Tests
             Assert.That(actualValue, Is.EqualTo(byteArrayValue));
         }
 
-
+        /// <summary>true this object to the given stream.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="model">The model.</param>
+        /// <returns>A T.</returns>
         public T Serialize<T>(T model)
         {
             var jsvModel = TypeSerializer.SerializeToString(model);
@@ -395,20 +449,30 @@ namespace NServiceKit.Text.Tests
         }
 
 #if !MONOTOUCH
+        /// <summary>A test class.</summary>
         public class TestClass
         {
+            /// <summary>Gets or sets the member 1.</summary>
+            /// <value>The member 1.</value>
             [Required]
             public string Member1 { get; set; }
 
+            /// <summary>Gets or sets the member 2.</summary>
+            /// <value>The member 2.</value>
             public string Member2 { get; set; }
 
+            /// <summary>Gets or sets the member 3.</summary>
+            /// <value>The member 3.</value>
             [Required]
             public string Member3 { get; set; }
 
+            /// <summary>Gets or sets the member 4.</summary>
+            /// <value>The member 4.</value>
             [StringLength(1)]
             public string Member4 { get; set; }
         }
 
+        /// <summary>Can convert string to list.</summary>
         [Test]
         public void Can_convert_string_to_List()
         {
@@ -418,6 +482,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(toHashSet.EquivalentTo(fromHashSet), Is.True);
         }
 
+        /// <summary>Can convert string to string hash set.</summary>
         [Test]
         public void Can_convert_string_to_string_HashSet()
         {
@@ -427,6 +492,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(toHashSet.EquivalentTo(fromHashSet), Is.True);
         }
 
+        /// <summary>Can convert string to int hash set.</summary>
         [Test]
         public void Can_convert_string_to_int_HashSet()
         {
@@ -436,6 +502,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(toHashSet.EquivalentTo(fromHashSet), Is.True);
         }
 
+        /// <summary>Can convert string to double hash set.</summary>
         [Test]
         public void Can_convert_string_to_double_HashSet()
         {
@@ -445,6 +512,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(toHashSet.EquivalentTo(fromHashSet), Is.True);
         }
 
+        /// <summary>Can convert string to string read only collection.</summary>
         [Test]
         public void Can_convert_string_to_string_ReadOnlyCollection()
         {
@@ -454,6 +522,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(toCollection.EquivalentTo(fromCollection), Is.True);
         }
 
+        /// <summary>Can convert string to int read only collection.</summary>
         [Test]
         public void Can_convert_string_to_int_ReadOnlyCollection()
         {
@@ -463,6 +532,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(toCollection.EquivalentTo(fromCollection), Is.True);
         }
 
+        /// <summary>Can convert string to double read only collection.</summary>
         [Test]
         public void Can_convert_string_to_double_ReadOnlyCollection()
         {
@@ -472,6 +542,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(toCollection.EquivalentTo(fromCollection), Is.True);
         }
 
+        /// <summary>Can convert model with fields of different types.</summary>
         [Test]
         public void Can_convert_ModelWithFieldsOfDifferentTypes()
         {
@@ -481,6 +552,7 @@ namespace NServiceKit.Text.Tests
             ModelWithFieldsOfDifferentTypes.AssertIsEqual(toModel, model);
         }
 
+        /// <summary>Can convert model with fields of nullable types.</summary>
         [Test]
         public void Can_convert_ModelWithFieldsOfNullableTypes()
         {
@@ -490,6 +562,7 @@ namespace NServiceKit.Text.Tests
             ModelWithFieldsOfNullableTypes.AssertIsEqual(toModel, model);
         }
 
+        /// <summary>Can convert model with fields of nullable types of nullables.</summary>
         [Test]
         public void Can_convert_ModelWithFieldsOfNullableTypes_of_nullables()
         {
@@ -499,6 +572,7 @@ namespace NServiceKit.Text.Tests
             ModelWithFieldsOfNullableTypes.AssertIsEqual(toModel, model);
         }
 
+        /// <summary>Can convert model with complex types.</summary>
         [Ignore("Causing infinite recursion in TypeToString")]
         [Test]
         public void Can_convert_ModelWithComplexTypes()
@@ -509,6 +583,7 @@ namespace NServiceKit.Text.Tests
             ModelWithComplexTypes.AssertIsEqual(toModel, model);
         }
 
+        /// <summary>Can convert model with type character.</summary>
         [Test]
         public void Can_convert_model_with_TypeChar()
         {
@@ -518,6 +593,7 @@ namespace NServiceKit.Text.Tests
             ModelWithIdAndName.AssertIsEqual(toModel, model);
         }
 
+        /// <summary>Can convert model with list character.</summary>
         [Test]
         public void Can_convert_model_with_ListChar()
         {
@@ -530,6 +606,7 @@ namespace NServiceKit.Text.Tests
             ModelWithIdAndName.AssertIsEqual(toModel2, model2);
         }
 
+        /// <summary>Can convert model with map and list with list character.</summary>
         [Test]
         public void Can_convert_ModelWithMapAndList_with_ListChar()
         {
@@ -546,6 +623,7 @@ namespace NServiceKit.Text.Tests
             //ModelWithMapAndList.AssertIsEqual(toModel, model);
         }
 
+        /// <summary>Can convert array dto with orders.</summary>
         [Test]
         public void Can_convert_ArrayDtoWithOrders()
         {
@@ -555,6 +633,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(model.Equals(toModel), Is.True);
         }
 
+        /// <summary>Can convert field map or list with invalid characters.</summary>
         [Test]
         public void Can_convert_Field_Map_or_List_with_invalid_chars()
         {
@@ -569,6 +648,7 @@ namespace NServiceKit.Text.Tests
             Serialize(instance);
         }
 
+        /// <summary>Can convert field map or list with single invalid character.</summary>
         [Test]
         public void Can_convert_Field_Map_or_List_with_single_invalid_char()
         {
@@ -588,6 +668,7 @@ namespace NServiceKit.Text.Tests
             }
         }
 
+        /// <summary>Can convert customer dto.</summary>
         [Test]
         public void Can_convert_CustomerDto()
         {
@@ -597,6 +678,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(model.Equals(toModel), Is.True);
         }
 
+        /// <summary>Can convert customer order list dto.</summary>
         [Test]
         public void Can_convert_CustomerOrderListDto()
         {
@@ -606,6 +688,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(model.Equals(toModel), Is.True);
         }
 
+        /// <summary>Can convert list unique identifier.</summary>
         [Test]
         public void Can_convert_List_Guid()
         {

@@ -6,9 +6,11 @@ using NServiceKit.Text.Tests.Support;
 
 namespace NServiceKit.Text.Tests.JsonTests
 {
+    /// <summary>A throw on deserialize error test.</summary>
 	[TestFixture]
 	public class ThrowOnDeserializeErrorTest
 	{
+        /// <summary>Throws on protected setter.</summary>
         [Test]
         [ExpectedException(typeof(SerializationException), ExpectedMessage = "Failed to set property 'idBadProt' with 'abc'")]
         public void Throws_on_protected_setter()
@@ -20,6 +22,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsonSerializer.DeserializeFromString(json, typeof(TestDto));
         }
 
+        /// <summary>Throws on incorrect type.</summary>
 		[Test]
         [ExpectedException(typeof(SerializationException), ExpectedMessage = "Failed to set property 'idBad' with 'abc'")]
 		public void Throws_on_incorrect_type()
@@ -31,6 +34,7 @@ namespace NServiceKit.Text.Tests.JsonTests
     		JsonSerializer.DeserializeFromString(json, typeof(TestDto));
 		}
 
+        /// <summary>Throws on incorrect type with data set.</summary>
 		[Test]
 		public void Throws_on_incorrect_type_with_data_set()
 		{
@@ -49,6 +53,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             }
 		}
 
+        /// <summary>Tests does not throw.</summary>
 		[Test]
 		public void TestDoesNotThrow()
 		{
@@ -58,6 +63,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 			JsonSerializer.DeserializeFromString(json, typeof(TestDto));
 		}
 
+        /// <summary>Tests reset.</summary>
 		[Test]
 		public void TestReset()
 		{
@@ -69,13 +75,22 @@ namespace NServiceKit.Text.Tests.JsonTests
 			Assert.IsFalse(JsConfig.ThrowOnDeserializationError);
 		}
 
+        /// <summary>A test dto.</summary>
 		[DataContract]
 		class TestDto
 		{
+            /// <summary>Gets the identifier of the prot.</summary>
+            /// <value>The identifier of the prot.</value>
             [DataMember(Name = "idBadProt")]
             public int protId { get; protected set; }
+
+            /// <summary>Gets or sets the identifier good.</summary>
+            /// <value>The identifier good.</value>
             [DataMember(Name = "idGood")]
 			public int IdGood { get; set; }
+
+            /// <summary>Gets or sets the identifier bad.</summary>
+            /// <value>The identifier bad.</value>
 			[DataMember(Name = "idBad")]
 			public int IdBad { get; set; }
         }
