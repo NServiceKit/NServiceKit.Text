@@ -4,20 +4,26 @@ using System;
 
 namespace NServiceKit.Text.Tests
 {
+    /// <summary>A CSV stream tests.</summary>
     [TestFixture]
     public class CsvStreamTests
     {
+        /// <summary>Logs.</summary>
+        /// <param name="fmt"> Describes the format to use.</param>
+        /// <param name="args">A variable-length parameters list containing arguments.</param>
         protected void Log(string fmt, params object[] args)
         {
             // Console.WriteLine("{0}", String.Format(fmt, args).Trim());
         }
 
+        /// <summary>Tear down.</summary>
         [TearDown]
         public void TearDown()
         {
             CsvConfig.Reset();
         }
 
+        /// <summary>Can create CSV from customers.</summary>
         [Test]
         public void Can_create_csv_from_Customers()
         {
@@ -27,6 +33,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(csv, Is.Not.Null);
         }
 
+        /// <summary>Can create CSV from customers pipe separator.</summary>
         [Test]
         public void Can_create_csv_from_Customers_pipe_separator()
         {
@@ -37,6 +44,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(csv, Is.Not.Null);
         }
 
+        /// <summary>Can create CSV from customers pipe delimiter.</summary>
         [Test]
         public void Can_create_csv_from_Customers_pipe_delimiter()
         {
@@ -47,6 +55,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(csv, Is.Not.Null);
         }
 
+        /// <summary>Can create CSV from customers pipe row separator.</summary>
         [Test]
         public void Can_create_csv_from_Customers_pipe_row_separator()
         {
@@ -57,6 +66,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(csv, Is.Not.Null);
         }
 
+        /// <summary>Can create CSV from categories.</summary>
         [Test]
         public void Can_create_csv_from_Categories()
         {
@@ -75,6 +85,7 @@ namespace NServiceKit.Text.Tests
             ));
         }
 
+        /// <summary>Can create CSV from categories pipe separator.</summary>
         [Test]
         public void Can_create_csv_from_Categories_pipe_separator()
         {
@@ -94,6 +105,7 @@ namespace NServiceKit.Text.Tests
             ));
         }
 
+        /// <summary>Can create CSV from categories pipe delimiter.</summary>
         [Test]
         public void Can_create_csv_from_Categories_pipe_delimiter()
         {
@@ -113,6 +125,7 @@ namespace NServiceKit.Text.Tests
             ));
         }
 
+        /// <summary>Can create CSV from categories long delimiter.</summary>
         [Test]
         public void Can_create_csv_from_Categories_long_delimiter()
         {
@@ -132,6 +145,7 @@ namespace NServiceKit.Text.Tests
             ));
         }
 
+        /// <summary>Can generate CSV with invalid characters.</summary>
         [Test]
         public void Can_generate_csv_with_invalid_chars()
         {
@@ -144,6 +158,7 @@ namespace NServiceKit.Text.Tests
             ));
         }
 
+        /// <summary>Can generate CSV with invalid characters pipe delimiter.</summary>
         [Test]
         public void Can_generate_csv_with_invalid_chars_pipe_delimiter()
         {
@@ -157,6 +172,7 @@ namespace NServiceKit.Text.Tests
             ));
         }
 
+        /// <summary>Can generate CSV with invalid characters pipe separator.</summary>
         [Test]
         public void Can_generate_csv_with_invalid_chars_pipe_separator()
         {
@@ -170,6 +186,7 @@ namespace NServiceKit.Text.Tests
             ));
         }
 
+        /// <summary>Can convert to CSV field.</summary>
         [Test]
         public void Can_convert_to_csv_field()
         {
@@ -180,6 +197,7 @@ namespace NServiceKit.Text.Tests
             Assert.That("\"7,7.1\"".ToCsvField(), Is.EqualTo("\"\"\"7,7.1\"\"\""));
         }
 
+        /// <summary>Can convert to CSV field pipe separator.</summary>
         [Test]
         public void Can_convert_to_csv_field_pipe_separator()
         {
@@ -191,6 +209,7 @@ namespace NServiceKit.Text.Tests
             Assert.That("\"7,7.1\"".ToCsvField(), Is.EqualTo("\"\"\"7,7.1\"\"\""));
         }
 
+        /// <summary>Can convert to CSV field pipe delimiter.</summary>
         [Test]
         public void Can_convert_to_csv_field_pipe_delimiter()
         {
@@ -202,6 +221,7 @@ namespace NServiceKit.Text.Tests
             Assert.That("\"7,7.1\"".ToCsvField(), Is.EqualTo("|\"7,7.1\"|"));
         }
 
+        /// <summary>Can convert from CSV field.</summary>
         [Test]
         public void Can_convert_from_csv_field()
         {
@@ -212,6 +232,7 @@ namespace NServiceKit.Text.Tests
             Assert.That("\"\"\"7,7.1\"\"\"".FromCsvField(), Is.EqualTo("\"7,7.1\""));
         }
 
+        /// <summary>Can convert from CSV field pipe separator.</summary>
         [Test]
         public void Can_convert_from_csv_field_pipe_separator()
         {
@@ -224,6 +245,7 @@ namespace NServiceKit.Text.Tests
             Assert.That("\"\"\"7,7.1\"\"\"".FromCsvField(), Is.EqualTo("\"7,7.1\""));
         }
 
+        /// <summary>Can convert from CSV field pipe delimiter.</summary>
         [Test]
         public void Can_convert_from_csv_field_pipe_delimiter()
         {

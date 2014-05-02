@@ -5,30 +5,48 @@ namespace NServiceKit.Text.Tests.JsonTests
 {
 
 	#region Test types
-
+    /// <summary>A get only with backing.</summary>
 	public class GetOnlyWithBacking
 	{
+        /// <summary>The backing.</summary>
 		long backing;
 
+        /// <summary>
+        /// Initializes a new instance of the NServiceKit.Text.Tests.JsonTests.GetOnlyWithBacking
+        /// class.
+        /// </summary>
+        /// <param name="i">Zero-based index of the.</param>
 		public GetOnlyWithBacking(long i)
 		{
 			backing = i;
 		}
 
+        /// <summary>Gets the property.</summary>
+        /// <value>The property.</value>
 		public long Property
 		{
 			get { return backing; }
 		}
 	}
+
+    /// <summary>A get set with backing.</summary>
 	public class GetSetWithBacking
 	{
+        /// <summary>The backing.</summary>
 		long backing;
 
+        /// <summary>
+        /// Initializes a new instance of the NServiceKit.Text.Tests.JsonTests.GetSetWithBacking
+        /// class.
+        /// </summary>
+        /// <param name="i">Zero-based index of the.</param>
 		public GetSetWithBacking(long i)
 		{
 			Property = i;
 		}
 
+        /// <summary>Gets or sets the property.</summary>
+        /// <value>The property.</value>
 		public long Property
 		{
 			get { return backing; }
@@ -38,9 +56,11 @@ namespace NServiceKit.Text.Tests.JsonTests
 
 	#endregion
 
+    /// <summary>A backing field tests.</summary>
 	[TestFixture]
 	public class BackingFieldTests
 	{
+        /// <summary>Backed get set properties can be deserialised.</summary>
 		[Test]
 		public void Backed_get_set_properties_can_be_deserialised()
 		{
@@ -53,7 +73,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 			Assert.That(copy.Property, Is.EqualTo(original.Property));
 		}
 
-
+        /// <summary>Backed get properties can be deserialised.</summary>
         [Ignore("By Design: Deserialization doesn't use constructor injection, Properties need to be writeable")]
 		[Test]
 		public void Backed_get_properties_can_be_deserialised()

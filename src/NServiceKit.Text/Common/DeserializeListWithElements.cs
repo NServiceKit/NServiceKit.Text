@@ -20,16 +20,30 @@ using NServiceKit.Text.Json;
 
 namespace NServiceKit.Text.Common
 {
+    /// <summary>A deserialize list with elements.</summary>
+    /// <typeparam name="TSerializer">Type of the serializer.</typeparam>
     internal static class DeserializeListWithElements<TSerializer>
         where TSerializer : ITypeSerializer
     {
+        /// <summary>The serializer.</summary>
         internal static readonly ITypeSerializer Serializer = JsWriter.GetTypeSerializer<TSerializer>();
 
+        /// <summary>The parse delegate cache.</summary>
         private static Dictionary<Type, ParseListDelegate> ParseDelegateCache
             = new Dictionary<Type, ParseListDelegate>();
 
+        /// <summary>Parse list delegate.</summary>
+        /// <param name="value">         The value.</param>
+        /// <param name="createListType">Type of the create list.</param>
+        /// <param name="parseFn">       The parse function.</param>
+        /// <returns>An object.</returns>
         private delegate object ParseListDelegate(string value, Type createListType, ParseStringDelegate parseFn);
 
+        /// <summary>Gets list type parse function.</summary>
+        /// <param name="createListType">Type of the create list.</param>
+        /// <param name="elementType">   Type of the element.</param>
+        /// <param name="parseFn">       The parse function.</param>
+        /// <returns>The list type parse function.</returns>
         public static Func<string, Type, ParseStringDelegate, object> GetListTypeParseFn(
             Type createListType, Type elementType, ParseStringDelegate parseFn)
         {
@@ -54,6 +68,9 @@ namespace NServiceKit.Text.Common
             return parseDelegate.Invoke;
         }
 
+        /// <summary>Strip list.</summary>
+        /// <param name="value">The value.</param>
+        /// <returns>A string.</returns>
         internal static string StripList(string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -70,6 +87,9 @@ namespace NServiceKit.Text.Common
             return ret.Substring(pos, ret.Length - pos);
         }
 
+        /// <summary>Parse string list.</summary>
+        /// <param name="value">The value.</param>
+        /// <returns>A List&lt;string&gt;</returns>
         public static List<string> ParseStringList(string value)
         {
             if ((value = StripList(value)) == null) return null;
@@ -95,6 +115,9 @@ namespace NServiceKit.Text.Common
             return to;
         }
 
+        /// <summary>Parse int list.</summary>
+        /// <param name="value">The value.</param>
+        /// <returns>A List&lt;int&gt;</returns>
         public static List<int> ParseIntList(string value)
         {
             if ((value = StripList(value)) == null) return null;
@@ -110,11 +133,20 @@ namespace NServiceKit.Text.Common
         }
     }
 
+    /// <summary>A deserialize list with elements.</summary>
+    /// <typeparam name="T">          Generic type parameter.</typeparam>
+    /// <typeparam name="TSerializer">Type of the serializer.</typeparam>
     internal static class DeserializeListWithElements<T, TSerializer>
         where TSerializer : ITypeSerializer
     {
+        /// <summary>The serializer.</summary>
         private static readonly ITypeSerializer Serializer = JsWriter.GetTypeSerializer<TSerializer>();
 
+        /// <summary>Parse generic list.</summary>
+        /// <param name="value">         The value.</param>
+        /// <param name="createListType">Type of the create list.</param>
+        /// <param name="parseFn">       The parse function.</param>
+        /// <returns>A list of.</returns>
         public static ICollection<T> ParseGenericList(string value, Type createListType, ParseStringDelegate parseFn)
         {
             if ((value = DeserializeListWithElements<TSerializer>.StripList(value)) == null) return null;
@@ -187,21 +219,35 @@ namespace NServiceKit.Text.Common
         }
     }
 
+    /// <summary>List of deserializes.</summary>
+    /// <typeparam name="T">          Generic type parameter.</typeparam>
+    /// <typeparam name="TSerializer">Type of the serializer.</typeparam>
     internal static class DeserializeList<T, TSerializer>
         where TSerializer : ITypeSerializer
     {
+        /// <summary>The cache function.</summary>
         private readonly static ParseStringDelegate CacheFn;
 
+        /// <summary>
+        /// Initializes static members of the NServiceKit.Text.Common.DeserializeList&lt;T,
+        /// TSerializer&gt; class.
+        /// </summary>
         static DeserializeList()
         {
             CacheFn = GetParseFn();
         }
 
+        /// <summary>Gets the parse.</summary>
+        /// <value>The parse.</value>
         public static ParseStringDelegate Parse
         {
             get { return CacheFn; }
         }
 
+        /// <summary>Gets parse function.</summary>
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or
+        /// illegal values.</exception>
+        /// <returns>The parse function.</returns>
         public static ParseStringDelegate GetParseFn()
         {
             var listInterface = typeof(T).GetTypeWithGenericInterfaceOf(typeof(IList<>));
@@ -232,21 +278,35 @@ namespace NServiceKit.Text.Common
 
     }
 
+    /// <summary>A deserialize enumerable.</summary>
+    /// <typeparam name="T">          Generic type parameter.</typeparam>
+    /// <typeparam name="TSerializer">Type of the serializer.</typeparam>
     internal static class DeserializeEnumerable<T, TSerializer>
         where TSerializer : ITypeSerializer
     {
+        /// <summary>The cache function.</summary>
         private readonly static ParseStringDelegate CacheFn;
 
+        /// <summary>
+        /// Initializes static members of the NServiceKit.Text.Common.DeserializeEnumerable&lt;T,
+        /// TSerializer&gt; class.
+        /// </summary>
         static DeserializeEnumerable()
         {
             CacheFn = GetParseFn();
         }
 
+        /// <summary>Gets the parse.</summary>
+        /// <value>The parse.</value>
         public static ParseStringDelegate Parse
         {
             get { return CacheFn; }
         }
 
+        /// <summary>Gets parse function.</summary>
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or
+        /// illegal values.</exception>
+        /// <returns>The parse function.</returns>
         public static ParseStringDelegate GetParseFn()
         {
             var enumerableInterface = typeof(T).GetTypeWithGenericInterfaceOf(typeof(IEnumerable<>));

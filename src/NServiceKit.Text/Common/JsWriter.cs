@@ -10,34 +10,70 @@ using NServiceKit.Text.Jsv;
 
 namespace NServiceKit.Text.Common
 {
+    /// <summary>The js writer.</summary>
     public static class JsWriter
     {
+        /// <summary>The type attribute.</summary>
         public const string TypeAttr = "__type";
 
+        /// <summary>The map start character.</summary>
         public const char MapStartChar = '{';
+
+        /// <summary>The map key seperator.</summary>
         public const char MapKeySeperator = ':';
+
+        /// <summary>The item seperator.</summary>
         public const char ItemSeperator = ',';
+
+        /// <summary>The map end character.</summary>
         public const char MapEndChar = '}';
+
+        /// <summary>The map null value.</summary>
         public const string MapNullValue = "\"\"";
+
+        /// <summary>The empty map.</summary>
         public const string EmptyMap = "{}";
 
+        /// <summary>The list start character.</summary>
         public const char ListStartChar = '[';
+
+        /// <summary>The list end character.</summary>
         public const char ListEndChar = ']';
+
+        /// <summary>The return character.</summary>
         public const char ReturnChar = '\r';
+
+        /// <summary>The line feed character.</summary>
         public const char LineFeedChar = '\n';
 
+        /// <summary>The quote character.</summary>
         public const char QuoteChar = '"';
+
+        /// <summary>The quote string.</summary>
         public const string QuoteString = "\"";
+
+        /// <summary>The escaped quote string.</summary>
         public const string EscapedQuoteString = "\\\"";
+
+        /// <summary>The item seperator string.</summary>
         public const string ItemSeperatorString = ",";
+
+        /// <summary>The map key seperator string.</summary>
         public const string MapKeySeperatorString = ":";
 
+        /// <summary>The CSV characters.</summary>
         public static readonly char[] CsvChars = new[] { ItemSeperator, QuoteChar };
+
+        /// <summary>The escape characters.</summary>
         public static readonly char[] EscapeChars = new[] { QuoteChar, MapKeySeperator, ItemSeperator, MapStartChar, MapEndChar, ListStartChar, ListEndChar, ReturnChar, LineFeedChar };
 
+        /// <summary>The length from largest character.</summary>
         private const int LengthFromLargestChar = '}' + 1;
+
+        /// <summary>The escape character flags.</summary>
         private static readonly bool[] EscapeCharFlags = new bool[LengthFromLargestChar];
 
+        /// <summary>Initializes static members of the NServiceKit.Text.Common.JsWriter class.</summary>
         static JsWriter()
         {
             foreach (var escapeChar in EscapeChars)
@@ -47,6 +83,8 @@ namespace NServiceKit.Text.Common
             var loadConfig = JsConfig.EmitCamelCaseNames; //force load
         }
 
+        /// <summary>Writes a dynamic.</summary>
+        /// <param name="callback">The callback.</param>
         public static void WriteDynamic(Action callback)
         {
             JsState.IsWritingDynamic = true;
@@ -60,11 +98,9 @@ namespace NServiceKit.Text.Common
             }
         }
 
-        /// <summary>
-        /// micro optimizations: using flags instead of value.IndexOfAny(EscapeChars)
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
+        /// <summary>micro optimizations: using flags instead of value.IndexOfAny(EscapeChars)</summary>
+        /// <param name="value">.</param>
+        /// <returns>true if any escape characters, false if not.</returns>
         public static bool HasAnyEscapeChars(string value)
         {
             var len = value.Length;
@@ -77,6 +113,9 @@ namespace NServiceKit.Text.Common
             return false;
         }
 
+        /// <summary>Writes an item seperator if ran once.</summary>
+        /// <param name="writer"> The writer.</param>
+        /// <param name="ranOnce">The ran once.</param>
         internal static void WriteItemSeperatorIfRanOnce(TextWriter writer, ref bool ranOnce)
         {
             if (ranOnce)
@@ -85,6 +124,9 @@ namespace NServiceKit.Text.Common
                 ranOnce = true;
         }
 
+        /// <summary>Determine if we should use default to string method.</summary>
+        /// <param name="type">The type.</param>
+        /// <returns>true if it succeeds, false if it fails.</returns>
         internal static bool ShouldUseDefaultToStringMethod(Type type)
         {
             return type == typeof(byte) || type == typeof(byte?)
@@ -102,6 +144,10 @@ namespace NServiceKit.Text.Common
                 || type == typeof(decimal) || type == typeof(decimal?);
         }
 
+        /// <summary>Gets type serializer.</summary>
+        /// <exception cref="NotSupportedException">Thrown when the requested operation is not supported.</exception>
+        /// <typeparam name="TSerializer">Type of the serializer.</typeparam>
+        /// <returns>The type serializer.</returns>
         internal static ITypeSerializer GetTypeSerializer<TSerializer>()
         {
             if (typeof(TSerializer) == typeof(JsvTypeSerializer))
@@ -167,6 +213,9 @@ namespace NServiceKit.Text.Common
         }
 #endif
 
+        /// <summary>Writes an enum flags.</summary>
+        /// <param name="writer">       The writer.</param>
+        /// <param name="enumFlagValue">The enum flag value.</param>
         public static void WriteEnumFlags(TextWriter writer, object enumFlagValue)
         {
             if (enumFlagValue == null) return;
@@ -237,11 +286,18 @@ namespace NServiceKit.Text.Common
         }
     }
 
+    /// <summary>The js writer.</summary>
+    /// <typeparam name="TSerializer">Type of the serializer.</typeparam>
     internal class JsWriter<TSerializer>
         where TSerializer : ITypeSerializer
     {
+        /// <summary>The serializer.</summary>
         private static readonly ITypeSerializer Serializer = JsWriter.GetTypeSerializer<TSerializer>();
 
+        /// <summary>
+        /// Initializes a new instance of the NServiceKit.Text.Common.JsWriter&lt;TSerializer&gt;
+        /// class.
+        /// </summary>
         public JsWriter()
         {
             this.SpecialTypes = new Dictionary<Type, WriteObjectDelegate>
@@ -255,6 +311,9 @@ namespace NServiceKit.Text.Common
         	};
         }
 
+        /// <summary>Gets value type to string method.</summary>
+        /// <param name="type">The type.</param>
+        /// <returns>The value type to string method.</returns>
         public WriteObjectDelegate GetValueTypeToStringMethod(Type type)
         {
             if (type == typeof(char) || type == typeof(char?))
@@ -329,6 +388,9 @@ namespace NServiceKit.Text.Common
             return Serializer.WriteObjectString;
         }
 
+        /// <summary>Gets write function.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <returns>The write function.</returns>
         internal WriteObjectDelegate GetWriteFn<T>()
         {
             if (typeof(T) == typeof(string))
@@ -350,6 +412,9 @@ namespace NServiceKit.Text.Common
             return GetCoreWriteFn<T>();
         }
 
+        /// <summary>Gets core write function.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <returns>The core write function.</returns>
         private WriteObjectDelegate GetCoreWriteFn<T>()
         {
             if ((typeof(T).IsValueType() && !JsConfig.TreatAsRefType(typeof(T))) || JsConfig<T>.HasSerializeFn)
@@ -439,8 +504,12 @@ namespace NServiceKit.Text.Common
             return Serializer.WriteBuiltIn;
         }
 
+        /// <summary>List of types of the specials.</summary>
         public Dictionary<Type, WriteObjectDelegate> SpecialTypes;
 
+        /// <summary>Gets special write function.</summary>
+        /// <param name="type">The type.</param>
+        /// <returns>The special write function.</returns>
         public WriteObjectDelegate GetSpecialWriteFn(Type type)
         {
             WriteObjectDelegate writeFn = null;
@@ -456,6 +525,9 @@ namespace NServiceKit.Text.Common
             return null;
         }
 
+        /// <summary>Writes a type.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="value"> The value.</param>
         public void WriteType(TextWriter writer, object value)
         {
             Serializer.WriteRawString(writer, JsConfig.TypeWriter((Type)value));

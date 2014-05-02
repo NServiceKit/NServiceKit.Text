@@ -20,25 +20,45 @@ using NServiceKit.Text.Reflection;
 
 namespace NServiceKit.Text.Common
 {
+    /// <summary>A write type.</summary>
+    /// <typeparam name="T">          Generic type parameter.</typeparam>
+    /// <typeparam name="TSerializer">Type of the serializer.</typeparam>
     internal static class WriteType<T, TSerializer>
         where TSerializer : ITypeSerializer
     {
+        /// <summary>Set the data member order not belongs to.</summary>
         private const int DataMemberOrderNotSet = -1;
+
+        /// <summary>The serializer.</summary>
         private static readonly ITypeSerializer Serializer = JsWriter.GetTypeSerializer<TSerializer>();
 
+        /// <summary>The cache function.</summary>
         private static readonly WriteObjectDelegate CacheFn;
+
+        /// <summary>The property writers.</summary>
         internal static TypePropertyWriter[] PropertyWriters;
+
+        /// <summary>Information describing the write type.</summary>
         private static readonly WriteObjectDelegate WriteTypeInfo;
 
+        /// <summary>Gets a value indicating whether this object is included.</summary>
+        /// <value>true if this object is included, false if not.</value>
         private static bool IsIncluded
         {
             get { return (JsConfig.IncludeTypeInfo || JsConfig<T>.IncludeTypeInfo); }
         }
+
+        /// <summary>Gets a value indicating whether this object is excluded.</summary>
+        /// <value>true if this object is excluded, false if not.</value>
         private static bool IsExcluded
         {
             get { return (JsConfig.ExcludeTypeInfo || JsConfig<T>.ExcludeTypeInfo); }
         }
 
+        /// <summary>
+        /// Initializes static members of the NServiceKit.Text.Common.WriteType&lt;T, TSerializer&gt;
+        /// class.
+        /// </summary>
         static WriteType()
         {
             if (typeof(T) == typeof(Object))
@@ -65,13 +85,21 @@ namespace NServiceKit.Text.Common
             }
         }
 
+        /// <summary>Type information writer.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="obj">   The object.</param>
         public static void TypeInfoWriter(TextWriter writer, object obj)
         {
             TryWriteTypeInfo(writer, obj);
         }
 
+        /// <summary>Determine if we should skip type.</summary>
+        /// <returns>true if it succeeds, false if it fails.</returns>
         private static bool ShouldSkipType() { return IsExcluded && !IsIncluded; }
 
+        /// <summary>Attempts to write self type from the given data.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <returns>true if it succeeds, false if it fails.</returns>
         private static bool TryWriteSelfType(TextWriter writer)
         {
             if (ShouldSkipType()) return false;
@@ -82,6 +110,10 @@ namespace NServiceKit.Text.Common
             return true;
         }
 
+        /// <summary>Attempts to write type information from the given data.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="obj">   The object.</param>
+        /// <returns>true if it succeeds, false if it fails.</returns>
         private static bool TryWriteTypeInfo(TextWriter writer, object obj)
         {
             if (obj == null || ShouldSkipType()) return false;
@@ -92,22 +124,32 @@ namespace NServiceKit.Text.Common
             return true;
         }
 
+        /// <summary>Gets the write.</summary>
+        /// <value>The write.</value>
         public static WriteObjectDelegate Write
         {
             get { return CacheFn; }
         }
 
+        /// <summary>Gets write function.</summary>
+        /// <returns>The write function.</returns>
         private static WriteObjectDelegate GetWriteFn()
         {
             return WriteProperties;
         }
 
+        /// <summary>Gets should serialize method.</summary>
+        /// <param name="member">The member.</param>
+        /// <returns>The should serialize method.</returns>
         static Func<T, bool> GetShouldSerializeMethod(MemberInfo member)
         {
             var method = member.DeclaringType.GetMethod("ShouldSerialize" + member.Name, BindingFlags.Instance | BindingFlags.Public,
                 null, Type.EmptyTypes, null);
             return (method == null || method.ReturnType != typeof(bool)) ? null : (Func<T,bool>)Delegate.CreateDelegate(typeof(Func<T,bool>), method);
         }
+
+        /// <summary>Initialises this object.</summary>
+        /// <returns>true if it succeeds, false if it fails.</returns>
         private static bool Init()
         {
             if (!typeof(T).IsClass() && !typeof(T).IsInterface() && !JsConfig.TreatAsRefType(typeof(T))) return false;
@@ -228,8 +270,11 @@ namespace NServiceKit.Text.Common
             return true;
         }
 
+        /// <summary>A type property writer.</summary>
         internal struct TypePropertyWriter
         {
+            /// <summary>Gets the name of the property.</summary>
+            /// <value>The name of the property.</value>
             internal string PropertyName
             {
                 get
@@ -241,19 +286,59 @@ namespace NServiceKit.Text.Common
                             : propertyName;
                 }
             }
+
+            /// <summary>Name of the property.</summary>
             internal readonly string propertyName;
+
+            /// <summary>The property order.</summary>
             internal readonly int propertyOrder;
+
+            /// <summary>true to property suppress default configuration.</summary>
             internal readonly bool propertySuppressDefaultConfig;
+
+            /// <summary>true to property suppress default attribute.</summary>
             internal readonly bool propertySuppressDefaultAttribute;
+
+            /// <summary>Name of the property reflected.</summary>
             internal readonly string propertyReflectedName;
+
+            /// <summary>The property combined name upper.</summary>
             internal readonly string propertyCombinedNameUpper;
+
+            /// <summary>The property name cls friendly.</summary>
             internal readonly string propertyNameCLSFriendly;
+
+            /// <summary>The property name lowercase underscore.</summary>
             internal readonly string propertyNameLowercaseUnderscore;
+
+            /// <summary>The getter function.</summary>
             internal readonly Func<T, object> GetterFn;
+
+            /// <summary>The write function.</summary>
             internal readonly WriteObjectDelegate WriteFn;
+
+            /// <summary>The default value.</summary>
             internal readonly object DefaultValue;
+
+            /// <summary>The should serialize.</summary>
             internal readonly Func<T, bool> shouldSerialize;
 
+            /// <summary>
+            /// Initializes a new instance of the NServiceKit.Text.Common.WriteType&lt;T, TSerializer&gt;
+            /// class.
+            /// </summary>
+            /// <param name="propertyName">                    Name of the property.</param>
+            /// <param name="propertyReflectedName">           Name of the property reflected.</param>
+            /// <param name="propertyNameCLSFriendly">         The property name cls friendly.</param>
+            /// <param name="propertyNameLowercaseUnderscore"> The property name lowercase underscore.</param>
+            /// <param name="propertyOrder">                   The property order.</param>
+            /// <param name="propertySuppressDefaultConfig">   true to property suppress default
+            /// configuration.</param>
+            /// <param name="propertySuppressDefaultAttribute">true to property suppress default attribute.</param>
+            /// <param name="getterFn">                        The getter function.</param>
+            /// <param name="writeFn">                         The write function.</param>
+            /// <param name="defaultValue">                    The default value.</param>
+            /// <param name="shouldSerialize">                 The should serialize.</param>
             public TypePropertyWriter(string propertyName, string propertyReflectedName, string propertyNameCLSFriendly, string propertyNameLowercaseUnderscore, int propertyOrder, bool propertySuppressDefaultConfig,bool propertySuppressDefaultAttribute,
                 Func<T, object> getterFn, WriteObjectDelegate writeFn, object defaultValue, Func<T, bool> shouldSerialize)
             {
@@ -272,11 +357,17 @@ namespace NServiceKit.Text.Common
             }
         }
 
+        /// <summary>Writes an object type.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="value"> The value.</param>
         public static void WriteObjectType(TextWriter writer, object value)
         {
             writer.Write(JsWriter.EmptyMap);
         }
 
+        /// <summary>Writes an empty type.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="value"> The value.</param>
         public static void WriteEmptyType(TextWriter writer, object value)
         {
             if (WriteTypeInfo != null || JsState.IsWritingDynamic)
@@ -292,6 +383,9 @@ namespace NServiceKit.Text.Common
             writer.Write(JsWriter.EmptyMap);
         }
 
+        /// <summary>Writes an abstract properties.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="value"> The value.</param>
         public static void WriteAbstractProperties(TextWriter writer, object value)
         {
             if (value == null)
@@ -312,6 +406,9 @@ namespace NServiceKit.Text.Common
             if (!JsConfig<T>.ExcludeTypeInfo) JsState.IsWritingDynamic = false;
         }
 
+        /// <summary>Writes the properties.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="value"> The value.</param>
         public static void WriteProperties(TextWriter writer, object value)
         {
             if (typeof(TSerializer) == typeof(JsonTypeSerializer) && JsState.WritingKeyCount > 0)
@@ -381,8 +478,12 @@ namespace NServiceKit.Text.Common
                 writer.Write(JsWriter.QuoteChar);
         }
 
+        /// <summary>The array brackets.</summary>
         private static readonly char[] ArrayBrackets = new[] { '[', ']' };
 
+        /// <summary>Writes a query string.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="value"> The value.</param>
         public static void WriteQueryString(TextWriter writer, object value)
         {
             try
@@ -430,6 +531,8 @@ namespace NServiceKit.Text.Common
             }
         }
 
+        /// <summary>Converts a strArray to an upper.</summary>
+        /// <param name="strArray">The array.</param>
         private static void ConvertToUpper(string[] strArray)
         {
             for (var i = 0; i < strArray.Length; ++i)

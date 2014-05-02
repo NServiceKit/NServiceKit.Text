@@ -20,11 +20,18 @@ using NServiceKit.Text.Common;
 
 namespace NServiceKit.Text
 {
+    /// <summary>A translate list with elements.</summary>
 	public static class TranslateListWithElements
 	{
+        /// <summary>The translate i collection cache.</summary>
         private static Dictionary<Type, ConvertInstanceDelegate> TranslateICollectionCache
             = new Dictionary<Type, ConvertInstanceDelegate>();
 
+        /// <summary>Translate to generic i collection cache.</summary>
+        /// <param name="from">            Source for the.</param>
+        /// <param name="toInstanceOfType">Type of to instance of.</param>
+        /// <param name="elementType">     Type of the element.</param>
+        /// <returns>An object.</returns>
 		public static object TranslateToGenericICollectionCache(object from, Type toInstanceOfType, Type elementType)
 		{
             ConvertInstanceDelegate translateToFn;
@@ -48,9 +55,15 @@ namespace NServiceKit.Text
 			return translateToFn(from, toInstanceOfType);
 		}
 
+        /// <summary>The translate convertible i collection cache.</summary>
         private static Dictionary<ConvertibleTypeKey, ConvertInstanceDelegate> TranslateConvertibleICollectionCache
             = new Dictionary<ConvertibleTypeKey, ConvertInstanceDelegate>();
 
+        /// <summary>Translate to convertible generic i collection cache.</summary>
+        /// <param name="from">            Source for the.</param>
+        /// <param name="toInstanceOfType">Type of to instance of.</param>
+        /// <param name="fromElementType"> Type of from element.</param>
+        /// <returns>An object.</returns>
 		public static object TranslateToConvertibleGenericICollectionCache(
 			object from, Type toInstanceOfType, Type fromElementType)
 		{
@@ -76,6 +89,11 @@ namespace NServiceKit.Text
             return translateToFn(from, toInstanceOfType);
 		}
 
+        /// <summary>Try translate to generic i collection.</summary>
+        /// <param name="fromPropertyType">Type of from property.</param>
+        /// <param name="toPropertyType">  Type of to property.</param>
+        /// <param name="fromValue">       from value.</param>
+        /// <returns>An object.</returns>
 		public static object TryTranslateToGenericICollection(Type fromPropertyType, Type toPropertyType, object fromValue)
 		{
 			var args = typeof(ICollection<>).GetGenericArgumentsIfBothHaveSameGenericDefinitionTypeAndArguments(
@@ -101,21 +119,44 @@ namespace NServiceKit.Text
 
 	}
 
+    /// <summary>A convertible type key.</summary>
 	public class ConvertibleTypeKey
 	{
+        /// <summary>Gets or sets the type of to instance.</summary>
+        /// <value>The type of to instance.</value>
 		public Type ToInstanceType { get; set; }
+
+        /// <summary>Gets or sets the type of from elemenet.</summary>
+        /// <value>The type of from elemenet.</value>
 		public Type FromElemenetType { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the NServiceKit.Text.ConvertibleTypeKey class.
+        /// </summary>
 		public ConvertibleTypeKey()
 		{
 		}
 
+        /// <summary>
+        /// Initializes a new instance of the NServiceKit.Text.ConvertibleTypeKey class.
+        /// </summary>
+        /// <param name="toInstanceType">  Type of to instance.</param>
+        /// <param name="fromElemenetType">Type of from elemenet.</param>
 		public ConvertibleTypeKey(Type toInstanceType, Type fromElemenetType)
 		{
 			ToInstanceType = toInstanceType;
 			FromElemenetType = fromElemenetType;
 		}
 
+        /// <summary>
+        /// Determines whether the specified <see cref="T:System.Object" /> is equal to the current
+        /// <see cref="T:System.Object" />.
+        /// </summary>
+        /// <param name="other">The convertible type key to compare to this object.</param>
+        /// <returns>
+        /// true if the specified <see cref="T:System.Object" /> is equal to the current
+        /// <see cref="T:System.Object" />; otherwise, false.
+        /// </returns>
 		public bool Equals(ConvertibleTypeKey other)
 		{
 			if (ReferenceEquals(null, other)) return false;
@@ -123,6 +164,16 @@ namespace NServiceKit.Text
 			return Equals(other.ToInstanceType, ToInstanceType) && Equals(other.FromElemenetType, FromElemenetType);
 		}
 
+        /// <summary>
+        /// Determines whether the specified <see cref="T:System.Object" /> is equal to the current
+        /// <see cref="T:System.Object" />.
+        /// </summary>
+        /// <param name="obj">The <see cref="T:System.Object" /> to compare with the current
+        /// <see cref="T:System.Object" />.</param>
+        /// <returns>
+        /// true if the specified <see cref="T:System.Object" /> is equal to the current
+        /// <see cref="T:System.Object" />; otherwise, false.
+        /// </returns>
 		public override bool Equals(object obj)
 		{
 			if (ReferenceEquals(null, obj)) return false;
@@ -131,6 +182,8 @@ namespace NServiceKit.Text
 			return Equals((ConvertibleTypeKey)obj);
 		}
 
+        /// <summary>Serves as a hash function for a particular type.</summary>
+        /// <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
 		public override int GetHashCode()
 		{
 			unchecked
@@ -141,8 +194,13 @@ namespace NServiceKit.Text
 		}
 	}
 
+    /// <summary>A translate list with elements.</summary>
+    /// <typeparam name="T">Generic type parameter.</typeparam>
 	public class TranslateListWithElements<T>
 	{
+        /// <summary>Creates an instance.</summary>
+        /// <param name="toInstanceOfType">Type of to instance of.</param>
+        /// <returns>The new instance.</returns>
 		public static object CreateInstance(Type toInstanceOfType)
 		{
             if (toInstanceOfType.IsGeneric())
@@ -157,6 +215,10 @@ namespace NServiceKit.Text
 			return ReflectionExtensions.CreateInstance(toInstanceOfType);
 		}
 
+        /// <summary>Translate to i list.</summary>
+        /// <param name="fromList">        List of froms.</param>
+        /// <param name="toInstanceOfType">Type of to instance of.</param>
+        /// <returns>An IList.</returns>
 		public static IList TranslateToIList(IList fromList, Type toInstanceOfType)
 		{
 			var to = (IList)ReflectionExtensions.CreateInstance(toInstanceOfType);
@@ -167,6 +229,10 @@ namespace NServiceKit.Text
 			return to;
 		}
 
+        /// <summary>Late bound translate to generic i collection.</summary>
+        /// <param name="fromList">        List of froms.</param>
+        /// <param name="toInstanceOfType">Type of to instance of.</param>
+        /// <returns>An object.</returns>
 		public static object LateBoundTranslateToGenericICollection(
 			object fromList, Type toInstanceOfType)
 		{
@@ -176,6 +242,10 @@ namespace NServiceKit.Text
 				(ICollection<T>)fromList, toInstanceOfType);
 		}
 
+        /// <summary>Translate to generic i collection.</summary>
+        /// <param name="fromList">        List of froms.</param>
+        /// <param name="toInstanceOfType">Type of to instance of.</param>
+        /// <returns>A list of.</returns>
 		public static ICollection<T> TranslateToGenericICollection(
 			ICollection<T> fromList, Type toInstanceOfType)
 		{
@@ -188,15 +258,27 @@ namespace NServiceKit.Text
 		}
 	}
 
+    /// <summary>A translate list with convertible elements.</summary>
+    /// <typeparam name="TFrom">Type of from.</typeparam>
+    /// <typeparam name="TTo">  Type of to.</typeparam>
 	public class TranslateListWithConvertibleElements<TFrom, TTo>
 	{
+        /// <summary>The convert function.</summary>
 		private static readonly Func<TFrom, TTo> ConvertFn;
 
+        /// <summary>
+        /// Initializes static members of the NServiceKit.Text.TranslateListWithConvertibleElements&lt;
+        /// TFrom, TTo&gt; class.
+        /// </summary>
 		static TranslateListWithConvertibleElements()
 		{
 			ConvertFn = GetConvertFn();
 		}
 
+        /// <summary>Late bound translate to generic i collection.</summary>
+        /// <param name="fromList">        List of froms.</param>
+        /// <param name="toInstanceOfType">Type of to instance of.</param>
+        /// <returns>An object.</returns>
 		public static object LateBoundTranslateToGenericICollection(
 			object fromList, Type toInstanceOfType)
 		{
@@ -204,6 +286,10 @@ namespace NServiceKit.Text
 				(ICollection<TFrom>)fromList, toInstanceOfType);
 		}
 
+        /// <summary>Translate to generic i collection.</summary>
+        /// <param name="fromList">        List of froms.</param>
+        /// <param name="toInstanceOfType">Type of to instance of.</param>
+        /// <returns>A list of.</returns>
 		public static ICollection<TTo> TranslateToGenericICollection(
 			ICollection<TFrom> fromList, Type toInstanceOfType)
 		{
@@ -219,6 +305,8 @@ namespace NServiceKit.Text
 			return to;
 		}
 
+        /// <summary>Gets convert function.</summary>
+        /// <returns>The convert function.</returns>
 		private static Func<TFrom, TTo> GetConvertFn()
 		{
 			if (typeof(TTo) == typeof(string))

@@ -7,21 +7,33 @@ using System.Reflection;
 
 namespace NServiceKit.Text.Common
 {
+    /// <summary>A deserialize specialized collections.</summary>
+    /// <typeparam name="T">          Generic type parameter.</typeparam>
+    /// <typeparam name="TSerializer">Type of the serializer.</typeparam>
     internal static class DeserializeSpecializedCollections<T, TSerializer>
         where TSerializer : ITypeSerializer
     {
+        /// <summary>The cache function.</summary>
         private readonly static ParseStringDelegate CacheFn;
 
+        /// <summary>
+        /// Initializes static members of the
+        /// NServiceKit.Text.Common.DeserializeSpecializedCollections&lt;T, TSerializer&gt; class.
+        /// </summary>
         static DeserializeSpecializedCollections()
         {
             CacheFn = GetParseFn();
         }
 
+        /// <summary>Gets the parse.</summary>
+        /// <value>The parse.</value>
         public static ParseStringDelegate Parse
         {
             get { return CacheFn; }
         }
 
+        /// <summary>Gets parse function.</summary>
+        /// <returns>The parse function.</returns>
         public static ParseStringDelegate GetParseFn()
         {
             if (typeof(T).HasAnyTypeDefinitionsOf(typeof(Queue<>)))
@@ -60,12 +72,18 @@ namespace NServiceKit.Text.Common
             return GetGenericEnumerableParseFn();
         }
 
+        /// <summary>Parse string queue.</summary>
+        /// <param name="value">The value.</param>
+        /// <returns>A Queue&lt;string&gt;</returns>
         public static Queue<string> ParseStringQueue(string value)
         {
             var parse = (IEnumerable<string>)DeserializeList<List<string>, TSerializer>.Parse(value);
             return new Queue<string>(parse);
         }
 
+        /// <summary>Parse int queue.</summary>
+        /// <param name="value">The value.</param>
+        /// <returns>A Queue&lt;int&gt;</returns>
         public static Queue<int> ParseIntQueue(string value)
         {
             var parse = (IEnumerable<int>)DeserializeList<List<int>, TSerializer>.Parse(value);
@@ -73,6 +91,10 @@ namespace NServiceKit.Text.Common
         }
 
 #if !SILVERLIGHT
+        /// <summary>Parse string collection.</summary>
+        /// <typeparam name="TS">Type of the ts.</typeparam>
+        /// <param name="value">The value.</param>
+        /// <returns>A StringCollection.</returns>
         public static StringCollection ParseStringCollection<TS>(string value) where TS : ITypeSerializer
         {
             if ((value = DeserializeListWithElements<TS>.StripList(value)) == null) return null;
@@ -81,6 +103,9 @@ namespace NServiceKit.Text.Common
                    : ToStringCollection(DeserializeListWithElements<TSerializer>.ParseStringList(value));
         }
 
+        /// <summary>Converts the items to a string collection.</summary>
+        /// <param name="items">The items.</param>
+        /// <returns>items as a StringCollection.</returns>
         public static StringCollection ToStringCollection(List<string> items)
         {
             var to = new StringCollection();
@@ -92,6 +117,8 @@ namespace NServiceKit.Text.Common
         }
 #endif
 
+        /// <summary>Gets generic queue parse function.</summary>
+        /// <returns>The generic queue parse function.</returns>
         internal static ParseStringDelegate GetGenericQueueParseFn()
         {
             var enumerableInterface = typeof(T).GetTypeWithGenericInterfaceOf(typeof(IEnumerable<>));
@@ -105,18 +132,26 @@ namespace NServiceKit.Text.Common
             return x => convertToQueue(parseFn(x));
         }
 
+        /// <summary>Parse string stack.</summary>
+        /// <param name="value">The value.</param>
+        /// <returns>A Stack&lt;string&gt;</returns>
         public static Stack<string> ParseStringStack(string value)
         {
             var parse = (IEnumerable<string>)DeserializeList<List<string>, TSerializer>.Parse(value);
             return new Stack<string>(parse);
         }
 
+        /// <summary>Parse int stack.</summary>
+        /// <param name="value">The value.</param>
+        /// <returns>A Stack&lt;int&gt;</returns>
         public static Stack<int> ParseIntStack(string value)
         {
             var parse = (IEnumerable<int>)DeserializeList<List<int>, TSerializer>.Parse(value);
             return new Stack<int>(parse);
         }
 
+        /// <summary>Gets generic stack parse function.</summary>
+        /// <returns>The generic stack parse function.</returns>
         internal static ParseStringDelegate GetGenericStackParseFn()
         {
             var enumerableInterface = typeof(T).GetTypeWithGenericInterfaceOf(typeof(IEnumerable<>));
@@ -131,11 +166,15 @@ namespace NServiceKit.Text.Common
             return x => convertToQueue(parseFn(x));
         }
 
+        /// <summary>Gets enumerable parse function.</summary>
+        /// <returns>The enumerable parse function.</returns>
         public static ParseStringDelegate GetEnumerableParseFn()
         {
             return DeserializeListWithElements<TSerializer>.ParseStringList;
         }
 
+        /// <summary>Gets generic enumerable parse function.</summary>
+        /// <returns>The generic enumerable parse function.</returns>
         public static ParseStringDelegate GetGenericEnumerableParseFn()
         {
             var enumerableInterface = typeof(T).GetTypeWithGenericInterfaceOf(typeof(IEnumerable<>));
@@ -153,14 +192,22 @@ namespace NServiceKit.Text.Common
         }
     }
 
+    /// <summary>A specialized queue elements.</summary>
+    /// <typeparam name="T">Generic type parameter.</typeparam>
     internal class SpecializedQueueElements<T>
     {
+        /// <summary>Converts an enumerable to a queue.</summary>
+        /// <param name="enumerable">The enumerable.</param>
+        /// <returns>The given data converted to a queue.</returns>
         public static Queue<T> ConvertToQueue(object enumerable)
         {
             if (enumerable == null) return null;
             return new Queue<T>((IEnumerable<T>)enumerable);
         }
 
+        /// <summary>Converts an enumerable to a stack.</summary>
+        /// <param name="enumerable">The enumerable.</param>
+        /// <returns>The given data converted to a stack.</returns>
         public static Stack<T> ConvertToStack(object enumerable)
         {
             if (enumerable == null) return null;
@@ -168,10 +215,18 @@ namespace NServiceKit.Text.Common
         }
     }
 
+    /// <summary>A specialized enumerable elements.</summary>
+    /// <typeparam name="TCollection">Type of the collection.</typeparam>
+    /// <typeparam name="T">          Generic type parameter.</typeparam>
     internal class SpecializedEnumerableElements<TCollection, T>
     {
+        /// <summary>The convert function.</summary>
         public static ConvertObjectDelegate ConvertFn;
 
+        /// <summary>
+        /// Initializes static members of the NServiceKit.Text.Common.SpecializedEnumerableElements&lt;
+        /// TCollection, T&gt; class.
+        /// </summary>
         static SpecializedEnumerableElements()
         {
             foreach (var ctorInfo in typeof(TCollection).DeclaredConstructors())
@@ -198,11 +253,17 @@ namespace NServiceKit.Text.Common
             }
         }
 
+        /// <summary>Converts the given enumerable.</summary>
+        /// <param name="enumerable">The enumerable.</param>
+        /// <returns>An object.</returns>
         public static object Convert(object enumerable)
         {
             return ConvertFn(enumerable);
         }
 
+        /// <summary>Initializes this object from the given convert from collection.</summary>
+        /// <param name="enumerable">The enumerable.</param>
+        /// <returns>from converted collection.</returns>
         public static object ConvertFromCollection(object enumerable)
         {
             var to = (ICollection<T>)typeof(TCollection).CreateInstance();

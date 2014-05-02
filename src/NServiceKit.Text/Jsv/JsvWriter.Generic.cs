@@ -20,12 +20,17 @@ using NServiceKit.Text.Common;
 
 namespace NServiceKit.Text.Jsv
 {
+    /// <summary>A jsv writer.</summary>
 	internal static class JsvWriter
 	{
+        /// <summary>The instance.</summary>
 		public static readonly JsWriter<JsvTypeSerializer> Instance = new JsWriter<JsvTypeSerializer>();
 
+        /// <summary>The write function cache.</summary>
         private static Dictionary<Type, WriteObjectDelegate> WriteFnCache = new Dictionary<Type, WriteObjectDelegate>();
-        
+
+        /// <summary>Removes the cache function described by forType.</summary>
+        /// <param name="forType">Type of for.</param>
         internal static void RemoveCacheFn(Type forType)
         {
             Dictionary<Type, WriteObjectDelegate> snapshot, newCache;
@@ -39,6 +44,10 @@ namespace NServiceKit.Text.Jsv
                 Interlocked.CompareExchange(ref WriteFnCache, newCache, snapshot), snapshot));
         }
 
+        /// <summary>Gets write function.</summary>
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        /// <param name="type">The type.</param>
+        /// <returns>The write function.</returns>
 		public static WriteObjectDelegate GetWriteFn(Type type)
 		{
 			try
@@ -71,6 +80,9 @@ namespace NServiceKit.Text.Jsv
 			}
 		}
 
+        /// <summary>Writes a late bound object.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="value"> The value.</param>
 		public static void WriteLateBoundObject(TextWriter writer, object value)
 		{
 			if (value == null) return;
@@ -85,20 +97,23 @@ namespace NServiceKit.Text.Jsv
 			JsState.IsWritingDynamic = prevState;
 		}
 
+        /// <summary>Gets value type to string method.</summary>
+        /// <param name="type">The type.</param>
+        /// <returns>The value type to string method.</returns>
 		public static WriteObjectDelegate GetValueTypeToStringMethod(Type type)
 		{
 			return Instance.GetValueTypeToStringMethod(type);
 		}
 	}
 
-	/// <summary>
-	/// Implement the serializer using a more static approach
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
+    /// <summary>Implement the serializer using a more static approach.</summary>
+    /// <typeparam name="T">.</typeparam>
 	internal static class JsvWriter<T>
 	{
+        /// <summary>The cache function.</summary>
 		private static WriteObjectDelegate CacheFn;
-        
+
+        /// <summary>Resets this object.</summary>
         public static void Reset()
         {
             JsvWriter.RemoveCacheFn(typeof(T));
@@ -108,11 +123,16 @@ namespace NServiceKit.Text.Jsv
                 : JsvWriter.Instance.GetWriteFn<T>();
         }
 
+        /// <summary>Writes the function.</summary>
+        /// <returns>A WriteObjectDelegate.</returns>
 		public static WriteObjectDelegate WriteFn()
 		{
 			return CacheFn ?? WriteObject;
 		}
 
+        /// <summary>
+        /// Initializes static members of the NServiceKit.Text.Jsv.JsvWriter&lt;T&gt; class.
+        /// </summary>
 		static JsvWriter()
 		{
 		    CacheFn = typeof(T) == typeof(object) 
@@ -120,6 +140,9 @@ namespace NServiceKit.Text.Jsv
                 : JsvWriter.Instance.GetWriteFn<T>();
 		}
 
+        /// <summary>Writes an object.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="value"> The value.</param>
         public static void WriteObject(TextWriter writer, object value)
         {
 #if MONOTOUCH
@@ -138,6 +161,9 @@ namespace NServiceKit.Text.Jsv
             }
         }
 
+        /// <summary>Writes a root object.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="value"> The value.</param>
         public static void WriteRootObject(TextWriter writer, object value)
         {
 #if MONOTOUCH

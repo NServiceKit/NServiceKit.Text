@@ -7,10 +7,22 @@ using NServiceKit.Text.Jsv;
 
 namespace NServiceKit.Text.Common
 {
+    /// <summary>A deserialize type reference jsv.</summary>
     internal static class DeserializeTypeRefJsv
     {
+        /// <summary>The serializer.</summary>
         private static readonly JsvTypeSerializer Serializer = (JsvTypeSerializer)JsvTypeSerializer.Instance;
 
+        /// <summary>String to type.</summary>
+        /// <exception cref="CreateSerializationError"> Thrown when a create serialization error error
+        /// condition occurs.</exception>
+        /// <exception cref="GetSerializationException">Thrown when a Get Serialization error condition
+        /// occurs.</exception>
+        /// <param name="type">           The type.</param>
+        /// <param name="strType">        The type.</param>
+        /// <param name="ctorFn">         The constructor function.</param>
+        /// <param name="typeAccessorMap">The type accessor map.</param>
+        /// <returns>An object.</returns>
         internal static object StringToType(
             Type type,
             string strType,

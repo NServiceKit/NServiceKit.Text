@@ -16,13 +16,26 @@ using NServiceKit.Text.Common;
 
 namespace NServiceKit.Text
 {
+    /// <summary>A map extensions.</summary>
 	public static class MapExtensions
 	{
+        /// <summary>A Dictionary&lt;K,V&gt; extension method that joins.</summary>
+        /// <typeparam name="K">Generic type parameter.</typeparam>
+        /// <typeparam name="V">Generic type parameter.</typeparam>
+        /// <param name="values">The values to act on.</param>
+        /// <returns>A string.</returns>
 		public static string Join<K, V>(this Dictionary<K, V> values)
 		{
 			return Join(values, JsWriter.ItemSeperatorString, JsWriter.MapKeySeperatorString);
 		}
 
+        /// <summary>A Dictionary&lt;K,V&gt; extension method that joins.</summary>
+        /// <typeparam name="K">Generic type parameter.</typeparam>
+        /// <typeparam name="V">Generic type parameter.</typeparam>
+        /// <param name="values">       The values to act on.</param>
+        /// <param name="itemSeperator">The item seperator.</param>
+        /// <param name="keySeperator"> The key seperator.</param>
+        /// <returns>A string.</returns>
 		public static string Join<K, V>(this Dictionary<K, V> values, string itemSeperator, string keySeperator)
 		{
 			var sb = new StringBuilder();

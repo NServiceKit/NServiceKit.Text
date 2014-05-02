@@ -5,9 +5,11 @@ using NServiceKit.Common.Tests.Models;
 
 namespace NServiceKit.Text.Tests
 {
+    /// <summary>A query string writer tests.</summary>
 	[TestFixture]
 	public class QueryStringWriterTests
 	{
+        /// <summary>Can write query string.</summary>
         [Test]
 		public void Can_Write_QueryString()
 		{
@@ -30,6 +32,7 @@ namespace NServiceKit.Text.Tests
                 Is.EqualTo("Id=tt0110912&Title=Pulp%20Fiction&Rating=8.9&Director=Quentin%20Tarantino&ReleaseDate=1994-10-24&TagLine=Girls%20like%20me%20don%27t%20make%20invitations%20like%20this%20to%20just%20anyone%21&Genres=Crime,Drama,Thriller"));
         }
 
+        /// <summary>Can write dictionary to query string.</summary>
         [Test]
         public void Can_write_dictionary_to_QueryString()
         {
@@ -52,6 +55,7 @@ namespace NServiceKit.Text.Tests
                 Is.EqualTo("Id=tt0110912&Title=Pulp%20Fiction&Rating=8.9&Director=Quentin%20Tarantino&ReleaseDate=1994-10-24&TagLine=Girls%20like%20me%20don%27t%20make%20invitations%20like%20this%20to%20just%20anyone%21&Genres=%22Crime,Drama,Thriller%22"));
         }
 
+        /// <summary>Can write anonymous type to query string.</summary>
         [Test]
         public void Can_write_AnonymousType_to_QueryString()
         {
@@ -72,6 +76,7 @@ namespace NServiceKit.Text.Tests
                 Is.EqualTo("Id=tt0110912&Title=Pulp%20Fiction&Rating=8.9&Director=Quentin%20Tarantino&ReleaseDate=1994-10-24&TagLine=Girls%20like%20me%20don%27t%20make%20invitations%20like%20this%20to%20just%20anyone%21&Genres=Crime,Drama,Thriller"));
         }
 
+        /// <summary>Can write string to query string.</summary>
         [Test]
         public void Can_write_string_to_QueryString()
         {

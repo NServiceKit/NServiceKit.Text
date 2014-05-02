@@ -5,10 +5,12 @@ using System.Collections.Generic;
 
 namespace NServiceKit.Text.Tests
 {
+    /// <summary>A dictionary tests.</summary>
     [TestFixture]
     public class DictionaryTests
         : TestBase
     {
+        /// <summary>Sets the up.</summary>
         [TestFixtureSetUp]
         public void SetUp()
         {
@@ -29,12 +31,14 @@ namespace NServiceKit.Text.Tests
 #endif
         }
 
+        /// <summary>Tear down.</summary>
         [TearDown]
         public void TearDown()
         {
             JsConfig.Reset();
         }
 
+        /// <summary>Can serialize one level dictionary.</summary>
         [Test]
         public void Can_serialize_one_level_dictionary()
         {
@@ -46,6 +50,7 @@ namespace NServiceKit.Text.Tests
             Serialize(map);
         }
 
+        /// <summary>Can serialize empty map.</summary>
         [Test]
         public void Can_serialize_empty_map()
         {
@@ -54,6 +59,7 @@ namespace NServiceKit.Text.Tests
             Serialize(emptyMap);
         }
 
+        /// <summary>Can serialize empty string map.</summary>
         [Test]
         public void Can_serialize_empty_string_map()
         {
@@ -62,6 +68,7 @@ namespace NServiceKit.Text.Tests
             Serialize(emptyMap);
         }
 
+        /// <summary>Can serialize two level dictionary.</summary>
         [Test]
         public void Can_serialize_two_level_dictionary()
         {
@@ -82,6 +89,7 @@ namespace NServiceKit.Text.Tests
             Serialize(map);
         }
 
+        /// <summary>Can serialize two level dictionary with int key.</summary>
         [Test]
         public void Can_serialize_two_level_dictionary_with_int_key()
         {
@@ -102,6 +110,7 @@ namespace NServiceKit.Text.Tests
             Serialize(map);
         }
 
+        /// <summary>Can deserialize two level dictionary with array.</summary>
         [Test]
         public void Can_deserialize_two_level_dictionary_with_array()
         {
@@ -128,6 +137,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(((List<object>)deserialized["array"])[2].ToJson(), Is.EqualTo("{\"Name\":\"Third\"}"));
         }
 
+        /// <summary>Can deserialize dictionary with special characters in strings.</summary>
         [Test]
         public void Can_deserialize_dictionary_with_special_characters_in_strings()
         {
@@ -170,6 +180,8 @@ namespace NServiceKit.Text.Tests
             Assert.That(deserialized["ShouldBeANegativeIntegerInAString"], Is.EqualTo("-12345"));
         }
 
+        /// <summary>Sets up the dictionary.</summary>
+        /// <returns>A Dictionary&lt;string,object&gt;</returns>
         private static Dictionary<string, object> SetupDict()
         {
             return new Dictionary<string, object> {
@@ -181,14 +193,28 @@ namespace NServiceKit.Text.Tests
             };
         }
 
+        /// <summary>A mix type.</summary>
         public class MixType
         {
+            /// <summary>Gets or sets a.</summary>
+            /// <value>a.</value>
             public string a { get; set; }
+
+            /// <summary>Gets or sets the b.</summary>
+            /// <value>The b.</value>
             public int b { get; set; }
+
+            /// <summary>Gets or sets a value indicating whether the c.</summary>
+            /// <value>true if c, false if not.</value>
             public bool c { get; set; }
+
+            /// <summary>Gets or sets the d.</summary>
+            /// <value>The d.</value>
             public int[] d { get; set; }
         }
 
+        /// <summary>Assert dictionary.</summary>
+        /// <param name="dict">The dictionary.</param>
         private static void AssertDict(Dictionary<string, object> dict)
         {
             Assert.AreEqual("text", dict["a"]);
@@ -205,6 +231,7 @@ namespace NServiceKit.Text.Tests
         //    AssertDict(deserializedDict);
         //}
 
+        /// <summary>Tests n service kit text type serializer.</summary>
         [Test]
         public void Test_NServiceKit_Text_TypeSerializer()
         {
@@ -217,6 +244,7 @@ namespace NServiceKit.Text.Tests
             AssertDict(deserializedDict);
         }
 
+        /// <summary>Tests n service kit text JSON serializer.</summary>
         [Test]
         public void Test_NServiceKit_Text_JsonSerializer()
         {
@@ -229,6 +257,9 @@ namespace NServiceKit.Text.Tests
             AssertDict(deserializedDict);
         }
 
+        /// <summary>
+        /// Tests n service kit text JSON serializer array value deserializes correctly.
+        /// </summary>
         [Test]
         public void Test_NServiceKit_Text_JsonSerializer_Array_Value_Deserializes_Correctly()
         {
@@ -242,7 +273,7 @@ namespace NServiceKit.Text.Tests
             Assert.AreEqual(new List<int> { 1, 2, 3 }, deserializedDict["d"]);
         }
 
-
+        /// <summary>Deserizes to decimal by default.</summary>
         [Test]
         public void deserizes_to_decimal_by_default()
         {
@@ -255,14 +286,29 @@ namespace NServiceKit.Text.Tests
             Assert.That(deserializedDict["e"], Is.EqualTo(1m));
 
         }
+
+        /// <summary>A numeric type.</summary>
         class NumericType
         {
-
+            /// <summary>
+            /// Initializes a new instance of the NServiceKit.Text.Tests.DictionaryTests.NumericType
+            /// class.
+            /// </summary>
+            /// <param name="max"> The maximum value.</param>
+            /// <param name="type">The type.</param>
             public NumericType(decimal max, Type type)
                 : this(0, max, type)
             {
 
             }
+
+            /// <summary>
+            /// Initializes a new instance of the NServiceKit.Text.Tests.DictionaryTests.NumericType
+            /// class.
+            /// </summary>
+            /// <param name="min"> The minimum value.</param>
+            /// <param name="max"> The maximum value.</param>
+            /// <param name="type">The type.</param>
             public NumericType(decimal min, decimal max, Type type)
             {
                 Min = min;
@@ -270,11 +316,20 @@ namespace NServiceKit.Text.Tests
                 Type = type;
             }
 
+            /// <summary>Gets the minimum.</summary>
+            /// <value>The minimum value.</value>
             public decimal Min { get; private set; }
+
+            /// <summary>Gets the maximum.</summary>
+            /// <value>The maximum value.</value>
             public decimal Max { get; private set; }
+
+            /// <summary>Gets the type.</summary>
+            /// <value>The type.</value>
             public Type Type { get; private set; }
         }
 
+        /// <summary>Deserizes signed bytes into best fit numeric.</summary>
         [Test]
         public void deserizes_signed_bytes_into_to_best_fit_numeric()
         {
@@ -289,6 +344,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(deserializedDict["max"], Is.EqualTo(sbyte.MaxValue));
         }
 
+        /// <summary>Deserizes signed types into best fit numeric.</summary>
         [Test]
         public void deserizes_signed_types_into_to_best_fit_numeric()
         {
@@ -321,6 +377,7 @@ namespace NServiceKit.Text.Tests
             }
         }
 
+        /// <summary>Deserizes unsigned types into best fit numeric.</summary>
         [Test]
         public void deserizes_unsigned_types_into_to_best_fit_numeric()
         {
@@ -354,6 +411,7 @@ namespace NServiceKit.Text.Tests
             }
         }
 
+        /// <summary>Can deserialize mixed dictionary into strongtyped map.</summary>
         [Test]
         public void Can_deserialize_mixed_dictionary_into_strongtyped_map()
         {
@@ -369,6 +427,7 @@ namespace NServiceKit.Text.Tests
             Assert.AreEqual(new[] { 1, 2, 3 }, mixedType.d);
         }
 
+        /// <summary>Can serialise null values from dictionary correctly.</summary>
         [Test]
         public void Can_serialise_null_values_from_dictionary_correctly()
         {
@@ -384,6 +443,7 @@ namespace NServiceKit.Text.Tests
             JsConfig.Reset();
         }
 
+        /// <summary>Will ignore null values from dictionary correctly.</summary>
         [Test]
         public void Will_ignore_null_values_from_dictionary_correctly()
         {
@@ -399,12 +459,19 @@ namespace NServiceKit.Text.Tests
             JsConfig.Reset();
         }
 
+        /// <summary>A foo slash.</summary>
         public class FooSlash
         {
+            /// <summary>Gets or sets the nested.</summary>
+            /// <value>The nested.</value>
             public Dictionary<string, string> Nested { get; set; }
+
+            /// <summary>Gets or sets the bar.</summary>
+            /// <value>The bar.</value>
             public string Bar { get; set; }
         }
 
+        /// <summary>Can serialize dictionary with end slash.</summary>
         [Test]
         public void Can_serialize_Dictionary_with_end_slash()
         {
@@ -416,6 +483,7 @@ namespace NServiceKit.Text.Tests
             Serialize(foo);
         }
 
+        /// <summary>Can serialise null values from nested dictionary correctly.</summary>
         [Test]
         public void Can_serialise_null_values_from_nested_dictionary_correctly()
         {
@@ -426,6 +494,7 @@ namespace NServiceKit.Text.Tests
             JsConfig.Reset();
         }
 
+        /// <summary>Can serialize dictionary with quotes.</summary>
         [Test]
         public void Can_serialize_Dictionary_with_quotes()
         {
@@ -435,6 +504,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(to["title"], Is.EqualTo(dto["title"]));
         }
 
+        /// <summary>Can serialize dictionary with escaped symbols in key.</summary>
         [Test]
         public void Can_serialize_Dictionary_with_escaped_symbols_in_key()
         {
@@ -444,6 +514,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(to.Keys.ToArray()[0], Is.EqualTo(@"a\fb"));
         }
 
+        /// <summary>Can serialize dictionary with escaped symbols in key and binary value.</summary>
         [Test]
         public void Can_serialize_Dictionary_with_escaped_symbols_in_key_and_binary_value()
         {
@@ -453,6 +524,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(to.Keys.ToArray()[0], Is.EqualTo(@"a\fb"));
         }
 
+        /// <summary>Can serialize dictionary with int key and string with quote.</summary>
         [Test]
         public void Can_serialize_Dictionary_with_int_key_and_string_with_quote()
         {
@@ -463,6 +535,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(to[1], Is.EqualTo(@"a""b"));
         }
 
+        /// <summary>Can serialize string byte dictionary with UTF 8.</summary>
         [Test]
         public void Can_serialize_string_byte_Dictionary_with_UTF8()
         {
@@ -472,6 +545,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(to.Keys.ToArray()[0], Is.EqualTo("aфаž\"a"));
         }
 
+        /// <summary>Can serialize string dictionary with UTF 8.</summary>
         [Test]
         public void Can_serialize_string_string_Dictionary_with_UTF8()
         {
@@ -481,6 +555,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(to.Keys.ToArray()[0], Is.EqualTo("aфаž\"a"));
         }
 
+        /// <summary>Can deserialize object to dictionary.</summary>
         [Test]
         public void Can_Deserialize_Object_To_Dictionary()
         {

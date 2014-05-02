@@ -5,15 +5,18 @@ using System.Collections.Generic;
 
 namespace NServiceKit.Text.Tests.CsvTests
 {
+    /// <summary>A custom header tests.</summary>
     [TestFixture]
     public class CustomHeaderTests
     {
+        /// <summary>Tests fixture tear down.</summary>
         [TestFixtureTearDown]
         public void TestFixtureTearDown()
         {
             CsvConfig<TableItem>.Reset();
         }
 
+        /// <summary>Can serialize custom headers map.</summary>
         [Test]
         public void Can_serialize_custom_headers_map()
         {
@@ -43,6 +46,7 @@ namespace NServiceKit.Text.Tests.CsvTests
             ));
         }
 
+        /// <summary>Can serialize custom anonymous type headers.</summary>
         [Test]
         public void Can_serialize_custom_anonymous_type_headers()
         {
@@ -73,6 +77,7 @@ namespace NServiceKit.Text.Tests.CsvTests
             ));
         }
 
+        /// <summary>Can serialize partial custom headers map.</summary>
         [Test]
         public void Can_serialize_partial_custom_headers_map()
         {
@@ -100,6 +105,7 @@ namespace NServiceKit.Text.Tests.CsvTests
             ));
         }
 
+        /// <summary>Can serialize without headers.</summary>
         [Test]
         public void Can_serialize_without_headers()
         {

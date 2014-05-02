@@ -11,15 +11,21 @@ using NServiceKit.Text.Common;
 
 namespace NServiceKit.Text.Tests
 {
+    /// <summary>A string serializer translation tests.</summary>
 	[TestFixture]
 	public class StringSerializerTranslationTests
 		: TestBase
 	{
+        /// <summary>
+        /// Initializes a new instance of the NServiceKit.Text.Tests.StringSerializerTranslationTests
+        /// class.
+        /// </summary>
 		public StringSerializerTranslationTests()
 		{
 			NorthwindData.LoadData(false);
 		}
 
+        /// <summary>Can convert from customer to dictionary.</summary>
 		[Test]
 		public void Can_convert_from_Customer_to_Dictionary()
 		{
@@ -31,6 +37,9 @@ namespace NServiceKit.Text.Tests
 			AssertDictonaryIsEqualToCustomer(model, translateToModel);
 		}
 
+        /// <summary>Assert dictonary is equal to customer.</summary>
+        /// <param name="model">           The model.</param>
+        /// <param name="translateToModel">The translate to model.</param>
 		private static void AssertDictonaryIsEqualToCustomer(CustomerDto model, IDictionary<string, string> translateToModel)
 		{
 			Assert.That(translateToModel["Id"], Is.EqualTo(model.Id));
@@ -48,6 +57,7 @@ namespace NServiceKit.Text.Tests
 			Assert.That(translateToModel.ContainsKey("Picture"), Is.False);
 		}
 
+        /// <summary>Can convert model with fields of different types to string dictionary.</summary>
 		[Test]
 		public void Can_convert_ModelWithFieldsOfDifferentTypes_to_string_Dictionary()
 		{
@@ -64,6 +74,7 @@ namespace NServiceKit.Text.Tests
 			Assert.That(translateToModel["LongId"], Is.EqualTo(model.LongId.ToString()));
 		}
 
+        /// <summary>Can convert string dictionary to model with fields of different types.</summary>
 		[Test]
 		public void Can_convert_string_Dictionary_to_ModelWithFieldsOfDifferentTypes()
 		{
@@ -90,6 +101,7 @@ namespace NServiceKit.Text.Tests
 			Assert.That(translateToModel.LongId, Is.EqualTo(long.Parse(model["LongId"])));
 		}
 
+        /// <summary>Can convert model with fields of different types to object dictionary.</summary>
 		[Test]
 		public void Can_convert_ModelWithFieldsOfDifferentTypes_to_object_Dictionary()
 		{
@@ -106,6 +118,7 @@ namespace NServiceKit.Text.Tests
 			Assert.That(translateToModel["Name"], Is.EqualTo(model.Name));
 		}
 
+        /// <summary>Can convert dictionary to model with identifier and name.</summary>
 		[Test]
 		public void Can_convert_Dictionary_to_ModelWithIdAndName()
 		{
@@ -117,13 +130,23 @@ namespace NServiceKit.Text.Tests
 			Assert.That(translateToModel.Name, Is.EqualTo(model["Name"]));
 		}
 
+        /// <summary>A multi customer dictionaries.</summary>
 		public class MultiCustomerDictionaries
 		{
+            /// <summary>Gets or sets the customer 1.</summary>
+            /// <value>The customer 1.</value>
 			public Dictionary<string, string> Customer1 { get; set; }
+
+            /// <summary>Gets or sets the customer 2.</summary>
+            /// <value>The customer 2.</value>
 			public Dictionary<string, string> Customer2 { get; set; }
+
+            /// <summary>Gets or sets the customer 3.</summary>
+            /// <value>The customer 3.</value>
 			public Dictionary<string, string> Customer3 { get; set; }
 		}
 
+        /// <summary>Can convert multi customer properties to multi customer dictionaries.</summary>
 		[Test]
 		public void Can_convert_MultiCustomerProperties_to_MultiCustomerDictionaries()
 		{

@@ -7,16 +7,19 @@ using NUnit.Framework;
 
 namespace NServiceKit.Text.Tests
 {
+    /// <summary>A string serializer tests.</summary>
 	[TestFixture]
 	public class StringSerializerTests
 		: TestBase
 	{
+        /// <summary>Tests fixture set up.</summary>
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
 			NorthwindData.LoadData(false);
 		}
 
+        /// <summary>Can convert customer order list dto.</summary>
 		[Test]
 		public void Can_convert_CustomerOrderListDto()
 		{
@@ -25,6 +28,7 @@ namespace NServiceKit.Text.Tests
 			Serialize(dto);
 		}
 
+        /// <summary>Can convert to customer order list dto.</summary>
 		[Test]
 		public void Can_convert_to_CustomerOrderListDto()
 		{
@@ -33,6 +37,7 @@ namespace NServiceKit.Text.Tests
 			Serialize(dto);
 		}
 
+        /// <summary>Can convert to customers.</summary>
 		[Test]
 		public void Can_convert_to_Customers()
 		{
@@ -41,6 +46,7 @@ namespace NServiceKit.Text.Tests
 			Serialize(dto);
 		}
 
+        /// <summary>Can convert to orders.</summary>
 		[Test]
 		public void Can_convert_to_Orders()
 		{

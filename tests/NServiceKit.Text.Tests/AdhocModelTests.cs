@@ -12,64 +12,118 @@ using NServiceKit.Text.Jsv;
 
 namespace NServiceKit.Text.Tests
 {
+    /// <summary>An adhoc model tests.</summary>
     [TestFixture]
     public class AdhocModelTests
         : TestBase
     {
+        /// <summary>Values that represent FlowPostType.</summary>
         public enum FlowPostType
         {
+            /// <summary>An enum constant representing the content option.</summary>
             Content,
+
+            /// <summary>An enum constant representing the text option.</summary>
             Text,
+
+            /// <summary>An enum constant representing the promo option.</summary>
             Promo,
         }
 
+        /// <summary>A flow post transient.</summary>
         public class FlowPostTransient
         {
+            /// <summary>
+            /// Initializes a new instance of the NServiceKit.Text.Tests.AdhocModelTests.FlowPostTransient
+            /// class.
+            /// </summary>
             public FlowPostTransient()
             {
                 this.TrackUrns = new List<string>();
             }
 
+            /// <summary>Gets or sets the identifier.</summary>
+            /// <value>The identifier.</value>
             public long Id { get; set; }
 
+            /// <summary>Gets or sets the URN.</summary>
+            /// <value>The URN.</value>
             public string Urn { get; set; }
 
+            /// <summary>Gets or sets the identifier of the user.</summary>
+            /// <value>The identifier of the user.</value>
             public Guid UserId { get; set; }
 
+            /// <summary>Gets or sets the Date/Time of the date added.</summary>
+            /// <value>The date added.</value>
             public DateTime DateAdded { get; set; }
 
+            /// <summary>Gets or sets the Date/Time of the date modified.</summary>
+            /// <value>The date modified.</value>
             public DateTime DateModified { get; set; }
 
+            /// <summary>Gets or sets the identifier of the target user.</summary>
+            /// <value>The identifier of the target user.</value>
             public Guid? TargetUserId { get; set; }
 
+            /// <summary>Gets or sets the identifier of the forwarded post.</summary>
+            /// <value>The identifier of the forwarded post.</value>
             public long? ForwardedPostId { get; set; }
 
+            /// <summary>Gets or sets the identifier of the origin user.</summary>
+            /// <value>The identifier of the origin user.</value>
             public Guid OriginUserId { get; set; }
 
+            /// <summary>Gets or sets the name of the origin user.</summary>
+            /// <value>The name of the origin user.</value>
             public string OriginUserName { get; set; }
 
+            /// <summary>Gets or sets the identifier of the source user.</summary>
+            /// <value>The identifier of the source user.</value>
             public Guid SourceUserId { get; set; }
 
+            /// <summary>Gets or sets the name of the source user.</summary>
+            /// <value>The name of the source user.</value>
             public string SourceUserName { get; set; }
 
+            /// <summary>Gets or sets the subject URN.</summary>
+            /// <value>The subject URN.</value>
             public string SubjectUrn { get; set; }
 
+            /// <summary>Gets or sets the content URN.</summary>
+            /// <value>The content URN.</value>
             public string ContentUrn { get; set; }
 
+            /// <summary>Gets or sets the track urns.</summary>
+            /// <value>The track urns.</value>
             public IList<string> TrackUrns { get; set; }
 
+            /// <summary>Gets or sets the caption.</summary>
+            /// <value>The caption.</value>
             public string Caption { get; set; }
 
+            /// <summary>Gets or sets the identifier of the caption user.</summary>
+            /// <value>The identifier of the caption user.</value>
             public Guid CaptionUserId { get; set; }
 
+            /// <summary>Gets or sets the name of the caption source.</summary>
+            /// <value>The name of the caption source.</value>
             public string CaptionSourceName { get; set; }
 
+            /// <summary>Gets or sets the forwarded post URN.</summary>
+            /// <value>The forwarded post URN.</value>
             public string ForwardedPostUrn { get; set; }
 
+            /// <summary>Gets or sets the type of the post.</summary>
+            /// <value>The type of the post.</value>
             public FlowPostType PostType { get; set; }
 
+            /// <summary>Gets or sets the identifier of the on behalf of user.</summary>
+            /// <value>The identifier of the on behalf of user.</value>
             public Guid? OnBehalfOfUserId { get; set; }
 
+            /// <summary>Creates a new FlowPostTransient.</summary>
+            /// <returns>A FlowPostTransient.</returns>
             public static FlowPostTransient Create()
             {
                 return new FlowPostTransient
@@ -97,6 +151,15 @@ namespace NServiceKit.Text.Tests
                 };
             }
 
+            /// <summary>
+            /// Determines whether the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />.
+            /// </summary>
+            /// <param name="other">The flow post transient to compare to this object.</param>
+            /// <returns>
+            /// true if the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />; otherwise, false.
+            /// </returns>
             public bool Equals(FlowPostTransient other)
             {
                 if (ReferenceEquals(null, other)) return false;
@@ -104,6 +167,16 @@ namespace NServiceKit.Text.Tests
                 return other.Id == Id && Equals(other.Urn, Urn) && other.UserId.Equals(UserId) && other.DateAdded.RoundToMs().Equals(DateAdded.RoundToMs()) && other.DateModified.RoundToMs().Equals(DateModified.RoundToMs()) && other.TargetUserId.Equals(TargetUserId) && other.ForwardedPostId.Equals(ForwardedPostId) && other.OriginUserId.Equals(OriginUserId) && Equals(other.OriginUserName, OriginUserName) && other.SourceUserId.Equals(SourceUserId) && Equals(other.SourceUserName, SourceUserName) && Equals(other.SubjectUrn, SubjectUrn) && Equals(other.ContentUrn, ContentUrn) && TrackUrns.EquivalentTo(other.TrackUrns) && Equals(other.Caption, Caption) && other.CaptionUserId.Equals(CaptionUserId) && Equals(other.CaptionSourceName, CaptionSourceName) && Equals(other.ForwardedPostUrn, ForwardedPostUrn) && Equals(other.PostType, PostType) && other.OnBehalfOfUserId.Equals(OnBehalfOfUserId);
             }
 
+            /// <summary>
+            /// Determines whether the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />.
+            /// </summary>
+            /// <param name="obj">The <see cref="T:System.Object" /> to compare with the current
+            /// <see cref="T:System.Object" />.</param>
+            /// <returns>
+            /// true if the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />; otherwise, false.
+            /// </returns>
             public override bool Equals(object obj)
             {
                 if (ReferenceEquals(null, obj)) return false;
@@ -112,6 +185,8 @@ namespace NServiceKit.Text.Tests
                 return Equals((FlowPostTransient)obj);
             }
 
+            /// <summary>Serves as a hash function for a particular type.</summary>
+            /// <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
             public override int GetHashCode()
             {
                 unchecked
@@ -141,12 +216,14 @@ namespace NServiceKit.Text.Tests
             }
         }
 
+        /// <summary>Sets the up.</summary>
         [SetUp]
         public void SetUp()
         {
             JsConfig.Reset();
         }
 
+        /// <summary>Can deserialize text.</summary>
         [Test]
         public void Can_Deserialize_text()
         {
@@ -154,6 +231,7 @@ namespace NServiceKit.Text.Tests
             var fromString = TypeSerializer.DeserializeFromString<List<FlowPostTransient>>(dtoString);
         }
 
+        /// <summary>Can serialize single flow post transient.</summary>
         [Test]
         public void Can_Serialize_single_FlowPostTransient()
         {
@@ -161,6 +239,7 @@ namespace NServiceKit.Text.Tests
             SerializeAndCompare(dto);
         }
 
+        /// <summary>Can serialize jsv dates.</summary>
         [Test]
         public void Can_serialize_jsv_dates()
         {
@@ -171,6 +250,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(fromJsvDate, Is.EqualTo(now));
         }
 
+        /// <summary>Can serialize JSON dates.</summary>
         [Test]
         public void Can_serialize_json_dates()
         {
@@ -182,6 +262,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(fromJsonDate.RoundToMs(), Is.EqualTo(now.RoundToMs()));
         }
 
+        /// <summary>Can serialize multiple flow post transient.</summary>
         [Test]
         public void Can_Serialize_multiple_FlowPostTransient()
         {
@@ -192,13 +273,28 @@ namespace NServiceKit.Text.Tests
             Serialize(dtos);
         }
 
+        /// <summary>A test object.</summary>
         [DataContract]
         public class TestObject
         {
+            /// <summary>Gets or sets the value.</summary>
+            /// <value>The value.</value>
             [DataMember]
             public string Value { get; set; }
+
+            /// <summary>Gets or sets the value no member.</summary>
+            /// <value>The value no member.</value>
             public TranslatedString ValueNoMember { get; set; }
 
+            /// <summary>
+            /// Determines whether the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />.
+            /// </summary>
+            /// <param name="other">The test object to compare to this object.</param>
+            /// <returns>
+            /// true if the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />; otherwise, false.
+            /// </returns>
             public bool Equals(TestObject other)
             {
                 if (ReferenceEquals(null, other)) return false;
@@ -206,6 +302,16 @@ namespace NServiceKit.Text.Tests
                 return Equals(other.Value, Value);
             }
 
+            /// <summary>
+            /// Determines whether the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />.
+            /// </summary>
+            /// <param name="obj">The <see cref="T:System.Object" /> to compare with the current
+            /// <see cref="T:System.Object" />.</param>
+            /// <returns>
+            /// true if the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />; otherwise, false.
+            /// </returns>
             public override bool Equals(object obj)
             {
                 if (ReferenceEquals(null, obj)) return false;
@@ -214,26 +320,39 @@ namespace NServiceKit.Text.Tests
                 return Equals((TestObject)obj);
             }
 
+            /// <summary>Serves as a hash function for a particular type.</summary>
+            /// <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
             public override int GetHashCode()
             {
                 return (Value != null ? Value.GetHashCode() : 0);
             }
         }
 
+        /// <summary>A test.</summary>
         public class Test
         {
+            /// <summary>Gets or sets the value.</summary>
+            /// <value>The value.</value>
             public string Val { get; set; }
         }
 
+        /// <summary>A test response.</summary>
         public class TestResponse
         {
+            /// <summary>Gets or sets the result.</summary>
+            /// <value>The result.</value>
             public TestObject Result { get; set; }
         }
 
+        /// <summary>A translated string.</summary>
         public class TranslatedString : ListDictionary
         {
+            /// <summary>Gets or sets the current language.</summary>
+            /// <value>The current language.</value>
             public string CurrentLanguage { get; set; }
 
+            /// <summary>Gets or sets the value.</summary>
+            /// <value>The value.</value>
             public string Value
             {
                 get
@@ -251,11 +370,18 @@ namespace NServiceKit.Text.Tests
                 }
             }
 
+            /// <summary>
+            /// Initializes a new instance of the NServiceKit.Text.Tests.AdhocModelTests.TranslatedString
+            /// class.
+            /// </summary>
             public TranslatedString()
             {
                 CurrentLanguage = "en";
             }
 
+            /// <summary>Sets language on strings.</summary>
+            /// <param name="lang">   The language.</param>
+            /// <param name="strings">A variable-length parameters list containing strings.</param>
             public static void SetLanguageOnStrings(string lang, params TranslatedString[] strings)
             {
                 foreach (TranslatedString str in strings)
@@ -263,6 +389,7 @@ namespace NServiceKit.Text.Tests
             }
         }
 
+        /// <summary>Should ignore non data member translated string.</summary>
         [Test]
         public void Should_ignore_non_DataMember_TranslatedString()
         {
@@ -278,26 +405,51 @@ namespace NServiceKit.Text.Tests
             SerializeAndCompare(dto);
         }
 
+        /// <summary>Interface for parent.</summary>
         public interface IParent
         {
+            /// <summary>Gets or sets the identifier.</summary>
+            /// <value>The identifier.</value>
             int Id { get; set; }
+
+            /// <summary>Gets or sets the name of the parent.</summary>
+            /// <value>The name of the parent.</value>
             string ParentName { get; set; }
         }
 
+        /// <summary>A parent.</summary>
         public class Parent : IParent
         {
+            /// <summary>Gets or sets the identifier.</summary>
+            /// <value>The identifier.</value>
             public int Id { get; set; }
+
+            /// <summary>Gets or sets the name of the parent.</summary>
+            /// <value>The name of the parent.</value>
             public string ParentName { get; set; }
+
+            /// <summary>Gets or sets the child.</summary>
+            /// <value>The child.</value>
             public Child Child { get; set; }
         }
 
+        /// <summary>A child.</summary>
         public class Child
         {
+            /// <summary>Gets or sets the identifier.</summary>
+            /// <value>The identifier.</value>
             public int Id { get; set; }
+
+            /// <summary>Gets or sets the name of the child.</summary>
+            /// <value>The name of the child.</value>
             public string ChildName { get; set; }
+
+            /// <summary>Gets or sets the parent.</summary>
+            /// <value>The parent.</value>
             public IParent Parent { get; set; }
         }
 
+        /// <summary>Can serialize cyclical dependency via interface.</summary>
         [Test]
         public void Can_Serialize_Cyclical_Dependency_via_interface()
         {
@@ -318,12 +470,19 @@ namespace NServiceKit.Text.Tests
             Assert.That(parent.ParentName, Is.EqualTo(dto.ParentName));
         }
 
+        /// <summary>An exclude.</summary>
         public class Exclude
         {
+            /// <summary>Gets or sets the identifier.</summary>
+            /// <value>The identifier.</value>
             public int Id { get; set; }
+
+            /// <summary>Gets or sets the key.</summary>
+            /// <value>The key.</value>
             public string Key { get; set; }
         }
 
+        /// <summary>Can exclude properties.</summary>
         [Test]
         public void Can_exclude_properties()
         {
@@ -335,6 +494,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(dto.ToJsv(), Is.EqualTo("{Key:Value}"));
         }
 
+        /// <summary>Can exclude properties scoped.</summary>
         [Test]
         public void Can_exclude_properties_scoped() {
             var dto = new Exclude {Id = 1, Key = "Value"};
@@ -344,13 +504,24 @@ namespace NServiceKit.Text.Tests
                 Assert.That(dto.ToJsv(), Is.EqualTo("{Key:Value}"));
             }
         }
-        
+
+        /// <summary>An include exclude.</summary>
         public class IncludeExclude {
+
+            /// <summary>Gets or sets the identifier.</summary>
+            /// <value>The identifier.</value>
             public int Id { get; set; }
+
+            /// <summary>Gets or sets the name.</summary>
+            /// <value>The name.</value>
             public string Name { get; set; }
+
+            /// <summary>Gets or sets the object.</summary>
+            /// <value>The object.</value>
             public Exclude Obj { get; set; }
         }
 
+        /// <summary>Can include nested only.</summary>
         [Test]
         public void Can_include_nested_only() {
             var dto = new IncludeExclude {
@@ -371,6 +542,7 @@ namespace NServiceKit.Text.Tests
 
         }
 
+        /// <summary>Exclude all nested.</summary>
         [Test]
         public void Exclude_all_nested()
         {
@@ -396,11 +568,19 @@ namespace NServiceKit.Text.Tests
             }
         }
 
+        /// <summary>List of excludes.</summary>
         public class ExcludeList {
+
+            /// <summary>Gets or sets the identifier.</summary>
+            /// <value>The identifier.</value>
             public int Id { get; set; }
+
+            /// <summary>Gets or sets the excludes.</summary>
+            /// <value>The excludes.</value>
             public List<Exclude> Excludes { get; set; }
         }
 
+        /// <summary>Exclude list scope.</summary>
         [Test]
         public void Exclude_List_Scope() {
             var dto = new ExcludeList {
@@ -424,10 +604,18 @@ namespace NServiceKit.Text.Tests
             }
         }
 
+        /// <summary>The has index.</summary>
         public class HasIndex
         {
+            /// <summary>Gets or sets the identifier.</summary>
+            /// <value>The identifier.</value>
             public int Id { get; set; }
 
+            /// <summary>
+            /// Indexer to get or set items within this collection using array index syntax.
+            /// </summary>
+            /// <param name="id">The identifier.</param>
+            /// <returns>The indexed item.</returns>
             public int this[int id]
             {
                 get { return Id; }
@@ -435,6 +623,7 @@ namespace NServiceKit.Text.Tests
             }
         }
 
+        /// <summary>Can serialize type with indexer.</summary>
         [Test]
         public void Can_serialize_type_with_indexer()
         {
@@ -442,8 +631,13 @@ namespace NServiceKit.Text.Tests
             Serialize(dto);
         }
 
+        /// <summary>A size.</summary>
         public struct Size
         {
+            /// <summary>
+            /// Initializes a new instance of the NServiceKit.Text.Tests.AdhocModelTests class.
+            /// </summary>
+            /// <param name="value">The value.</param>
             public Size(string value)
             {
                 var parts = value.Split(',');
@@ -451,21 +645,32 @@ namespace NServiceKit.Text.Tests
                 this.Height = parts[1];
             }
 
+            /// <summary>
+            /// Initializes a new instance of the NServiceKit.Text.Tests.AdhocModelTests class.
+            /// </summary>
+            /// <param name="width"> The width.</param>
+            /// <param name="height">The height.</param>
             public Size(string width, string height)
             {
                 Width = width;
                 Height = height;
             }
 
+            /// <summary>The width.</summary>
             public string Width;
+
+            /// <summary>The height.</summary>
             public string Height;
 
+            /// <summary>Returns the fully qualified type name of this instance.</summary>
+            /// <returns>A <see cref="T:System.String" /> containing a fully qualified type name.</returns>
             public override string ToString()
             {
                 return this.Width + "," + this.Height;
             }
         }
 
+        /// <summary>Can serialize structure in list.</summary>
         [Test]
         public void Can_serialize_struct_in_list()
         {
@@ -477,6 +682,7 @@ namespace NServiceKit.Text.Tests
             Serialize(structs);
         }
 
+        /// <summary>Can serialize list of bools.</summary>
         [Test]
         public void Can_serialize_list_of_bools()
         {
@@ -484,14 +690,38 @@ namespace NServiceKit.Text.Tests
             Serialize(new[] { true, false, true });
         }
 
+        /// <summary>A polar values.</summary>
         public class PolarValues
         {
+            /// <summary>Gets or sets the int.</summary>
+            /// <value>The int.</value>
             public int Int { get; set; }
+
+            /// <summary>Gets or sets the long.</summary>
+            /// <value>The long.</value>
             public long Long { get; set; }
+
+            /// <summary>Gets or sets the float.</summary>
+            /// <value>The float.</value>
             public float Float { get; set; }
+
+            /// <summary>Gets or sets the double.</summary>
+            /// <value>The double.</value>
             public double Double { get; set; }
+
+            /// <summary>Gets or sets the decimal.</summary>
+            /// <value>The decimal.</value>
             public decimal Decimal { get; set; }
 
+            /// <summary>
+            /// Determines whether the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />.
+            /// </summary>
+            /// <param name="other">The polar values to compare to this object.</param>
+            /// <returns>
+            /// true if the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />; otherwise, false.
+            /// </returns>
             public bool Equals(PolarValues other)
             {
                 if (ReferenceEquals(null, other)) return false;
@@ -503,6 +733,16 @@ namespace NServiceKit.Text.Tests
                     && other.Decimal == Decimal;
             }
 
+            /// <summary>
+            /// Determines whether the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />.
+            /// </summary>
+            /// <param name="obj">The <see cref="T:System.Object" /> to compare with the current
+            /// <see cref="T:System.Object" />.</param>
+            /// <returns>
+            /// true if the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />; otherwise, false.
+            /// </returns>
             public override bool Equals(object obj)
             {
                 if (ReferenceEquals(null, obj)) return false;
@@ -511,6 +751,8 @@ namespace NServiceKit.Text.Tests
                 return Equals((PolarValues)obj);
             }
 
+            /// <summary>Serves as a hash function for a particular type.</summary>
+            /// <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
             public override int GetHashCode()
             {
                 unchecked
@@ -525,6 +767,7 @@ namespace NServiceKit.Text.Tests
             }
         }
 
+        /// <summary>Can serialize maximum values.</summary>
         [Test]
         public void Can_serialize_max_values()
         {
@@ -540,6 +783,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(to, Is.EqualTo(dto));
         }
 
+        /// <summary>Can serialize maximum values less 1.</summary>
         [Test]
         public void Can_serialize_max_values_less_1()
         {
@@ -555,6 +799,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(to, Is.EqualTo(dto));
         }
 
+        /// <summary>Can serialize minimum values.</summary>
         [Test]
         public void Can_serialize_min_values()
         {
@@ -570,12 +815,19 @@ namespace NServiceKit.Text.Tests
             Assert.That(to, Is.EqualTo(dto));
         }
 
+        /// <summary>A test class.</summary>
         public class TestClass
         {
+            /// <summary>Gets or sets the description.</summary>
+            /// <value>The description.</value>
             public string Description { get; set; }
+
+            /// <summary>Gets or sets the inner.</summary>
+            /// <value>The inner.</value>
             public TestClass Inner { get; set; }
         }
 
+        /// <summary>Can serialize 1 level cyclical dto.</summary>
         [Test]
         public void Can_serialize_1_level_cyclical_dto()
         {
@@ -592,13 +844,20 @@ namespace NServiceKit.Text.Tests
             Console.WriteLine(from.Dump());
         }
 
+        /// <summary>Values that represent EnumValues.</summary>
         public enum EnumValues
         {
+            /// <summary>An enum constant representing the enum 1 option.</summary>
             Enum1,
+
+            /// <summary>An enum constant representing the enum 2 option.</summary>
             Enum2,
+
+            /// <summary>An enum constant representing the enum 3 option.</summary>
             Enum3,
         }
 
+        /// <summary>Can deserialize.</summary>
         [Test]
         public void Can_Deserialize()
         {
@@ -608,6 +867,7 @@ namespace NServiceKit.Text.Tests
             Console.WriteLine(items.Dump());
         }
 
+        /// <summary>Can serialize array of enums.</summary>
         [Test]
         public void Can_Serialize_Array_of_enums()
         {
@@ -616,11 +876,15 @@ namespace NServiceKit.Text.Tests
             Assert.That(json, Is.EqualTo("[\"Enum1\",\"Enum2\",\"Enum3\"]"));
         }
 
+        /// <summary>A dictionary enum type.</summary>
         public class DictionaryEnumType
         {
+            /// <summary>Gets or sets the type of the dictionary enum.</summary>
+            /// <value>The type of the dictionary enum.</value>
             public Dictionary<EnumValues, Test> DictEnumType { get; set; }
         }
 
+        /// <summary>Can serialize dictionary with enums.</summary>
         [Test]
         public void Can_Serialize_Dictionary_With_Enums()
         {
@@ -646,6 +910,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(deserializedItem, Is.TypeOf<DictionaryEnumType>());
         }
 
+        /// <summary>Can serialize array of characters.</summary>
         [Test]
         public void Can_Serialize_Array_of_chars()
         {
@@ -654,6 +919,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(json, Is.EqualTo("[\"A\",\"B\",\"C\"]"));
         }
 
+        /// <summary>Can serialize array with nulls.</summary>
         [Test]
         public void Can_Serialize_Array_with_nulls()
         {
@@ -670,11 +936,15 @@ namespace NServiceKit.Text.Tests
             JsConfig.Reset();
         }
 
+        /// <summary>An a.</summary>
         class A
         {
+            /// <summary>Gets or sets the value.</summary>
+            /// <value>The value.</value>
             public string Value { get; set; }
         }
 
+        /// <summary>Dumps the fail.</summary>
         [Test]
         public void DumpFail()
         {
@@ -682,6 +952,7 @@ namespace NServiceKit.Text.Tests
             Console.WriteLine(arrayOfA.Dump());
         }
 
+        /// <summary>Deserialize array with null elements.</summary>
         [Test]
         public void Deserialize_array_with_null_elements()
         {
@@ -689,6 +960,7 @@ namespace NServiceKit.Text.Tests
             var o = JsonSerializer.DeserializeFromString<A[]>(json);
         }
 
+        /// <summary>Can serialize string collection.</summary>
         [Test]
         public void Can_serialize_StringCollection()
         {
@@ -697,11 +969,15 @@ namespace NServiceKit.Text.Tests
             Console.WriteLine(from.Dump());
         }
 
+        /// <summary>A breaker.</summary>
         public class Breaker
         {
+            /// <summary>Gets or sets the blah.</summary>
+            /// <value>The blah.</value>
             public IEnumerable Blah { get; set; }
         }
 
+        /// <summary>Can serialize i enumerable.</summary>
         [Test]
         public void Can_serialize_IEnumerable()
         {
@@ -715,11 +991,15 @@ namespace NServiceKit.Text.Tests
             from.PrintDump();
         }
 
+        /// <summary>Collection of breakers.</summary>
         public class BreakerCollection
         {
+            /// <summary>Gets or sets the blah.</summary>
+            /// <value>The blah.</value>
             public ICollection Blah { get; set; }
         }
 
+        /// <summary>Can serialize i collection.</summary>
         [Test]
         public void Can_serialize_ICollection()
         {
@@ -734,11 +1014,15 @@ namespace NServiceKit.Text.Tests
             from.PrintDump();
         }
 
+        /// <summary>An XML any.</summary>
         public class XmlAny
         {
+            /// <summary>Gets or sets any.</summary>
+            /// <value>any.</value>
             public XmlElement[] Any { get; set; }
         }
 
+        /// <summary>Can serialize specialized i enumerable.</summary>
         [Test]
         public void Can_serialize_Specialized_IEnumerable()
         {

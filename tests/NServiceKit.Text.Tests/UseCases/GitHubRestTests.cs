@@ -6,9 +6,11 @@ using System.Linq;
 
 namespace NServiceKit.Text.Tests.UseCases
 {
+    /// <summary>A git hub rest tests.</summary>
     [TestFixture]
     public class GitHubRestTests
     {
+        /// <summary>The JSON git response.</summary>
         private const string JsonGitResponse = @"{
   ""pulls"": [
     {
@@ -59,21 +61,51 @@ namespace NServiceKit.Text.Tests.UseCases
   ]
 }";
 
+        /// <summary>A discussion.</summary>
         public class Discussion
         {
+            /// <summary>Gets or sets the type.</summary>
+            /// <value>The type.</value>
             public string Type { get; set; }
+
+            /// <summary>Gets or sets the identifier of the gravatar.</summary>
+            /// <value>The identifier of the gravatar.</value>
             public string GravatarId { get; set; }
+
+            /// <summary>Gets or sets the created at.</summary>
+            /// <value>The created at.</value>
             public string CreatedAt { get; set; }
+
+            /// <summary>Gets or sets the body.</summary>
+            /// <value>The body.</value>
             public string Body { get; set; }
+
+            /// <summary>Gets or sets the updated at.</summary>
+            /// <value>The updated at.</value>
             public string UpdatedAt { get; set; }
 
+            /// <summary>Gets or sets the identifier.</summary>
+            /// <value>The identifier.</value>
             public int? Id { get; set; }
+
+            /// <summary>Gets or sets the sha.</summary>
+            /// <value>The sha.</value>
             public string Sha { get; set; }
+
+            /// <summary>Gets or sets the author.</summary>
+            /// <value>The author.</value>
             public string Author { get; set; }
+
+            /// <summary>Gets or sets the subject.</summary>
+            /// <value>The subject.</value>
             public string Subject { get; set; }
+
+            /// <summary>Gets or sets the email.</summary>
+            /// <value>The email.</value>
             public string Email { get; set; }
         }
 
+        /// <summary>Can parse discussion using JSON object.</summary>
         [Test]
         public void Can_Parse_Discussion_using_JsonObject()
         {
@@ -100,6 +132,7 @@ namespace NServiceKit.Text.Tests.UseCases
             Assert.That(discussions.ConvertAll(x => x.Type), Is.EquivalentTo(new[] { "IssueComment", "Commit" }));
         }
 
+        /// <summary>Can parse discussion using only net collection classes.</summary>
         [Test]
         public void Can_Parse_Discussion_using_only_NET_collection_classes()
         {
@@ -126,45 +159,119 @@ namespace NServiceKit.Text.Tests.UseCases
             Assert.That(discussions.ConvertAll(x => x.Type), Is.EquivalentTo(new[] { "IssueComment", "Commit" }));
         }
 
-
+        /// <summary>A git hub response.</summary>
         public class GitHubResponse
         {
+            /// <summary>Gets or sets the pulls.</summary>
+            /// <value>The pulls.</value>
             public List<Pull> pulls { get; set; }
         }
 
+        /// <summary>A pull.</summary>
         public class Pull
         {
+            /// <summary>Gets or sets the discussion.</summary>
+            /// <value>The discussion.</value>
             public List<discussion> discussion { get; set; }
+
+            /// <summary>Gets or sets the title.</summary>
+            /// <value>The title.</value>
             public string title { get; set; }
+
+            /// <summary>Gets or sets the body.</summary>
+            /// <value>The body.</value>
             public string body { get; set; }
+
+            /// <summary>Gets or sets the position.</summary>
+            /// <value>The position.</value>
             public double position { get; set; }
+
+            /// <summary>Gets or sets the number of. </summary>
+            /// <value>The number.</value>
             public int number { get; set; }
+
+            /// <summary>Gets or sets the votes.</summary>
+            /// <value>The votes.</value>
             public int votes { get; set; }
+
+            /// <summary>Gets or sets the comments.</summary>
+            /// <value>The comments.</value>
             public int comments { get; set; }
+
+            /// <summary>Gets or sets URL of the difference.</summary>
+            /// <value>The difference URL.</value>
             public string diff_url { get; set; }
+
+            /// <summary>Gets or sets URL of the patch.</summary>
+            /// <value>The patch URL.</value>
             public string patch_url { get; set; }
+
+            /// <summary>Gets or sets URL of the HTML.</summary>
+            /// <value>The HTML URL.</value>
             public string html_url { get; set; }
+
+            /// <summary>Gets or sets the issue created date.</summary>
+            /// <value>The issue created date.</value>
             public DateTime issue_created_date { get; set; }
+
+            /// <summary>Gets or sets the Date/Time of the issue updated at.</summary>
+            /// <value>The issue updated at.</value>
             public DateTime issue_updated_at { get; set; }
+
+            /// <summary>Gets or sets the Date/Time of the created at.</summary>
+            /// <value>The created at.</value>
             public DateTime created_at { get; set; }
+
+            /// <summary>Gets or sets the Date/Time of the updated at.</summary>
+            /// <value>The updated at.</value>
             public DateTime updated_at { get; set; }
         }
 
+        /// <summary>A discussion.</summary>
         public class discussion
         {
+            /// <summary>Gets or sets the type.</summary>
+            /// <value>The type.</value>
             public string type { get; set; }
+
+            /// <summary>Gets or sets the identifier of the gravatar.</summary>
+            /// <value>The identifier of the gravatar.</value>
             public string gravatar_id { get; set; }
+
+            /// <summary>Gets or sets the created at.</summary>
+            /// <value>The created at.</value>
             public string created_at { get; set; }
+
+            /// <summary>Gets or sets the body.</summary>
+            /// <value>The body.</value>
             public string body { get; set; }
+
+            /// <summary>Gets or sets the updated at.</summary>
+            /// <value>The updated at.</value>
             public string updated_at { get; set; }
 
+            /// <summary>Gets or sets the identifier.</summary>
+            /// <value>The identifier.</value>
             public int? id { get; set; }
+
+            /// <summary>Gets or sets the sha.</summary>
+            /// <value>The sha.</value>
             public string sha { get; set; }
+
+            /// <summary>Gets or sets the author.</summary>
+            /// <value>The author.</value>
             public string author { get; set; }
+
+            /// <summary>Gets or sets the subject.</summary>
+            /// <value>The subject.</value>
             public string subject { get; set; }
+
+            /// <summary>Gets or sets the email.</summary>
+            /// <value>The email.</value>
             public string email { get; set; }
         }
 
+        /// <summary>Can parse discussion using custom client dt operating system.</summary>
         [Test]
         public void Can_Parse_Discussion_using_custom_client_DTOs()
         {

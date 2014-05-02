@@ -5,8 +5,12 @@ using System.Diagnostics;
 
 namespace NServiceKit.Text.Tests
 {
+    /// <summary>A test base.</summary>
     public abstract class TestBase
     {
+        /// <summary>
+        /// Initializes a new instance of the NServiceKit.Text.Tests.TestBase class.
+        /// </summary>
         protected TestBase()
         {
             //Uncomment to run tests under a different Culture 
@@ -14,6 +18,9 @@ namespace NServiceKit.Text.Tests
             //    System.Globalization.CultureInfo.GetCultureInfo("sv-SE");
         }
 
+        /// <summary>Logs.</summary>
+        /// <param name="message">The message.</param>
+        /// <param name="args">   A variable-length parameters list containing arguments.</param>
         public virtual void Log(string message, params object[] args)
         {
 #if DEBUG
@@ -24,26 +31,50 @@ namespace NServiceKit.Text.Tests
                 Console.WriteLine(message);
         }
 
+        /// <summary>true this object to the given stream.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="model">     The model.</param>
+        /// <param name="includeXml">true to include, false to exclude the XML.</param>
+        /// <returns>A T.</returns>
         public T Serialize<T>(T model, bool includeXml = true)
         {
             return Serialize(model, false, includeXml);
         }
 
+        /// <summary>JSON serialize.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="model">The model.</param>
+        /// <returns>A T.</returns>
         public T JsonSerialize<T>(T model)
         {
             return JsonSerialize(model, false);
         }
 
+        /// <summary>JSON serialize and compare.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="model">The model.</param>
+        /// <returns>A T.</returns>
         public T JsonSerializeAndCompare<T>(T model)
         {
             return JsonSerialize(model, true);
         }
 
+        /// <summary>Serialize and compare.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="model">     The model.</param>
+        /// <param name="includeXml">true to include, false to exclude the XML.</param>
+        /// <returns>A T.</returns>
         public T SerializeAndCompare<T>(T model, bool includeXml = true)
         {
             return Serialize(model, true, includeXml);
         }
 
+        /// <summary>true this object to the given stream.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="model">      The model.</param>
+        /// <param name="assertEqual">true to assert equal.</param>
+        /// <param name="includeXml"> true to include, false to exclude the XML.</param>
+        /// <returns>A T.</returns>
         private T Serialize<T>(T model, bool assertEqual, bool includeXml)
         {
             var stopwatch = Stopwatch.StartNew();
@@ -100,6 +131,11 @@ namespace NServiceKit.Text.Tests
             return fromJsonModel;
         }
 
+        /// <summary>JSON serialize.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="model">      The model.</param>
+        /// <param name="assertEqual">true to assert equal.</param>
+        /// <returns>A T.</returns>
         private T JsonSerialize<T>(T model, bool assertEqual)
         {
             var stopwatch = Stopwatch.StartNew();

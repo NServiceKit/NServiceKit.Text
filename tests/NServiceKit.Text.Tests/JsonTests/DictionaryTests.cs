@@ -7,13 +7,18 @@ using NServiceKit.Text.Tests.DynamicModels;
 
 namespace NServiceKit.Text.Tests.JsonTests
 {
+    /// <summary>A dictionary tests.</summary>
 	[TestFixture]
 	public class DictionaryTests
 	{
+        /// <summary>An edge case properties.</summary>
 		public class EdgeCaseProperties : Dictionary<string, string>
 		{
+            /// <summary>The identifier.</summary>
             private const string Id = "id";
 
+            /// <summary>Gets or sets the identifier.</summary>
+            /// <value>The identifier.</value>
             [DataMember]
             public int id
             {
@@ -27,6 +32,9 @@ namespace NServiceKit.Text.Tests.JsonTests
                 set { this[Id] = value.ToString(CultureInfo.InvariantCulture); }
             }
 
+            /// <summary>Creates a new EdgeCaseProperties.</summary>
+            /// <param name="i">Zero-based index of the.</param>
+            /// <returns>The EdgeCaseProperties.</returns>
 			public static EdgeCaseProperties Create(int i)
 			{
 			    var value = new EdgeCaseProperties { id = i };
@@ -35,6 +43,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 			}
 		}
 
+        /// <summary>Can serialize.</summary>
 		[Test]
 		public void Can_Serialize()
 		{
@@ -44,6 +53,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 			Console.WriteLine(s);
 		}
 
+        /// <summary>Can serialize list.</summary>
 		[Test]
 		public void Can_Serialize_list()
 		{
@@ -57,6 +67,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 			Console.WriteLine(s);
 		}
 
+        /// <summary>Can serialize map.</summary>
 		[Test]
 		public void Can_Serialize_map()
 		{
@@ -70,6 +81,7 @@ namespace NServiceKit.Text.Tests.JsonTests
 			Console.WriteLine(s);
 		}
 
+        /// <summary>Can deserialize.</summary>
         [Test]
         public void Can_Deserialize()
         {
@@ -82,16 +94,22 @@ namespace NServiceKit.Text.Tests.JsonTests
 			Assert.That(fromJson, Is.EqualTo(model));
         }
 
+        /// <summary>A tree.</summary>
         [DataContract]
         public class Tree
         {
+            /// <summary>Gets or sets the value.</summary>
+            /// <value>The value.</value>
             [DataMember]
             public string Value { get; set; }
 
+            /// <summary>Gets or sets the nodes.</summary>
+            /// <value>The nodes.</value>
             [DataMember]
             public List<Tree> Nodes { get; set; }
         }
 
+        /// <summary>Can serialize and deserialize tree.</summary>
         [Test]
         public void CanSerializeAndDeserializeTree()
         {

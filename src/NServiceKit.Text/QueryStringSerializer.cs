@@ -24,12 +24,19 @@ using NServiceKit.Text.Jsv;
 
 namespace NServiceKit.Text
 {
+    /// <summary>A query string serializer.</summary>
 	public static class QueryStringSerializer
 	{
+        /// <summary>The instance.</summary>
 		internal static readonly JsWriter<JsvTypeSerializer> Instance = new JsWriter<JsvTypeSerializer>();
 
+        /// <summary>The write function cache.</summary>
 		private static Dictionary<Type, WriteObjectDelegate> WriteFnCache = new Dictionary<Type, WriteObjectDelegate>();
 
+        /// <summary>Gets write function.</summary>
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        /// <param name="type">The type.</param>
+        /// <returns>The write function.</returns>
 		internal static WriteObjectDelegate GetWriteFn(Type type)
 		{
 			try
@@ -63,6 +70,9 @@ namespace NServiceKit.Text
 			}
 		}
 
+        /// <summary>Writes a late bound object.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="value"> The value.</param>
 		public static void WriteLateBoundObject(TextWriter writer, object value)
 		{
 			if (value == null) return;
@@ -70,11 +80,18 @@ namespace NServiceKit.Text
 			writeFn(writer, value);
 		}
 
+        /// <summary>Gets value type to string method.</summary>
+        /// <param name="type">The type.</param>
+        /// <returns>The value type to string method.</returns>
 		internal static WriteObjectDelegate GetValueTypeToStringMethod(Type type)
 		{
 			return Instance.GetValueTypeToStringMethod(type);
 		}
 
+        /// <summary>Serialize to string.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="value">The value.</param>
+        /// <returns>A string.</returns>
 		public static string SerializeToString<T>(T value)
 		{
 			var sb = new StringBuilder();
@@ -86,19 +103,23 @@ namespace NServiceKit.Text
 		}
 	}
 
-	/// <summary>
-	/// Implement the serializer using a more static approach
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
+    /// <summary>Implement the serializer using a more static approach.</summary>
+    /// <typeparam name="T">.</typeparam>
 	public static class QueryStringWriter<T>
 	{
+        /// <summary>The cache function.</summary>
 		private static readonly WriteObjectDelegate CacheFn;
 
+        /// <summary>Writes the function.</summary>
+        /// <returns>A WriteObjectDelegate.</returns>
 	    public static WriteObjectDelegate WriteFn()
 		{
 			return CacheFn;
 		}
 
+        /// <summary>
+        /// Initializes static members of the NServiceKit.Text.QueryStringWriter&lt;T&gt; class.
+        /// </summary>
 		static QueryStringWriter()
 		{
 			if (typeof(T) == typeof(object))
@@ -130,13 +151,21 @@ namespace NServiceKit.Text
 			}
 		}
 
+        /// <summary>Writes an object.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="value"> The value.</param>
 		public static void WriteObject(TextWriter writer, object value)
 		{
 			if (writer == null) return;
 			CacheFn(writer, value);
 		}
 
+        /// <summary>The serializer.</summary>
         private static readonly ITypeSerializer Serializer = JsvTypeSerializer.Instance;        
+
+        /// <summary>Writes an i dictionary.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="oMap">  The map.</param>
         public static void WriteIDictionary(TextWriter writer, object oMap)
         {
             WriteObjectDelegate writeKeyFn = null;

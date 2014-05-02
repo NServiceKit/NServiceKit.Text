@@ -12,8 +12,12 @@ using NServiceKit.Text.WP;
 
 namespace NServiceKit.Text
 {
+    /// <summary>A CSV dictionary writer.</summary>
     internal class CsvDictionaryWriter
     {
+        /// <summary>Writes a row.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="row">   The row.</param>
         public static void WriteRow(TextWriter writer, IEnumerable<string> row)
         {
             var ranOnce = false;
@@ -26,6 +30,9 @@ namespace NServiceKit.Text
             writer.Write(CsvConfig.RowSeparatorString);
         }
 
+        /// <summary>Writes an object row.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="row">   The row.</param>
         public static void WriteObjectRow(TextWriter writer, IEnumerable<object> row)
         {
             var ranOnce = false;
@@ -38,6 +45,9 @@ namespace NServiceKit.Text
             writer.WriteLine();
         }
 
+        /// <summary>Writes.</summary>
+        /// <param name="writer"> The writer.</param>
+        /// <param name="records">The records.</param>
         public static void Write(TextWriter writer, IEnumerable<Dictionary<string, object>> records)
         {
             if (records == null) return; //AOT
@@ -54,6 +64,9 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>Writes.</summary>
+        /// <param name="writer"> The writer.</param>
+        /// <param name="records">The records.</param>
         public static void Write(TextWriter writer, IEnumerable<Dictionary<string, string>> records)
         {
             if (records == null) return; //AOT
@@ -87,13 +100,20 @@ namespace NServiceKit.Text
         }
     }
 
+    /// <summary>A CSV writer.</summary>
     public static class CsvWriter
     {
+        /// <summary>Query if 'value' has any escape characters.</summary>
+        /// <param name="value">The value.</param>
+        /// <returns>true if any escape characters, false if not.</returns>
         public static bool HasAnyEscapeChars(string value)
         {
             return CsvConfig.EscapeStrings.Any(value.Contains);
         }
 
+        /// <summary>Writes an item seperator if ran once.</summary>
+        /// <param name="writer"> The writer.</param>
+        /// <param name="ranOnce">The ran once.</param>
         internal static void WriteItemSeperatorIfRanOnce(TextWriter writer, ref bool ranOnce)
         {
             if (ranOnce)
@@ -103,16 +123,26 @@ namespace NServiceKit.Text
         }
     }
 
+    /// <summary>A CSV writer.</summary>
+    /// <typeparam name="T">Generic type parameter.</typeparam>
     internal class CsvWriter<T>
     {
+        /// <summary>The delimiter character.</summary>
         public const char DelimiterChar = ',';
 
+        /// <summary>Gets or sets the headers.</summary>
+        /// <value>The headers.</value>
         public static List<string> Headers { get; set; }
 
+        /// <summary>The property getters.</summary>
         internal static List<Func<T, object>> PropertyGetters;
 
+        /// <summary>The optimized writer.</summary>
         private static readonly WriteObjectDelegate OptimizedWriter;
 
+        /// <summary>
+        /// Initializes static members of the NServiceKit.Text.CsvWriter&lt;T&gt; class.
+        /// </summary>
         static CsvWriter()
         {
             if (typeof(T) == typeof(string))
@@ -124,6 +154,7 @@ namespace NServiceKit.Text
             Reset();
         }
 
+        /// <summary>Resets this object.</summary>
         internal static void Reset()
         {
             Headers = new List<string>();
@@ -149,6 +180,8 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>Configure custom headers.</summary>
+        /// <param name="customHeadersMap">The custom headers map.</param>
         internal static void ConfigureCustomHeaders(Dictionary<string, string> customHeadersMap)
         {
             Reset();
@@ -169,6 +202,10 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>Gets single row.</summary>
+        /// <param name="records">   The records.</param>
+        /// <param name="recordType">Type of the record.</param>
+        /// <returns>The single row.</returns>
         private static List<string> GetSingleRow(IEnumerable<T> records, Type recordType)
         {
             var row = new List<string>();
@@ -183,6 +220,9 @@ namespace NServiceKit.Text
             return row;
         }
 
+        /// <summary>Gets the rows.</summary>
+        /// <param name="records">The records.</param>
+        /// <returns>The rows.</returns>
         public static List<List<string>> GetRows(IEnumerable<T> records)
         {
             var rows = new List<List<string>>();
@@ -214,16 +254,25 @@ namespace NServiceKit.Text
             return rows;
         }
 
+        /// <summary>Writes an object.</summary>
+        /// <param name="writer"> The writer.</param>
+        /// <param name="records">The records.</param>
         public static void WriteObject(TextWriter writer, object records)
         {
             Write(writer, (IEnumerable<T>)records);
         }
 
+        /// <summary>Writes an object row.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="record">The record.</param>
         public static void WriteObjectRow(TextWriter writer, object record)
         {
             WriteRow(writer, (T)record);
         }
 
+        /// <summary>Writes.</summary>
+        /// <param name="writer"> The writer.</param>
+        /// <param name="records">The records.</param>
         public static void Write(TextWriter writer, IEnumerable<T> records)
         {
             if (writer == null) return; //AOT
@@ -285,6 +334,9 @@ namespace NServiceKit.Text
             }
         }
 
+        /// <summary>Writes a row.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="row">   The row.</param>
         public static void WriteRow(TextWriter writer, T row)
         {
             if (writer == null) return; //AOT
@@ -292,6 +344,9 @@ namespace NServiceKit.Text
             Write(writer, new[] { row });
         }
 
+        /// <summary>Writes a row.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="row">   The row.</param>
         public static void WriteRow(TextWriter writer, IEnumerable<string> row)
         {
             var ranOnce = false;
@@ -304,6 +359,9 @@ namespace NServiceKit.Text
             writer.WriteLine();
         }
 
+        /// <summary>Writes.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="rows">  The rows.</param>
         public static void Write(TextWriter writer, IEnumerable<List<string>> rows)
         {
             if (Headers.Count > 0)

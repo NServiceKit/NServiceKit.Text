@@ -21,10 +21,17 @@ using NServiceKit.Text.Common;
 
 namespace NServiceKit.Text.Jsv
 {
+    /// <summary>A jsv serializer.</summary>
+    /// <typeparam name="T">Generic type parameter.</typeparam>
 	public class JsvSerializer<T>
 	{
+        /// <summary>The deserializer cache.</summary>
 		Dictionary<Type, ParseStringDelegate> DeserializerCache = new Dictionary<Type, ParseStringDelegate>();
 
+        /// <summary>Deserialize from string.</summary>
+        /// <param name="value">The value.</param>
+        /// <param name="type"> The type.</param>
+        /// <returns>A T.</returns>
 		public T DeserializeFromString(string value, Type type)
 		{
 			ParseStringDelegate parseFn;
@@ -47,6 +54,9 @@ namespace NServiceKit.Text.Jsv
             return (T)parseFn(value);
 		}
 
+        /// <summary>Deserialize from string.</summary>
+        /// <param name="value">The value.</param>
+        /// <returns>A T.</returns>
 		public T DeserializeFromString(string value)
 		{
 			if (typeof(T) == typeof(string)) return (T)(object)value;
@@ -54,11 +64,17 @@ namespace NServiceKit.Text.Jsv
 			return (T)JsvReader<T>.Parse(value);
 		}
 
+        /// <summary>Serialize to writer.</summary>
+        /// <param name="value"> The value.</param>
+        /// <param name="writer">The writer.</param>
 		public void SerializeToWriter(T value, TextWriter writer)
 		{
 			JsvWriter<T>.WriteObject(writer, value);
 		}
 
+        /// <summary>Serialize to string.</summary>
+        /// <param name="value">The value.</param>
+        /// <returns>A string.</returns>
 		public string SerializeToString(T value)
 		{
 			if (value == null) return null;

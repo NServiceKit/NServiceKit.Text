@@ -21,14 +21,25 @@ using NServiceKit.Text.Json;
 
 namespace NServiceKit.Text.Common
 {
+    /// <summary>Dictionary of deserializes.</summary>
+    /// <typeparam name="TSerializer">Type of the serializer.</typeparam>
     internal static class DeserializeDictionary<TSerializer>
         where TSerializer : ITypeSerializer
     {
+        /// <summary>The serializer.</summary>
         private static readonly ITypeSerializer Serializer = JsWriter.GetTypeSerializer<TSerializer>();
 
+        /// <summary>Zero-based index of the key.</summary>
         const int KeyIndex = 0;
+
+        /// <summary>Zero-based index of the value.</summary>
         const int ValueIndex = 1;
 
+        /// <summary>Gets parse method.</summary>
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or
+        /// illegal values.</exception>
+        /// <param name="type">The type.</param>
+        /// <returns>The parse method.</returns>
         public static ParseStringDelegate GetParseMethod(Type type)
         {
             var mapInterface = type.GetTypeWithGenericInterfaceOf(typeof(IDictionary<,>));
@@ -70,6 +81,9 @@ namespace NServiceKit.Text.Common
             return value => ParseDictionaryType(value, createMapType, dictionaryArgs, keyTypeParseMethod, valueTypeParseMethod);
         }
 
+        /// <summary>Parse JSON object.</summary>
+        /// <param name="value">The value.</param>
+        /// <returns>A JsonObject.</returns>
         public static JsonObject ParseJsonObject(string value)
         {
             var index = VerifyAndGetStartIndex(value, typeof(JsonObject));
@@ -98,6 +112,9 @@ namespace NServiceKit.Text.Common
         }
 
 #if !SILVERLIGHT
+        /// <summary>Parse hashtable.</summary>
+        /// <param name="value">The value.</param>
+        /// <returns>A Hashtable.</returns>
         public static Hashtable ParseHashtable(string value)
         {
             var index = VerifyAndGetStartIndex(value, typeof(Hashtable));
@@ -126,6 +143,9 @@ namespace NServiceKit.Text.Common
         }
 #endif
 
+        /// <summary>Parse string dictionary.</summary>
+        /// <param name="value">The value.</param>
+        /// <returns>A Dictionary&lt;string,string&gt;</returns>
         public static Dictionary<string, string> ParseStringDictionary(string value)
         {
             var index = VerifyAndGetStartIndex(value, typeof(Dictionary<string, string>));
@@ -153,6 +173,14 @@ namespace NServiceKit.Text.Common
             return result;
         }
 
+        /// <summary>Parse dictionary.</summary>
+        /// <typeparam name="TKey">  Type of the key.</typeparam>
+        /// <typeparam name="TValue">Type of the value.</typeparam>
+        /// <param name="value">        The value.</param>
+        /// <param name="createMapType">Type of the create map.</param>
+        /// <param name="parseKeyFn">   The parse key function.</param>
+        /// <param name="parseValueFn"> The parse value function.</param>
+        /// <returns>An IDictionary&lt;TKey,TValue&gt;</returns>
         public static IDictionary<TKey, TValue> ParseDictionary<TKey, TValue>(
             string value, Type createMapType,
             ParseStringDelegate parseKeyFn, ParseStringDelegate parseValueFn)
@@ -224,6 +252,10 @@ namespace NServiceKit.Text.Common
             return to;
         }
 
+        /// <summary>Verify and get start index.</summary>
+        /// <param name="value">        The value.</param>
+        /// <param name="createMapType">Type of the create map.</param>
+        /// <returns>An int.</returns>
         private static int VerifyAndGetStartIndex(string value, Type createMapType)
         {
             var index = 0;
@@ -236,12 +268,26 @@ namespace NServiceKit.Text.Common
             return index;
         }
 
+        /// <summary>The parse delegate cache.</summary>
         private static Dictionary<string, ParseDictionaryDelegate> ParseDelegateCache
             = new Dictionary<string, ParseDictionaryDelegate>();
 
+        /// <summary>Parse dictionary delegate.</summary>
+        /// <param name="value">        The value.</param>
+        /// <param name="createMapType">Type of the create map.</param>
+        /// <param name="keyParseFn">   The key parse function.</param>
+        /// <param name="valueParseFn"> The value parse function.</param>
+        /// <returns>An object.</returns>
         private delegate object ParseDictionaryDelegate(string value, Type createMapType,
             ParseStringDelegate keyParseFn, ParseStringDelegate valueParseFn);
 
+        /// <summary>Parse dictionary type.</summary>
+        /// <param name="value">        The value.</param>
+        /// <param name="createMapType">Type of the create map.</param>
+        /// <param name="argTypes">     List of types of the arguments.</param>
+        /// <param name="keyParseFn">   The key parse function.</param>
+        /// <param name="valueParseFn"> The value parse function.</param>
+        /// <returns>An object.</returns>
         public static object ParseDictionaryType(string value, Type createMapType, Type[] argTypes,
             ParseStringDelegate keyParseFn, ParseStringDelegate valueParseFn)
         {
@@ -268,6 +314,9 @@ namespace NServiceKit.Text.Common
             return parseDelegate(value, createMapType, keyParseFn, valueParseFn);
         }
 
+        /// <summary>Gets types key.</summary>
+        /// <param name="types">A variable-length parameters list containing types.</param>
+        /// <returns>The types key.</returns>
         private static string GetTypesKey(params Type[] types)
         {
             var sb = new StringBuilder(256);

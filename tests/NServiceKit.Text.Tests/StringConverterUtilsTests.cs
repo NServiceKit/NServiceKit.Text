@@ -10,23 +10,33 @@ using NServiceKit.Text;
 
 namespace NServiceKit.ServiceModel.Tests
 {
+    /// <summary>A string converter utilities tests.</summary>
 	[TestFixture]
 	public class StringConverterUtilsTests
 	{
+        /// <summary>A string enumerable.</summary>
 		public class StringEnumerable : IEnumerable<string>
 		{
+            /// <summary>The items.</summary>
 			public List<string> Items = new[] { "a", "b", "c" }.ToList();
 
+            /// <summary>Gets the enumerator.</summary>
+            /// <returns>The enumerator.</returns>
 			public IEnumerator<string> GetEnumerator()
 			{
 				return Items.GetEnumerator();
 			}
 
+            /// <summary>Gets the enumerator.</summary>
+            /// <returns>The enumerator.</returns>
 			IEnumerator IEnumerable.GetEnumerator()
 			{
 				return GetEnumerator();
 			}
 
+            /// <summary>Parse jsv.</summary>
+            /// <param name="value">The value.</param>
+            /// <returns>A StringEnumerable.</returns>
 			public static StringEnumerable ParseJsv(string value)
 			{
 				return new StringEnumerable {
@@ -36,6 +46,7 @@ namespace NServiceKit.ServiceModel.Tests
 
 		}
 #if !MONOTOUCH
+        /// <summary>Creates super list type of int from string.</summary>
 		[Test]
 		public void Create_super_list_type_of_int_from_string()
 		{
@@ -46,6 +57,7 @@ namespace NServiceKit.ServiceModel.Tests
 		}
 #endif
 
+        /// <summary>Creates unique identifier from string.</summary>
 		[Test]
 		public void Create_guid_from_string()
 		{
@@ -55,6 +67,7 @@ namespace NServiceKit.ServiceModel.Tests
 			Assert.That(result, Is.EqualTo(convertedValue));
 		}
 
+        /// <summary>Creates int from string.</summary>
 		[Test]
 		public void Create_int_from_string()
 		{
@@ -64,6 +77,7 @@ namespace NServiceKit.ServiceModel.Tests
 			Assert.That(result, Is.EqualTo(convertedValue));
 		}
 
+        /// <summary>Creates bool from string.</summary>
 		[Test]
 		public void Create_bool_from_string()
 		{
@@ -73,6 +87,7 @@ namespace NServiceKit.ServiceModel.Tests
 			Assert.That(result, Is.EqualTo(convertedValue));
 		}
 
+        /// <summary>Creates string array from string.</summary>
 		[Test]
 		public void Create_string_array_from_string()
 		{
@@ -82,6 +97,7 @@ namespace NServiceKit.ServiceModel.Tests
 			Assert.That(result, Is.EqualTo(convertedValue));
 		}
 
+        /// <summary>Creates from string enumerable.</summary>
 		[Test]
 		public void Create_from_StringEnumerable()
 		{

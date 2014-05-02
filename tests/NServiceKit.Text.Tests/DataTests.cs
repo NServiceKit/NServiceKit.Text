@@ -9,14 +9,27 @@ using NServiceKit.Text.Tests.Support;
 
 namespace NServiceKit.Text.Tests
 {
+    /// <summary>A data stress tests.</summary>
 	[TestFixture]
 	public class DataStressTests
 		: TestBase
 	{
+        /// <summary>A test class.</summary>
 		public class TestClass
 		{
+            /// <summary>Gets or sets the value.</summary>
+            /// <value>The value.</value>
 			public string Value { get; set; }
 
+            /// <summary>
+            /// Determines whether the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />.
+            /// </summary>
+            /// <param name="other">The test class to compare to this object.</param>
+            /// <returns>
+            /// true if the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />; otherwise, false.
+            /// </returns>
 			public bool Equals(TestClass other)
 			{
 				if (ReferenceEquals(null, other)) return false;
@@ -24,6 +37,16 @@ namespace NServiceKit.Text.Tests
 				return Equals(other.Value, Value);
 			}
 
+            /// <summary>
+            /// Determines whether the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />.
+            /// </summary>
+            /// <param name="obj">The <see cref="T:System.Object" /> to compare with the current
+            /// <see cref="T:System.Object" />.</param>
+            /// <returns>
+            /// true if the specified <see cref="T:System.Object" /> is equal to the current
+            /// <see cref="T:System.Object" />; otherwise, false.
+            /// </returns>
 			public override bool Equals(object obj)
 			{
 				if (ReferenceEquals(null, obj)) return false;
@@ -32,12 +55,15 @@ namespace NServiceKit.Text.Tests
 				return Equals((TestClass) obj);
 			}
 
+            /// <summary>Serves as a hash function for a particular type.</summary>
+            /// <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
 			public override int GetHashCode()
 			{
 				return (Value != null ? Value.GetHashCode() : 0);
 			}
 		}
 
+        /// <summary>Serialize customer bolid.</summary>
 		[Test]
 		public void serialize_Customer_BOLID()
 		{
@@ -58,9 +84,14 @@ namespace NServiceKit.Text.Tests
 			Console.WriteLine("toCustomer.Address: " + toCustomer.Address);
 		}
 
+        /// <summary>A get values response.</summary>
 		[DataContract]
 		public class GetValuesResponse
 		{
+            /// <summary>
+            /// Initializes a new instance of the NServiceKit.Text.Tests.DataStressTests.GetValuesResponse
+            /// class.
+            /// </summary>
 			public GetValuesResponse()
 			{
 				this.ResponseStatus = new ResponseStatus();
@@ -68,13 +99,18 @@ namespace NServiceKit.Text.Tests
 				this.Values = new ArrayOfString();
 			}
 
+            /// <summary>Gets or sets the values.</summary>
+            /// <value>The values.</value>
 			[DataMember]
 			public ArrayOfString Values { get; set; }
 
+            /// <summary>Gets or sets the response status.</summary>
+            /// <value>The response status.</value>
 			[DataMember]
 			public ResponseStatus ResponseStatus { get; set; }
 		}
 
+        /// <summary>Serialize get values response.</summary>
 		[Test]
 		public void serialize_GetValuesResponse()
 		{

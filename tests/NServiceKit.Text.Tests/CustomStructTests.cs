@@ -7,18 +7,31 @@ using NServiceKit.Common.Extensions;
 
 namespace NServiceKit.Text.Tests
 {
+    /// <summary>A user stat.</summary>
 	public struct UserStat
 	{
+        /// <summary>Gets or sets the identifier of the user.</summary>
+        /// <value>The identifier of the user.</value>
 		public Guid UserId { get; set; }
 
+        /// <summary>Gets or sets the times recommended.</summary>
+        /// <value>The times recommended.</value>
 		public int TimesRecommended { get; set; }
 
+        /// <summary>Gets or sets the times purchased.</summary>
+        /// <value>The times purchased.</value>
 		public int TimesPurchased { get; set; }
 
+        /// <summary>Gets or sets the times flowed.</summary>
+        /// <value>The times flowed.</value>
 		public int TimesFlowed { get; set; }
 
+        /// <summary>Gets or sets the times previewed.</summary>
+        /// <value>The times previewed.</value>
 		public int TimesPreviewed { get; set; }
 
+        /// <summary>Gets weighted value.</summary>
+        /// <returns>The weighted value.</returns>
 		public int GetWeightedValue()
 		{
 			return (this.TimesRecommended * 10)
@@ -27,6 +40,8 @@ namespace NServiceKit.Text.Tests
 				   + this.TimesPreviewed;
 		}
 
+        /// <summary>Adds userStat.</summary>
+        /// <param name="userStat">The user stat to add.</param>
 		public void Add(UserStat userStat)
 		{
 			this.TimesRecommended += userStat.TimesRecommended;
@@ -35,6 +50,11 @@ namespace NServiceKit.Text.Tests
 			this.TimesPurchased += userStat.TimesPurchased;
 		}
 
+        /// <summary>Parses.</summary>
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or
+        /// illegal values.</exception>
+        /// <param name="userStatString">The user stat string.</param>
+        /// <returns>An UserStat.</returns>
 		public static UserStat Parse(string userStatString)
 		{
 			var parts = userStatString.Split(':');
@@ -52,6 +72,8 @@ namespace NServiceKit.Text.Tests
 			return userStat;
 		}
 
+        /// <summary>Returns the fully qualified type name of this instance.</summary>
+        /// <returns>A <see cref="T:System.String" /> containing a fully qualified type name.</returns>
 		public override string ToString()
 		{
 			return string.Format("{0}:{1}:{2}:{3}:{4}:{5}",
@@ -64,10 +86,15 @@ namespace NServiceKit.Text.Tests
 		}
 	}
 
+    /// <summary>A custom structure tests.</summary>
 	[TestFixture]
 	public class CustomStructTests
 		: TestBase
 	{
+        /// <summary>Creates user stat.</summary>
+        /// <param name="userId">Identifier for the user.</param>
+        /// <param name="score"> The score.</param>
+        /// <returns>The new user stat.</returns>
 		private static UserStat CreateUserStat(Guid userId, int score)
 		{
 			return new UserStat {
@@ -79,6 +106,7 @@ namespace NServiceKit.Text.Tests
 			};
 		}
 
+        /// <summary>Can serialize empty user stat.</summary>
 		[Test]
 		public void Can_serialize_empty_UserStat()
 		{
@@ -90,6 +118,7 @@ namespace NServiceKit.Text.Tests
 			SerializeAndCompare(userStat);
 		}
 
+        /// <summary>Can serialize user stat.</summary>
 		[Test]
 		public void Can_serialize_UserStat()
 		{
@@ -102,6 +131,7 @@ namespace NServiceKit.Text.Tests
 			SerializeAndCompare(userStat);
 		}
 #if !MONOTOUCH
+        /// <summary>Can serialize user statistics list.</summary>
 		[Test]
 		public void Can_serialize_UserStats_list()
 		{

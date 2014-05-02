@@ -5,9 +5,11 @@ using NServiceKit.Html;
 
 namespace NServiceKit.Text.Tests.JsonTests
 {
+    /// <summary>A route value dictionary tests.</summary>
     [TestFixture]
     public class RouteValueDictionaryTests : TestBase
     {
+        /// <summary>Does deserialize route value dictionary.</summary>
         [Test, Ignore("Has both: ICollection<KeyValuePair> and IDictionary, test should be fixed or redesigned.")]
         public void Does_deserialize_RouteValueDictionary()
         {
@@ -34,11 +36,17 @@ namespace NServiceKit.Text.Tests.JsonTests
             Assert.AreEqual(item.Values["something"], typeResult.Values["something"]);
         }
 
+        /// <summary>A test object.</summary>
         [DataContract]
         class TestObject
         {
+            /// <summary>Gets or sets the property a.</summary>
+            /// <value>The property a.</value>
             [DataMember]
             public string PropA { get; set; }
+
+            /// <summary>Gets or sets the values.</summary>
+            /// <value>The values.</value>
             [DataMember]
             public RouteValueDictionary Values { get; set; }
         }

@@ -14,21 +14,35 @@ using NServiceKit.WebHost.Endpoints.Support.Mocks;
 
 namespace NServiceKit.Text.Tests
 {
+    /// <summary>A c.</summary>
 	public class C
 	{
+        /// <summary>Gets or sets a.</summary>
+        /// <value>a.</value>
 		public int? A { get; set; }
+
+        /// <summary>Gets or sets the b.</summary>
+        /// <value>The b.</value>
 		public int? B { get; set; }
 	}
 
+    /// <summary>A query string serializer tests.</summary>
 	[TestFixture]
 	public class QueryStringSerializerTests
 	{
+        /// <summary>A d.</summary>
         class D
         {
+            /// <summary>Gets or sets a.</summary>
+            /// <value>a.</value>
             public string A { get; set; }
+
+            /// <summary>Gets or sets the b.</summary>
+            /// <value>The b.</value>
             public string B { get; set; }
         }
 
+        /// <summary>Can serialize query string.</summary>
 		[Test]
 		public void Can_serialize_query_string()
 		{
@@ -39,6 +53,7 @@ namespace NServiceKit.Text.Tests
 				Is.EqualTo("B=2"));
 		}
 
+        /// <summary>Can serialize unicode query string.</summary>
         [Test]
         public void Can_Serialize_Unicode_Query_String()
         {
@@ -51,20 +66,24 @@ namespace NServiceKit.Text.Tests
                 Is.EqualTo("A=%e5%b4%91%e2%a8%b9%e5%a0%a1%ea%81%80%e1%a2%96%e3%a4%b9%c3%ac%e3%ad%a1%ec%a4%aa%e9%8a%ac"));
         }
 
+        /// <summary>An empty.</summary>
         class Empty {}
 
+        /// <summary>Can serialize empty object.</summary>
         [Test]
         public void Can_serialize_empty_object()
         {
             Assert.That(QueryStringSerializer.SerializeToString(new Empty()), Is.Empty);
         }
 
+        /// <summary>Can serialize newline.</summary>
 	    [Test]
 	    public void Can_serialize_newline()
 	    {
             Assert.That(QueryStringSerializer.SerializeToString(new {newline = "\r\n"}), Is.EqualTo("newline=%0d%0a"));
 	    }
 
+        /// <summary>Can serialize array of strings with colon.</summary>
         [Test]
         public void Can_serialize_array_of_strings_with_colon()
         {
@@ -74,25 +93,31 @@ namespace NServiceKit.Text.Tests
             Assert.That(QueryStringSerializer.SerializeToString(new { list = t }), Is.EqualTo("list=Foo%3aBar,Get%3aOut"));
         }
 
+        /// <summary>Can serialize tab.</summary>
 	    [Test]
 	    public void Can_serialize_tab()
 	    {
             Assert.That(QueryStringSerializer.SerializeToString(new { tab = "\t" }), Is.EqualTo("tab=%09"));
 	    }
 
-		// NOTE: QueryStringSerializer doesn't have Deserialize, but this is how QS is parsed in NServiceKit
+        /// <summary>
+        /// NOTE: QueryStringSerializer doesn't have Deserialize, but this is how QS is parsed in
+        /// NServiceKit.
+        /// </summary>
 	    [Test]
 	    public void Can_deserialize_query_string_nullableInt_null_yields_null()
 	    {
 	    	Assert.That(NServiceKit.Text.Common.DeserializeBuiltin<int?>.Parse(null), Is.EqualTo(null));
 	    }
 
+        /// <summary>Can deserialize query string nullable int empty yields null.</summary>
 	    [Test]
 	    public void Can_deserialize_query_string_nullableInt_empty_yields_null()
 	    {
 	    	Assert.That(NServiceKit.Text.Common.DeserializeBuiltin<int?>.Parse(string.Empty), Is.EqualTo(null));
 	    }
 
+        /// <summary>Can deserialize query string nullable int values yields null.</summary>
 	    [Test]
 	    public void Can_deserialize_query_string_nullableInt_intValues_yields_null()
 	    {
@@ -103,12 +128,14 @@ namespace NServiceKit.Text.Tests
 	    	Assert.That(NServiceKit.Text.Common.DeserializeBuiltin<int?>.Parse(1.ToString()), Is.EqualTo(1));
 	    }
 
+        /// <summary>Can deserialize query string nullable int na n throws.</summary>
 	    [Test]
 	    public void Can_deserialize_query_string_nullableInt_NaN_throws()
 	    {
 	    	Assert.Throws(typeof(FormatException), delegate { NServiceKit.Text.Common.DeserializeBuiltin<int?>.Parse("NaN"); });
     	}
 
+        /// <summary>Deos serialize query strings.</summary>
 	    [Test]
 	    public void Deos_serialize_QueryStrings()
 	    {
@@ -124,6 +151,7 @@ namespace NServiceKit.Text.Tests
                 "[AA,BB,CC]"));
 	    }
 
+        /// <summary>Can serialize quoted strings.</summary>
         [Test]
         public void Can_serialize_quoted_strings()
         {
@@ -131,6 +159,10 @@ namespace NServiceKit.Text.Tests
             Assert.That(QueryStringSerializer.SerializeToString(new B { Property = "\"quoted content, and with a comma\"" }), Is.EqualTo("Property=%22%22quoted%20content,%20and%20with%20a%20comma%22%22"));
         }
 
+        /// <summary>String to poco.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="str">The.</param>
+        /// <returns>A T.</returns>
         private T StringToPoco<T>(string str)
         {
             var testAppHost = new TestAppHost(new Container(), GetType().Assembly);
@@ -146,6 +178,7 @@ namespace NServiceKit.Text.Tests
             return request;
         }
 
+        /// <summary>Can deserialize quoted strings.</summary>
         [Test]
         public void Can_deserialize_quoted_strings()
         {
@@ -153,6 +186,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(StringToPoco<B>("Property=%22%22quoted%20content,%20and%20with%20a%20comma%22%22").Property, Is.EqualTo("\"\"quoted content, and with a comma\"\""));
         }
 
+        /// <summary>Can serialize with comma in property in list.</summary>
         [Test]
         public void Can_serialize_with_comma_in_property_in_list()
         {
@@ -163,6 +197,9 @@ namespace NServiceKit.Text.Tests
             Assert.That(QueryStringSerializer.SerializeToString(testPocos), Is.EqualTo("ListOfA={ListOfB:[{Property:%22Doe,%20John%22,Property2:Doe,Property3:John}]}"));
         }
 
+        /// <summary>
+        /// Can deserialize with comma in property in list from query string serializer.
+        /// </summary>
         [Test]
         public void Can_deserialize_with_comma_in_property_in_list_from_QueryStringSerializer()
         {
@@ -177,6 +214,7 @@ namespace NServiceKit.Text.Tests
             Assert.That(poco.ListOfA[0].ListOfB[0].Property3, Is.EqualTo("John"));
         }
 
+        /// <summary>Can deserialize with comma in property in list from static.</summary>
         [Test]
         public void Can_deserialize_with_comma_in_property_in_list_from_static()
         {
@@ -187,20 +225,35 @@ namespace NServiceKit.Text.Tests
             Assert.That(poco.ListOfA[0].ListOfB[0].Property3, Is.EqualTo("John"));
         }
 
+        /// <summary>A test pocos.</summary>
 	    public class TestPocos
         {
+            /// <summary>Gets or sets the list of a.</summary>
+            /// <value>The list of a.</value>
             public List<A> ListOfA { get; set; }
         }
-        
+
+        /// <summary>An a.</summary>
         public class A
         {
+            /// <summary>Gets or sets the list of b.</summary>
+            /// <value>The list of b.</value>
             public List<B> ListOfB { get; set; }
         }
 
+        /// <summary>A b.</summary>
         public class B
         {
+            /// <summary>Gets or sets the property.</summary>
+            /// <value>The property.</value>
             public string Property { get; set; }
+
+            /// <summary>Gets or sets the property 2.</summary>
+            /// <value>The property 2.</value>
             public string Property2 { get; set; }
+
+            /// <summary>Gets or sets the property 3.</summary>
+            /// <value>The property 3.</value>
             public string Property3 { get; set; }
         }
     }

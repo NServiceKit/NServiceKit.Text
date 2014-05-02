@@ -33,36 +33,51 @@ using NServiceKit.Text.WP;
 
 namespace NServiceKit.Text
 {
+    /// <summary>A string extensions.</summary>
     public static class StringExtensions
     {
+        /// <summary>A string extension method that toes.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="value">The value to act on.</param>
+        /// <returns>A T.</returns>
         public static T To<T>(this string value)
         {
             return TypeSerializer.DeserializeFromString<T>(value);
         }
 
+        /// <summary>A string extension method that toes.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="value">       The value to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>A T.</returns>
         public static T To<T>(this string value, T defaultValue)
         {
             return String.IsNullOrEmpty(value) ? defaultValue : TypeSerializer.DeserializeFromString<T>(value);
         }
 
+        /// <summary>A string extension method that converts a value to an or default value.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="value">The value to act on.</param>
+        /// <returns>value as a T.</returns>
         public static T ToOrDefaultValue<T>(this string value)
         {
             return String.IsNullOrEmpty(value) ? default(T) : TypeSerializer.DeserializeFromString<T>(value);
         }
 
+        /// <summary>A string extension method that toes.</summary>
+        /// <param name="value">The value to act on.</param>
+        /// <param name="type"> The type to act on.</param>
+        /// <returns>An object.</returns>
         public static object To(this string value, Type type)
         {
             return TypeSerializer.DeserializeFromString(value, type);
         }
 
-
-        /// <summary>
-        /// Converts from base: 0 - 62
-        /// </summary>
+        /// <summary>Converts from base: 0 - 62.</summary>
         /// <param name="source">The source.</param>
-        /// <param name="from">From.</param>
-        /// <param name="to">To.</param>
-        /// <returns></returns>
+        /// <param name="from">  From.</param>
+        /// <param name="to">    To.</param>
+        /// <returns>A string.</returns>
         public static string BaseConvert(this string source, int from, int to)
         {
             const string chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -105,11 +120,17 @@ namespace NServiceKit.Text
             return result;
         }
 
+        /// <summary>A string extension method that encode XML.</summary>
+        /// <param name="value">The value to act on.</param>
+        /// <returns>A string.</returns>
         public static string EncodeXml(this string value)
         {
             return value.Replace("<", "&lt;").Replace(">", "&gt;").Replace("&", "&amp;");
         }
 
+        /// <summary>A string extension method that encode JSON.</summary>
+        /// <param name="value">The value to act on.</param>
+        /// <returns>A string.</returns>
         public static string EncodeJson(this string value)
         {
             return String.Concat
@@ -119,6 +140,9 @@ namespace NServiceKit.Text
             );
         }
 
+        /// <summary>A string extension method that encode jsv.</summary>
+        /// <param name="value">The value to act on.</param>
+        /// <returns>A string.</returns>
         public static string EncodeJsv(this string value)
         {
             if (JsState.QueryStringMode)
@@ -135,6 +159,9 @@ namespace NServiceKit.Text
                     );
         }
 
+        /// <summary>A string extension method that decode jsv.</summary>
+        /// <param name="value">The value to act on.</param>
+        /// <returns>A string.</returns>
         public static string DecodeJsv(this string value)
         {
             const int startingQuotePos = 1;
@@ -145,6 +172,9 @@ namespace NServiceKit.Text
                         .Replace(TypeSerializer.DoubleQuoteString, JsWriter.QuoteString);
         }
 
+        /// <summary>A string extension method that URL encode.</summary>
+        /// <param name="text">The text to act on.</param>
+        /// <returns>A string.</returns>
         public static string UrlEncode(this string text)
         {
             if (String.IsNullOrEmpty(text)) return text;
@@ -172,6 +202,9 @@ namespace NServiceKit.Text
             return sb.ToString();
         }
 
+        /// <summary>A string extension method that URL decode.</summary>
+        /// <param name="text">The text to act on.</param>
+        /// <returns>A string.</returns>
         public static string UrlDecode(this string text)
         {
             if (String.IsNullOrEmpty(text)) return null;
@@ -206,6 +239,10 @@ namespace NServiceKit.Text
         }
 
 #if !XBOX
+        /// <summary>A string extension method that hexadecimal escape.</summary>
+        /// <param name="text">     The text to act on.</param>
+        /// <param name="anyCharOf">A variable-length parameters list containing any character of.</param>
+        /// <returns>A string.</returns>
         public static string HexEscape(this string text, params char[] anyCharOf)
         {
             if (String.IsNullOrEmpty(text)) return text;
@@ -230,6 +267,11 @@ namespace NServiceKit.Text
             return sb.ToString();
         }
 #endif
+
+        /// <summary>A string extension method that hexadecimal unescape.</summary>
+        /// <param name="text">     The text to act on.</param>
+        /// <param name="anyCharOf">A variable-length parameters list containing any character of.</param>
+        /// <returns>A string.</returns>
         public static string HexUnescape(this string text, params char[] anyCharOf)
         {
             if (String.IsNullOrEmpty(text)) return null;
@@ -256,6 +298,10 @@ namespace NServiceKit.Text
             return sb.ToString();
         }
 
+        /// <summary>A string extension method that URL format.</summary>
+        /// <param name="url">          The URL to act on.</param>
+        /// <param name="urlComponents">A variable-length parameters list containing URL components.</param>
+        /// <returns>A string.</returns>
         public static string UrlFormat(this string url, params string[] urlComponents)
         {
             var encodedUrlComponents = new string[urlComponents.Length];
@@ -268,6 +314,9 @@ namespace NServiceKit.Text
             return String.Format(url, encodedUrlComponents);
         }
 
+        /// <summary>A string extension method that converts a value to a rot 13.</summary>
+        /// <param name="value">The value to act on.</param>
+        /// <returns>value as a string.</returns>
         public static string ToRot13(this string value)
         {
             var array = value.ToCharArray();
@@ -286,6 +335,10 @@ namespace NServiceKit.Text
             return new string(array);
         }
 
+        /// <summary>A string extension method that with trailing slash.</summary>
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        /// <param name="path">The path to act on.</param>
+        /// <returns>A string.</returns>
         public static string WithTrailingSlash(this string path)
         {
             if (String.IsNullOrEmpty(path))
@@ -298,11 +351,19 @@ namespace NServiceKit.Text
             return path;
         }
 
+        /// <summary>A string extension method that appends a path.</summary>
+        /// <param name="uri">          The URI to act on.</param>
+        /// <param name="uriComponents">A variable-length parameters list containing URI components.</param>
+        /// <returns>A string.</returns>
         public static string AppendPath(this string uri, params string[] uriComponents)
         {
             return AppendUrlPaths(uri, uriComponents);
         }
 
+        /// <summary>A string extension method that appends an URL paths.</summary>
+        /// <param name="uri">          The URI to act on.</param>
+        /// <param name="uriComponents">A variable-length parameters list containing URI components.</param>
+        /// <returns>A string.</returns>
         public static string AppendUrlPaths(this string uri, params string[] uriComponents)
         {
             var sb = new StringBuilder(uri.WithTrailingSlash());
@@ -315,6 +376,10 @@ namespace NServiceKit.Text
             return sb.ToString();
         }
 
+        /// <summary>A string extension method that appends an URL paths raw.</summary>
+        /// <param name="uri">          The URI to act on.</param>
+        /// <param name="uriComponents">A variable-length parameters list containing URI components.</param>
+        /// <returns>A string.</returns>
         public static string AppendUrlPathsRaw(this string uri, params string[] uriComponents)
         {
             var sb = new StringBuilder(uri.WithTrailingSlash());
@@ -328,38 +393,64 @@ namespace NServiceKit.Text
         }
 
 #if !SILVERLIGHT
+        /// <summary>
+        /// A byte[] extension method that initializes this object from the given from ASCII bytes.
+        /// </summary>
+        /// <param name="bytes">The bytes to act on.</param>
+        /// <returns>A string.</returns>
         public static string FromAsciiBytes(this byte[] bytes)
         {
             return bytes == null ? null
                 : Encoding.ASCII.GetString(bytes, 0, bytes.Length);
         }
 
+        /// <summary>A string extension method that converts a value to an ASCII bytes.</summary>
+        /// <param name="value">The value to act on.</param>
+        /// <returns>value as a byte[].</returns>
         public static byte[] ToAsciiBytes(this string value)
         {
             return Encoding.ASCII.GetBytes(value);
         }
 #endif
+
+        /// <summary>
+        /// A byte[] extension method that initializes this object from the given from UTF 8 bytes.
+        /// </summary>
+        /// <param name="bytes">The bytes to act on.</param>
+        /// <returns>A string.</returns>
         public static string FromUtf8Bytes(this byte[] bytes)
         {
             return bytes == null ? null
                 : Encoding.UTF8.GetString(bytes, 0, bytes.Length);
         }
 
+        /// <summary>A double extension method that converts a doubleVal to an UTF 8 bytes.</summary>
+        /// <param name="value">The value to act on.</param>
+        /// <returns>doubleVal as a byte[].</returns>
         public static byte[] ToUtf8Bytes(this string value)
         {
             return Encoding.UTF8.GetBytes(value);
         }
 
+        /// <summary>A double extension method that converts a doubleVal to an UTF 8 bytes.</summary>
+        /// <param name="intVal">The intVal to act on.</param>
+        /// <returns>doubleVal as a byte[].</returns>
         public static byte[] ToUtf8Bytes(this int intVal)
         {
             return FastToUtf8Bytes(intVal.ToString());
         }
 
+        /// <summary>A double extension method that converts a doubleVal to an UTF 8 bytes.</summary>
+        /// <param name="longVal">The longVal to act on.</param>
+        /// <returns>doubleVal as a byte[].</returns>
         public static byte[] ToUtf8Bytes(this long longVal)
         {
             return FastToUtf8Bytes(longVal.ToString());
         }
 
+        /// <summary>A double extension method that converts a doubleVal to an UTF 8 bytes.</summary>
+        /// <param name="doubleVal">The doubleVal to act on.</param>
+        /// <returns>doubleVal as a byte[].</returns>
         public static byte[] ToUtf8Bytes(this double doubleVal)
         {
             var doubleStr = doubleVal.ToString(CultureInfo.InvariantCulture.NumberFormat);
@@ -370,11 +461,9 @@ namespace NServiceKit.Text
             return FastToUtf8Bytes(doubleStr);
         }
 
-        /// <summary>
-        /// Skip the encoding process for 'safe strings' 
-        /// </summary>
-        /// <param name="strVal"></param>
-        /// <returns></returns>
+        /// <summary>Skip the encoding process for 'safe strings'.</summary>
+        /// <param name="strVal">.</param>
+        /// <returns>A byte[].</returns>
         private static byte[] FastToUtf8Bytes(string strVal)
         {
             var bytes = new byte[strVal.Length];
@@ -384,6 +473,10 @@ namespace NServiceKit.Text
             return bytes;
         }
 
+        /// <summary>A string extension method that splits on first.</summary>
+        /// <param name="strVal">.</param>
+        /// <param name="needle">The needle.</param>
+        /// <returns>A string[].</returns>
         public static string[] SplitOnFirst(this string strVal, char needle)
         {
             if (strVal == null) return new string[0];
@@ -393,6 +486,10 @@ namespace NServiceKit.Text
                 : new[] { strVal.Substring(0, pos), strVal.Substring(pos + 1) };
         }
 
+        /// <summary>A string extension method that splits on first.</summary>
+        /// <param name="strVal">.</param>
+        /// <param name="needle">The needle.</param>
+        /// <returns>A string[].</returns>
         public static string[] SplitOnFirst(this string strVal, string needle)
         {
             if (strVal == null) return new string[0];
@@ -402,6 +499,10 @@ namespace NServiceKit.Text
                 : new[] { strVal.Substring(0, pos), strVal.Substring(pos + 1) };
         }
 
+        /// <summary>A string extension method that splits on last.</summary>
+        /// <param name="strVal">.</param>
+        /// <param name="needle">The needle.</param>
+        /// <returns>A string[].</returns>
         public static string[] SplitOnLast(this string strVal, char needle)
         {
             if (strVal == null) return new string[0];
@@ -411,6 +512,10 @@ namespace NServiceKit.Text
                 : new[] { strVal.Substring(0, pos), strVal.Substring(pos + 1) };
         }
 
+        /// <summary>A string extension method that splits on last.</summary>
+        /// <param name="strVal">.</param>
+        /// <param name="needle">The needle.</param>
+        /// <returns>A string[].</returns>
         public static string[] SplitOnLast(this string strVal, string needle)
         {
             if (strVal == null) return new string[0];
@@ -420,6 +525,9 @@ namespace NServiceKit.Text
                 : new[] { strVal.Substring(0, pos), strVal.Substring(pos + 1) };
         }
 
+        /// <summary>A string extension method that without extension.</summary>
+        /// <param name="filePath">The filePath to act on.</param>
+        /// <returns>A string.</returns>
         public static string WithoutExtension(this string filePath)
         {
             if (String.IsNullOrEmpty(filePath)) return null;
@@ -435,11 +543,19 @@ namespace NServiceKit.Text
         private static readonly char DirSep = '\\';//Path.DirectorySeparatorChar;
         private static readonly char AltDirSep = '/';//Path.DirectorySeparatorChar == '/' ? '\\' : '/';
 #else
+        /// <summary>The dir separator.</summary>
         private static readonly char DirSep = Path.DirectorySeparatorChar;
+
+        /// <summary>The path. directory separator character.</summary>
         private static readonly char AltDirSep = Path.DirectorySeparatorChar == '/' ? '\\' : '/';
 #endif
+
+        /// <summary>The dir separators.</summary>
         static readonly char[] DirSeps = new[] { '\\', '/' };
 
+        /// <summary>A string extension method that parent directory.</summary>
+        /// <param name="filePath">The filePath to act on.</param>
+        /// <returns>A string.</returns>
         public static string ParentDirectory(this string filePath)
         {
             if (String.IsNullOrEmpty(filePath)) return null;
@@ -451,33 +567,61 @@ namespace NServiceKit.Text
             return dirSep == 0 ? null : filePath.TrimEnd(dirSep).SplitOnLast(dirSep)[0];
         }
 
+        /// <summary>A T extension method that converts an obj to a jsv.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="obj">The obj to act on.</param>
+        /// <returns>obj as a string.</returns>
         public static string ToJsv<T>(this T obj)
         {
             return TypeSerializer.SerializeToString(obj);
         }
 
+        /// <summary>
+        /// A string extension method that initializes this object from the given from jsv.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="jsv">The jsv to act on.</param>
+        /// <returns>A T.</returns>
         public static T FromJsv<T>(this string jsv)
         {
             return TypeSerializer.DeserializeFromString<T>(jsv);
         }
 
+        /// <summary>A T extension method that converts an obj to a JSON.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="obj">The obj to act on.</param>
+        /// <returns>obj as a string.</returns>
         public static string ToJson<T>(this T obj) {
             return JsConfig.PreferInterfaces
                 ? JsonSerializer.SerializeToString(obj, AssemblyUtils.MainInterface<T>())
                 : JsonSerializer.SerializeToString(obj);
         }
 
+        /// <summary>
+        /// A string extension method that initializes this object from the given from JSON.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="json">The JSON to act on.</param>
+        /// <returns>A T.</returns>
         public static T FromJson<T>(this string json)
         {
             return JsonSerializer.DeserializeFromString<T>(json);
         }
 
+        /// <summary>A T extension method that converts an obj to a CSV.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="obj">The obj to act on.</param>
+        /// <returns>obj as a string.</returns>
         public static string ToCsv<T>(this T obj)
         {
             return CsvSerializer.SerializeToString(obj);
         }
 
 #if !XBOX && !SILVERLIGHT && !MONOTOUCH
+        /// <summary>A T extension method that converts an obj to an XML.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="obj">The obj to act on.</param>
+        /// <returns>obj as a string.</returns>
         public static string ToXml<T>(this T obj)
         {
             return XmlSerializer.SerializeToString(obj);
@@ -485,21 +629,40 @@ namespace NServiceKit.Text
 #endif
 
 #if !XBOX && !SILVERLIGHT && !MONOTOUCH
+        /// <summary>
+        /// A string extension method that initializes this object from the given from XML.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="json">The JSON to act on.</param>
+        /// <returns>A T.</returns>
         public static T FromXml<T>(this string json)
         {
             return XmlSerializer.DeserializeFromString<T>(json);
         }
 #endif
+
+        /// <summary>A string extension method that format with.</summary>
+        /// <param name="text">The text to act on.</param>
+        /// <param name="args">A variable-length parameters list containing arguments.</param>
+        /// <returns>The formatted with.</returns>
         public static string FormatWith(this string text, params object[] args)
         {
             return String.Format(text, args);
         }
 
+        /// <summary>A string extension method that fmts.</summary>
+        /// <param name="text">The text to act on.</param>
+        /// <param name="args">A variable-length parameters list containing arguments.</param>
+        /// <returns>The formatted value.</returns>
         public static string Fmt(this string text, params object[] args)
         {
             return String.Format(text, args);
         }
 
+        /// <summary>A string extension method that starts with ignore case.</summary>
+        /// <param name="text">      The text to act on.</param>
+        /// <param name="startsWith">The starts with.</param>
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public static bool StartsWithIgnoreCase(this string text, string startsWith)
         {
 #if NETFX_CORE
@@ -511,6 +674,10 @@ namespace NServiceKit.Text
 #endif
         }
 
+        /// <summary>A string extension method that ends with ignore case.</summary>
+        /// <param name="text">    The text to act on.</param>
+        /// <param name="endsWith">The ends with.</param>
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public static bool EndsWithIgnoreCase(this string text, string endsWith)
         {
 #if NETFX_CORE
@@ -522,6 +689,9 @@ namespace NServiceKit.Text
 #endif
         }
 
+        /// <summary>A string extension method that reads all text.</summary>
+        /// <param name="filePath">The filePath to act on.</param>
+        /// <returns>all text.</returns>
         public static string ReadAllText(this string filePath)
         {
 #if XBOX && !SILVERLIGHT
@@ -554,12 +724,24 @@ namespace NServiceKit.Text
 #endif
         }
 
-
+        /// <summary>
+        /// A string extension method that searches for any matches from the given list.
+        /// </summary>
+        /// <param name="text">   The text to act on.</param>
+        /// <param name="needles">A variable-length parameters list containing needles.</param>
+        /// <returns>The zero-based index of the found any, or -1 if no match was found.</returns>
         public static int IndexOfAny(this string text, params string[] needles)
         {
             return IndexOfAny(text, 0, needles);
         }
 
+        /// <summary>
+        /// A string extension method that searches for any matches from the given list.
+        /// </summary>
+        /// <param name="text">      The text to act on.</param>
+        /// <param name="startIndex">The start index.</param>
+        /// <param name="needles">   A variable-length parameters list containing needles.</param>
+        /// <returns>The zero-based index of the found any, or -1 if no match was found.</returns>
         public static int IndexOfAny(this string text, int startIndex, params string[] needles)
         {
             if (text == null) return -1;
@@ -573,11 +755,23 @@ namespace NServiceKit.Text
             return firstPos;
         }
 
+        /// <summary>A string extension method that extracts the contents.</summary>
+        /// <param name="fromText">  The fromText to act on.</param>
+        /// <param name="startAfter">The start after.</param>
+        /// <param name="endAt">     The end at.</param>
+        /// <returns>The extracted contents.</returns>
         public static string ExtractContents(this string fromText, string startAfter, string endAt)
         {
             return ExtractContents(fromText, startAfter, startAfter, endAt);
         }
 
+        /// <summary>A string extension method that extracts the contents.</summary>
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        /// <param name="fromText">    The fromText to act on.</param>
+        /// <param name="uniqueMarker">The unique marker.</param>
+        /// <param name="startAfter">  The start after.</param>
+        /// <param name="endAt">       The end at.</param>
+        /// <returns>The extracted contents.</returns>
         public static string ExtractContents(this string fromText, string uniqueMarker, string startAfter, string endAt)
         {
             if (String.IsNullOrEmpty(uniqueMarker))
@@ -605,8 +799,13 @@ namespace NServiceKit.Text
 #if XBOX && !SILVERLIGHT
         static readonly Regex StripHtmlRegEx = new Regex(@"<(.|\n)*?>", RegexOptions.Compiled);
 #else
+        /// <summary>The strip HTML register ex.</summary>
         static readonly Regex StripHtmlRegEx = new Regex(@"<(.|\n)*?>");
 #endif
+
+        /// <summary>A string extension method that strip HTML.</summary>
+        /// <param name="html">The HTML to act on.</param>
+        /// <returns>A string.</returns>
         public static string StripHtml(this string html)
         {
             return String.IsNullOrEmpty(html) ? null : StripHtmlRegEx.Replace(html, "");
@@ -616,9 +815,16 @@ namespace NServiceKit.Text
         static readonly Regex StripBracketsRegEx = new Regex(@"\[(.|\n)*?\]", RegexOptions.Compiled);
         static readonly Regex StripBracesRegEx = new Regex(@"\((.|\n)*?\)", RegexOptions.Compiled);
 #else
+        /// <summary>The strip brackets register ex.</summary>
         static readonly Regex StripBracketsRegEx = new Regex(@"\[(.|\n)*?\]");
+
+        /// <summary>The strip braces register ex.</summary>
         static readonly Regex StripBracesRegEx = new Regex(@"\((.|\n)*?\)");
 #endif
+
+        /// <summary>A string extension method that strip markdown markup.</summary>
+        /// <param name="markdown">The markdown to act on.</param>
+        /// <returns>A string.</returns>
         public static string StripMarkdownMarkup(this string markdown)
         {
             if (String.IsNullOrEmpty(markdown)) return null;
@@ -634,7 +840,12 @@ namespace NServiceKit.Text
             return markdown;
         }
 
+        /// <summary>The lower case offset.</summary>
         private const int LowerCaseOffset = 'a' - 'A';
+
+        /// <summary>A string extension method that converts a value to a camel case.</summary>
+        /// <param name="value">The value to act on.</param>
+        /// <returns>value as a string.</returns>
         public static string ToCamelCase(this string value)
         {
             if (String.IsNullOrEmpty(value)) return value;
@@ -660,7 +871,12 @@ namespace NServiceKit.Text
             return new string(newValue);
         }
 
+        /// <summary>Information describing the text.</summary>
         private static readonly TextInfo TextInfo = CultureInfo.InvariantCulture.TextInfo;
+
+        /// <summary>A string extension method that converts a value to a title case.</summary>
+        /// <param name="value">The value to act on.</param>
+        /// <returns>value as a string.</returns>
         public static string ToTitleCase(this string value)
         {
 #if SILVERLIGHT || __MonoCS__
@@ -682,6 +898,9 @@ namespace NServiceKit.Text
 #endif
         }
 
+        /// <summary>A string extension method that converts a value to a lowercase underscore.</summary>
+        /// <param name="value">The value to act on.</param>
+        /// <returns>value as a string.</returns>
         public static string ToLowercaseUnderscore(this string value)
         {
             if (String.IsNullOrEmpty(value)) return value;
@@ -703,6 +922,10 @@ namespace NServiceKit.Text
             return sb.ToString();
         }
 
+        /// <summary>A string extension method that safe substring.</summary>
+        /// <param name="value"> The value to act on.</param>
+        /// <param name="length">The length.</param>
+        /// <returns>A string.</returns>
         public static string SafeSubstring(this string value, int length)
         {
             return String.IsNullOrEmpty(value)
@@ -710,6 +933,11 @@ namespace NServiceKit.Text
                 : value.Substring(Math.Min(length, value.Length));
         }
 
+        /// <summary>A string extension method that safe substring.</summary>
+        /// <param name="value">     The value to act on.</param>
+        /// <param name="startIndex">The start index.</param>
+        /// <param name="length">    The length.</param>
+        /// <returns>A string.</returns>
         public static string SafeSubstring(this string value, int startIndex, int length)
         {
             if (String.IsNullOrEmpty(value)) return String.Empty;
@@ -719,6 +947,10 @@ namespace NServiceKit.Text
             return value.Length > startIndex ? value.Substring(startIndex) : String.Empty;
         }
 
+        /// <summary>A Type extension method that query if 'type' is anonymous type.</summary>
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        /// <param name="type">The type to act on.</param>
+        /// <returns>true if anonymous type, false if not.</returns>
         public static bool IsAnonymousType(this Type type)
         {
             if (type == null)
@@ -735,12 +967,20 @@ namespace NServiceKit.Text
                 && (type.Attributes & TypeAttributes.NotPublic) == TypeAttributes.NotPublic;
 #endif
         }
-        
+
+        /// <summary>A string extension method that compare ignore case.</summary>
+        /// <param name="strA">The strA to act on.</param>
+        /// <param name="strB">The b.</param>
+        /// <returns>An int.</returns>
         public static int CompareIgnoreCase(this string strA, string strB)
         {
             return String.Compare(strA, strB, InvariantComparisonIgnoreCase());
         }
 
+        /// <summary>A string extension method that ends with invariant.</summary>
+        /// <param name="str">     The str to act on.</param>
+        /// <param name="endsWith">The ends with.</param>
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public static bool EndsWithInvariant(this string str, string endsWith)
         {
             return str.EndsWith(endsWith, InvariantComparison());
@@ -765,19 +1005,32 @@ namespace NServiceKit.Text
             return StringComparer.CurrentCultureIgnoreCase;
         }
 #else
+        /// <summary>The dir separator character.</summary>
         public static char DirSeparatorChar = Path.DirectorySeparatorChar;
+
+        /// <summary>Invariant comparison.</summary>
+        /// <returns>A StringComparison.</returns>
         public static StringComparison InvariantComparison()
         {
             return StringComparison.InvariantCulture;
         }
+
+        /// <summary>Invariant comparison ignore case.</summary>
+        /// <returns>A StringComparison.</returns>
         public static StringComparison InvariantComparisonIgnoreCase()
         {
             return StringComparison.InvariantCultureIgnoreCase;
         }
+
+        /// <summary>Invariant comparer.</summary>
+        /// <returns>A StringComparer.</returns>
         public static StringComparer InvariantComparer()
         {
             return StringComparer.InvariantCulture;
         }
+
+        /// <summary>Invariant comparer ignore case.</summary>
+        /// <returns>A StringComparer.</returns>
         public static StringComparer InvariantComparerIgnoreCase()
         {
             return StringComparer.InvariantCultureIgnoreCase;

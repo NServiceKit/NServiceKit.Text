@@ -5,11 +5,17 @@ using System.Reflection;
 
 namespace NServiceKit.Text.Common
 {
+    /// <summary>The js reader.</summary>
+    /// <typeparam name="TSerializer">Type of the serializer.</typeparam>
     internal class JsReader<TSerializer>
         where TSerializer : ITypeSerializer
     {
+        /// <summary>The serializer.</summary>
         private static readonly ITypeSerializer Serializer = JsWriter.GetTypeSerializer<TSerializer>();
 
+        /// <summary>Gets parse function.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <returns>The parse function.</returns>
         public ParseStringDelegate GetParseFn<T>()
         {
             var onDeserializedFn = JsConfig<T>.OnDeserializedFn;
@@ -21,6 +27,9 @@ namespace NServiceKit.Text.Common
             return GetCoreParseFn<T>();
         }
 
+        /// <summary>Gets core parse function.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <returns>The core parse function.</returns>
         private ParseStringDelegate GetCoreParseFn<T>()
         {
             var type = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);

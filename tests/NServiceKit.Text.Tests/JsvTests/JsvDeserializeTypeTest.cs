@@ -7,9 +7,11 @@ using NServiceKit.Text.Jsv;
 
 namespace NServiceKit.Text.Tests.JsvTests
 {
+    /// <summary>A jsv deserialize type tests.</summary>
     [TestFixture]
     public class JsvDeserializeTypeTests
     {
+        /// <summary>Gets setter method for simple properties.</summary>
         [Test]
         public void Get_setter_method_for_simple_properties()
         {
@@ -21,6 +23,7 @@ namespace NServiceKit.Text.Tests.JsvTests
             Assert.AreEqual("test", test.TestProperty);
         }
 
+        /// <summary>Gets setter method for dictionary properties.</summary>
         [Test]
         public void Get_setter_method_for_dictionary_properties()
         {
@@ -34,8 +37,11 @@ namespace NServiceKit.Text.Tests.JsvTests
             }
         }
 
+        /// <summary>A test.</summary>
         private class Test
         {
+            /// <summary>Gets or sets the test property.</summary>
+            /// <value>The test property.</value>
             public string TestProperty { get; set; }
         }
     }

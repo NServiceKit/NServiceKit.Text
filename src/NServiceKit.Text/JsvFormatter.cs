@@ -18,8 +18,12 @@ using NServiceKit.Text.Common;
 
 namespace NServiceKit.Text
 {
+    /// <summary>A jsv formatter.</summary>
 	public static class JsvFormatter
 	{
+        /// <summary>Formats.</summary>
+        /// <param name="serializedText">The serialized text.</param>
+        /// <returns>The formatted value.</returns>
 		public static string Format(string serializedText)
 		{
 			if (string.IsNullOrEmpty(serializedText)) return null;
@@ -82,6 +86,9 @@ namespace NServiceKit.Text
 			return sb.ToString();
 		}
 
+        /// <summary>Appends a tab line.</summary>
+        /// <param name="sb">      The sb.</param>
+        /// <param name="tabCount">Number of tabs.</param>
 		private static void AppendTabLine(StringBuilder sb, int tabCount)
 		{
 			sb.AppendLine();

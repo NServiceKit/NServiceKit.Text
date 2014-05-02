@@ -4,9 +4,11 @@ using NUnit.Framework;
 
 namespace NServiceKit.Text.Tests.JsonTests
 {
+    /// <summary>A dictionary serialization tests.</summary>
     [TestFixture]
     public class IDictionarySerializationTests
     {
+        /// <summary>Can serialize hashtable.</summary>
         [Test]
         public void CanSerializeHashtable()
         {

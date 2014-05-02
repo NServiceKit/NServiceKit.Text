@@ -3,22 +3,19 @@
 	using System;
 	using System.Globalization;
 
-	/// <summary>
-	/// A class to allow the conversion of doubles to string representations of
-	/// their exact decimal values. The implementation aims for readability over
-	/// efficiency.
-	/// 
-	/// Courtesy of @JonSkeet
-	/// http://www.yoda.arachsys.com/csharp/DoubleConverter.cs
-	/// </summary>
+    /// <summary>
+    /// A class to allow the conversion of doubles to string representations of their exact decimal
+    /// values. The implementation aims for readability over efficiency.
+    /// 
+    /// Courtesy of @JonSkeet http://www.yoda.arachsys.com/csharp/DoubleConverter.cs.
+    /// </summary>
 	public class DoubleConverter
 	{
-		/// <summary>
-		/// Converts the given double to a string representation of its
-		/// exact decimal value.
-		/// </summary>
-		/// <param name="d">The double to convert.</param>
-		/// <returns>A string representation of the double's exact decimal value.</return>
+        /// <summary>
+        /// Converts the given double to a string representation of its exact decimal value.
+        /// </summary>
+        /// <param name="d">The double to convert.</param>
+        /// <returns>A string representation of the double's exact decimal value.</return></returns>
 		public static string ToExactString(double d)
 		{
 #if XBOX
@@ -95,20 +92,19 @@
 #endif
 		}
 
-		/// <summary>Private class used for manipulating
+        /// <summary>Private class used for manipulating.</summary>
 		class ArbitraryDecimal
 		{
-			/// <summary>Digits in the decimal expansion, one byte per digit
+            /// <summary>Digits in the decimal expansion, one byte per digit.</summary>
 			byte[] digits;
-			/// <summary> 
-			/// How many digits are *after* the decimal point
-			/// </summary>
+
+            /// <summary>How many digits are *after* the decimal point.</summary>
 			int decimalPoint = 0;
 
-			/// <summary> 
-			/// Constructs an arbitrary decimal expansion from the given long.
-			/// The long must not be negative.
-			/// </summary>
+            /// <summary>
+            /// Constructs an arbitrary decimal expansion from the given long. The long must not be negative.
+            /// </summary>
+            /// <param name="x">The x coordinate.</param>
 			internal ArbitraryDecimal(long x)
 			{
 				string tmp = x.ToString(CultureInfo.InvariantCulture);
@@ -118,10 +114,10 @@
 				Normalize();
 			}
 
-			/// <summary>
-			/// Multiplies the current expansion by the given amount, which should
-			/// only be 2 or 5.
-			/// </summary>
+            /// <summary>
+            /// Multiplies the current expansion by the given amount, which should only be 2 or 5.
+            /// </summary>
+            /// <param name="amount">The amount.</param>
 			internal void MultiplyBy(int amount)
 			{
 				byte[] result = new byte[digits.Length + 1];
@@ -142,20 +138,17 @@
 				Normalize();
 			}
 
-			/// <summary>
-			/// Shifts the decimal point; a negative value makes
-			/// the decimal expansion bigger (as fewer digits come after the
-			/// decimal place) and a positive value makes the decimal
-			/// expansion smaller.
-			/// </summary>
+            /// <summary>
+            /// Shifts the decimal point; a negative value makes the decimal expansion bigger (as fewer
+            /// digits come after the decimal place) and a positive value makes the decimal expansion smaller.
+            /// </summary>
+            /// <param name="amount">The amount.</param>
 			internal void Shift(int amount)
 			{
 				decimalPoint += amount;
 			}
 
-			/// <summary>
-			/// Removes leading/trailing zeroes from the expansion.
-			/// </summary>
+            /// <summary>Removes leading/trailing zeroes from the expansion.</summary>
 			internal void Normalize()
 			{
 				int first;
@@ -178,9 +171,8 @@
 				digits = tmp;
 			}
 
-			/// <summary>
-			/// Converts the value to a proper decimal string representation.
-			/// </summary>
+            /// <summary>Converts the value to a proper decimal string representation.</summary>
+            /// <returns>A String that represents this object.</returns>
 			public override String ToString()
 			{
 				char[] digitString = new char[digits.Length];

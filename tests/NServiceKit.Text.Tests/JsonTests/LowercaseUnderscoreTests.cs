@@ -6,21 +6,25 @@ using NServiceKit.Text.Tests.Support;
 
 namespace NServiceKit.Text.Tests.JsonTests
 {
+    /// <summary>A lowercase underscore tests.</summary>
     [TestFixture]
     public class LowercaseUnderscoreTests : TestBase
     {
+        /// <summary>Sets the up.</summary>
         [SetUp]
         public void SetUp()
         {
             JsConfig.EmitLowercaseUnderscoreNames = true;
         }
 
+        /// <summary>Tear down.</summary>
         [TearDown]
         public void TearDown()
         {
             JsConfig.Reset();
         }
 
+        /// <summary>Does serialize to lowercase underscore.</summary>
         [Test]
         public void Does_serialize_To_lowercase_underscore()
         {
@@ -44,24 +48,38 @@ namespace NServiceKit.Text.Tests.JsonTests
             Serialize(dto);
         }
 
+        /// <summary>A person.</summary>
         [DataContract]
         class Person
         {
+            /// <summary>Gets or sets the identifier.</summary>
+            /// <value>The identifier.</value>
             [DataMember(Name = "MyID")]
             public int Id { get; set; }
+
+            /// <summary>Gets or sets the name.</summary>
+            /// <value>The name.</value>
             [DataMember]
             public string Name { get; set; }
         }
 
+        /// <summary>A with underscore.</summary>
         class WithUnderscore
         {
+            /// <summary>Gets or sets the identifier of the user.</summary>
+            /// <value>The identifier of the user.</value>
             public int? user_id { get; set; }
         }
+
+        /// <summary>A with underscore digits.</summary>
         class WithUnderscoreDigits
         {
+            /// <summary>Gets or sets the user identifier 0.</summary>
+            /// <value>The user identifier 0.</value>
             public int? user_id_0 { get; set; }
         }
 
+        /// <summary>Should not put double underscore.</summary>
         [Test]
         public void Should_not_put_double_underscore()
         {
@@ -72,6 +90,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             Assert.That(u.ToJson(), Is.EqualTo("{\"user_id_0\":0}"));
         }
 
+        /// <summary>Can override name.</summary>
         [Test]
         public void Can_override_name()
         {
@@ -84,12 +103,15 @@ namespace NServiceKit.Text.Tests.JsonTests
             Assert.That(JsonSerializer.SerializeToString(person), Is.EqualTo("{\"MyID\":123,\"name\":\"Abc\"}"));
         }
 
-
+        /// <summary>A with underscore several digits.</summary>
         class WithUnderscoreSeveralDigits
         {
+            /// <summary>Gets or sets the user identifier 00 11.</summary>
+            /// <value>The user identifier 00 11.</value>
             public int? user_id_00_11 { get; set; }
         }
 
+        /// <summary>Should not split digits.</summary>
         [Test]
         public void Should_not_split_digits()
         {
@@ -97,11 +119,15 @@ namespace NServiceKit.Text.Tests.JsonTests
             Assert.That(u.ToJson(), Is.EqualTo("{\"user_id_00_11\":0}"));
         }
 
+        /// <summary>A with abbreviation and digit.</summary>
         private class WithAbbreviationAndDigit
         {
+            /// <summary>Gets or sets the digest ha 1 hash.</summary>
+            /// <value>The digest ha 1 hash.</value>
             public string DigestHa1Hash { get; set; }
         }
 
+        /// <summary>Converts non uppercase acronyms nicely.</summary>
         [Test]
         public void Converts_non_uppercase_acronyms_nicely()
         {

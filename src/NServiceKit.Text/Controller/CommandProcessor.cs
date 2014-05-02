@@ -17,12 +17,20 @@ using System.Reflection;
 
 namespace NServiceKit.Text.Controller
 {
+    /// <summary>A command processor.</summary>
 	public class CommandProcessor 
 	{
+        /// <summary>Gets or sets the controllers.</summary>
+        /// <value>The controllers.</value>
 		private object[] Controllers { get; set; }
 
+        /// <summary>The context map.</summary>
 		private readonly Dictionary<string, object> contextMap;
 
+        /// <summary>
+        /// Initializes a new instance of the NServiceKit.Text.Controller.CommandProcessor class.
+        /// </summary>
+        /// <param name="controllers">The controllers.</param>
 		public CommandProcessor(object[] controllers)
 		{
 			this.Controllers = controllers;
@@ -34,6 +42,11 @@ namespace NServiceKit.Text.Controller
             }
         }
 
+        /// <summary>
+        /// Executes the given operation on a different thread, and waits for the result.
+        /// </summary>
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        /// <param name="commandUri">URI of the command.</param>
 		public void Invoke(string commandUri)
 		{
 			var actionParts = commandUri.Split(new[] { "://" }, StringSplitOptions.None);
@@ -67,6 +80,10 @@ namespace NServiceKit.Text.Controller
 			}
 		}
 
+        /// <summary>Convert values to types.</summary>
+        /// <param name="values">The values.</param>
+        /// <param name="types"> The types.</param>
+        /// <returns>The values converted to types.</returns>
 		private static object[] ConvertValuesToTypes(IList<string> values, IList<Type> types)
 		{
 			var convertedValues = new object[types.Count];

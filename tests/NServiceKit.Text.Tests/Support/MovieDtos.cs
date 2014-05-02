@@ -6,8 +6,10 @@ using NServiceKit.DataAnnotations;
 
 namespace NServiceKit.Text.Tests.Support
 {
+    /// <summary>The movies data.</summary>
 	public static class MoviesData
 	{
+        /// <summary>The movies.</summary>
 		public static List<Movie> Movies = new List<Movie>
 		{
 			new Movie { ImdbId = "tt0111161", Title = "The Shawshank Redemption", Rating = 9.2m, Director = "Frank Darabont", ReleaseDate = new DateTime(1995,2,17), TagLine = "Fear can hold you prisoner. Hope can set you free.", Genres = new List<string>{"Crime","Drama"}, },
@@ -19,40 +21,69 @@ namespace NServiceKit.Text.Tests.Support
 		
 	}
 
+    /// <summary>A movie.</summary>
 	[DataContract]
 	public class Movie
 	{
+        /// <summary>
+        /// Initializes a new instance of the NServiceKit.Text.Tests.Support.Movie class.
+        /// </summary>
 		public Movie()
 		{
 			this.Genres = new List<string>();
 		}
 
+        /// <summary>Gets or sets the identifier.</summary>
+        /// <value>The identifier.</value>
         [DataMember(EmitDefaultValue = false, IsRequired = false)]
         [AutoIncrement]
 		public int Id { get; set; }
 
+        /// <summary>Gets or sets the identifier of the imdb.</summary>
+        /// <value>The identifier of the imdb.</value>
         [DataMember(Order = 3, EmitDefaultValue = false, IsRequired = false)]
         public string ImdbId { get; set; }
 
+        /// <summary>Gets or sets the title.</summary>
+        /// <value>The title.</value>
         [DataMember(Order = 2, EmitDefaultValue = false, IsRequired = false)]
         public string Title { get; set; }
 
+        /// <summary>Gets or sets the rating.</summary>
+        /// <value>The rating.</value>
         [DataMember(Order = 4, EmitDefaultValue = false, IsRequired = false)]
         public decimal Rating { get; set; }
 
+        /// <summary>Gets or sets the director.</summary>
+        /// <value>The director.</value>
         [DataMember(Order = 5, EmitDefaultValue = true, IsRequired = false)]
         public string Director { get; set; }
 
+        /// <summary>Gets or sets the release date.</summary>
+        /// <value>The release date.</value>
         [DataMember(Order = 6, EmitDefaultValue = false, IsRequired = false)]
         public DateTime ReleaseDate { get; set; }
 
+        /// <summary>Gets or sets the tag line.</summary>
+        /// <value>The tag line.</value>
         [DataMember(Order = 6, EmitDefaultValue = false, IsRequired = false)]
         public string TagLine { get; set; }
 
+        /// <summary>Gets or sets the genres.</summary>
+        /// <value>The genres.</value>
         [DataMember(Order = 8, EmitDefaultValue = false, IsRequired = false)]
         public List<string> Genres { get; set; }
 
 		#region AutoGen ReSharper code, only required by tests
+        /// <summary>
+        /// Determines whether the specified <see cref="T:System.Object" /> is equal to the current
+        /// <see cref="T:System.Object" />.
+        /// </summary>
+        /// <param name="other">The movie to compare to this object.</param>
+        /// <returns>
+        /// true if the specified <see cref="T:System.Object" /> is equal to the current
+        /// <see cref="T:System.Object" />; otherwise, false.
+        /// </returns>
 		public bool Equals(Movie other)
 		{
 			if (ReferenceEquals(null, other)) return false;
@@ -66,6 +97,16 @@ namespace NServiceKit.Text.Tests.Support
 				&& Genres.EquivalentTo(other.Genres);
 		}
 
+        /// <summary>
+        /// Determines whether the specified <see cref="T:System.Object" /> is equal to the current
+        /// <see cref="T:System.Object" />.
+        /// </summary>
+        /// <param name="obj">The <see cref="T:System.Object" /> to compare with the current
+        /// <see cref="T:System.Object" />.</param>
+        /// <returns>
+        /// true if the specified <see cref="T:System.Object" /> is equal to the current
+        /// <see cref="T:System.Object" />; otherwise, false.
+        /// </returns>
 		public override bool Equals(object obj)
 		{
 			if (ReferenceEquals(null, obj)) return false;
@@ -74,6 +115,8 @@ namespace NServiceKit.Text.Tests.Support
 			return Equals((Movie)obj);
 		}
 
+        /// <summary>Serves as a hash function for a particular type.</summary>
+        /// <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
 		public override int GetHashCode()
 		{
 			return ImdbId != null ? ImdbId.GetHashCode() : 0;
@@ -81,28 +124,41 @@ namespace NServiceKit.Text.Tests.Support
 		#endregion
 	}
 
+    /// <summary>A movie response.</summary>
     [DataContract]
     public class MovieResponse
     {
+        /// <summary>Gets or sets the movie.</summary>
+        /// <value>The movie.</value>
         [DataMember]
         public Movie Movie { get; set; }
     }
 
+    /// <summary>The movies response.</summary>
     [DataContract]
     public class MoviesResponse
     {
+        /// <summary>Gets or sets the identifier.</summary>
+        /// <value>The identifier.</value>
         [DataMember]
         public int Id { get; set; }
 
+        /// <summary>Gets or sets the movies.</summary>
+        /// <value>The movies.</value>
         [DataMember]
         public List<Movie> Movies { get; set; }
     }
 
+    /// <summary>The movies response 2.</summary>
     [Csv(CsvBehavior.FirstEnumerable)]
     public class MoviesResponse2
     {
+        /// <summary>Gets or sets the identifier.</summary>
+        /// <value>The identifier.</value>
         public int Id { get; set; }
 
+        /// <summary>Gets or sets the movies.</summary>
+        /// <value>The movies.</value>
         public List<Movie> Movies { get; set; }
     }
 

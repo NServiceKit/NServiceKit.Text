@@ -6,8 +6,13 @@ using System.Runtime.Serialization;
 
 namespace NServiceKit.Text.Common
 {
+    /// <summary>A deserialize type reference.</summary>
     internal static class DeserializeTypeRef
     {
+        /// <summary>Creates serialization error.</summary>
+        /// <param name="type">   The type.</param>
+        /// <param name="strType">The type.</param>
+        /// <returns>The new serialization error.</returns>
         internal static SerializationException CreateSerializationError(Type type, string strType)
         {
             return new SerializationException(String.Format(
@@ -15,6 +20,12 @@ namespace NServiceKit.Text.Common
             JsWriter.MapStartChar, type.Name, strType.Substring(0, strType.Length < 50 ? strType.Length : 50)));
         }
 
+        /// <summary>Gets serialization exception.</summary>
+        /// <param name="propertyName">       Name of the property.</param>
+        /// <param name="propertyValueString">The property value string.</param>
+        /// <param name="propertyType">       Type of the property.</param>
+        /// <param name="e">                  The Exception to process.</param>
+        /// <returns>The serialization exception.</returns>
         internal static SerializationException GetSerializationException(string propertyName, string propertyValueString, Type propertyType, Exception e)
         {
             var serializationException = new SerializationException(String.Format("Failed to set property '{0}' with '{1}'", propertyName, propertyValueString), e);
@@ -33,6 +44,10 @@ namespace NServiceKit.Text.Common
             return serializationException;
         }
 
+        /// <summary>Gets type accessor map.</summary>
+        /// <param name="typeConfig">The type configuration.</param>
+        /// <param name="serializer">The serializer.</param>
+        /// <returns>The type accessor map.</returns>
         internal static Dictionary<string, TypeAccessor> GetTypeAccessorMap(TypeConfig typeConfig, ITypeSerializer serializer)
         {
             var type = typeConfig.Type;

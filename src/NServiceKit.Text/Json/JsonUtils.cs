@@ -3,22 +3,37 @@ using System.IO;
 
 namespace NServiceKit.Text.Json
 {
+    /// <summary>A JSON utilities.</summary>
 	public static class JsonUtils
 	{
+        /// <summary>The escape character.</summary>
 		public const char EscapeChar = '\\';
+
+        /// <summary>The quote character.</summary>
 		public const char QuoteChar = '"';
+
+        /// <summary>The null.</summary>
 		public const string Null = "null";
+
+        /// <summary>The true.</summary>
 		public const string True = "true";
+
+        /// <summary>The false.</summary>
 		public const string False = "false";
 
+        /// <summary>The escape characters.</summary>
 		static readonly char[] EscapeChars = new[]
 			{
 				QuoteChar, '\n', '\r', '\t', '"', '\\', '\f', '\b',
 			};
 
+        /// <summary>The length from largest character.</summary>
 		private const int LengthFromLargestChar = '\\' + 1;
+
+        /// <summary>The escape character flags.</summary>
 		private static readonly bool[] EscapeCharFlags = new bool[LengthFromLargestChar];
 
+        /// <summary>Initializes static members of the NServiceKit.Text.Json.JsonUtils class.</summary>
 		static JsonUtils()
 		{
 			foreach (var escapeChar in EscapeChars)
@@ -27,6 +42,9 @@ namespace NServiceKit.Text.Json
 			}
 		}
 
+        /// <summary>Writes a string.</summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="value"> .</param>
 		public static void WriteString(TextWriter writer, string value)
 		{
 			if (value == null)
@@ -99,11 +117,9 @@ namespace NServiceKit.Text.Json
 			writer.Write(QuoteChar);
 		}
 
-		/// <summary>
-		/// micro optimizations: using flags instead of value.IndexOfAny(EscapeChars)
-		/// </summary>
-		/// <param name="value"></param>
-		/// <returns></returns>
+        /// <summary>micro optimizations: using flags instead of value.IndexOfAny(EscapeChars)</summary>
+        /// <param name="value">.</param>
+        /// <returns>true if any escape characters, false if not.</returns>
 		private static bool HasAnyEscapeChars(string value)
 		{
 			var len = value.Length;
@@ -120,6 +136,9 @@ namespace NServiceKit.Text.Json
 			return false;
 		}
 
+        /// <summary>Int to hexadecimal.</summary>
+        /// <param name="intValue">The int value.</param>
+        /// <param name="hex">     The hexadecimal.</param>
 		public static void IntToHex(int intValue, char[] hex)
 		{
 			for (var i = 0; i < 4; i++)
@@ -135,6 +154,9 @@ namespace NServiceKit.Text.Json
 			}
 		}
 
+        /// <summary>Query if 'value' is js object.</summary>
+        /// <param name="value">.</param>
+        /// <returns>true if js object, false if not.</returns>
 		public static bool IsJsObject(string value)
 		{
 			return !string.IsNullOrEmpty(value)
@@ -142,6 +164,9 @@ namespace NServiceKit.Text.Json
 				&& value[value.Length - 1] == '}';
 		}
 
+        /// <summary>Query if 'value' is js array.</summary>
+        /// <param name="value">.</param>
+        /// <returns>true if js array, false if not.</returns>
 		public static bool IsJsArray(string value)
 		{
 			return !string.IsNullOrEmpty(value)
