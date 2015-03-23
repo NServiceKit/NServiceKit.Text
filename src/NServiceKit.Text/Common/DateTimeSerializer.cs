@@ -73,18 +73,26 @@ namespace NServiceKit.Text.Common
         /// <summary>The XSD UTC suffix.</summary>
         private const string XsdUtcSuffix = "Z";
 
-        /// <summary>If AlwaysUseUtc is set to true then convert all DateTime to UTC.</summary>
+        /// <summary>
+        ///     If AssumeUtc, assume DateTimeKind.Unspecified dates are really UTC.
+        ///     If AlwaysUseUtc is set to true then convert all DateTime to UTC.
+        /// </summary>
         /// <param name="dateTime">   Date Time to be "Prepared".</param>
         /// <param name="parsedAsUtc">true to parsed as UTC.</param>
         /// <returns>The Prepared DateTime.</returns>
         private static DateTime Prepare(this DateTime dateTime, bool parsedAsUtc = false)
         {
+            if (JsConfig.AssumeUtc && dateTime.Kind == DateTimeKind.Unspecified)
+            {
+                dateTime = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);    
+            }
+
             if (JsConfig.AlwaysUseUtc)
             {
                 return dateTime.Kind != DateTimeKind.Utc ? dateTime.ToStableUniversalTime() : dateTime;
             }
 
-            return parsedAsUtc ? dateTime.ToLocalTime() : dateTime;
+            return parsedAsUtc && !JsConfig.AssumeUtc ? dateTime.ToLocalTime() : dateTime;
         }
 
         /// <summary>Parses a date time string and returns a nullable datetime.</summary>
@@ -155,7 +163,12 @@ namespace NServiceKit.Text.Common
 
             try
             {
-                return DateTime.Parse(dateTimeStr, null, DateTimeStyles.AssumeLocal).Prepare();
+                var parsed = DateTime.Parse(dateTimeStr, null, DateTimeStyles.AssumeLocal);
+                if (JsConfig.AssumeUtc)
+                {
+                    parsed = DateTime.SpecifyKind(parsed, DateTimeKind.Utc);
+                }
+                return parsed.Prepare(parsedAsUtc: JsConfig.AssumeUtc);
             }
             catch (FormatException)
             {
