@@ -94,7 +94,7 @@ namespace NServiceKit.Text.Tests.Utils
         }
 
         /// <summary>UTC local equals.</summary>
-		[Test, Ignore]
+		[Test][Ignore]
 		public void Utc_Local_Equals()
 		{
 			var now = DateTime.Now;
