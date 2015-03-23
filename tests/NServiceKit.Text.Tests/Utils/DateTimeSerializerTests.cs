@@ -150,9 +150,8 @@ namespace NServiceKit.Text.Tests.Utils
             Assert.AreEqual(dateWithoutMillisecondsUnspecified, deserialized);
         }
 
-        /// <summary>UTC date time is deserialized as kind UTC.</summary>
-		// [Test, Ignore("Don't pre-serialize into Utc")]
-        [Test]
+		/// <summary>UTC date time is deserialized as kind UTC.</summary>
+		[Test]
 		public void UtcDateTime_Is_Deserialized_As_Kind_Utc()
 		{
 			//Serializing UTC
