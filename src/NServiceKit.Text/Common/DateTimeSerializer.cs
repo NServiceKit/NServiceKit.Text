@@ -82,9 +82,9 @@ namespace NServiceKit.Text.Common
         /// <returns>The Prepared DateTime.</returns>
         private static DateTime Prepare(this DateTime dateTime, bool parsedAsUtc = false)
         {
-            if (JsConfig.AssumeUtc && dateTime.Kind == DateTimeKind.Unspecified)
+            if (dateTime.Kind == DateTimeKind.Unspecified)
             {
-                dateTime = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);    
+                dateTime = DateTime.SpecifyKind(dateTime, JsConfig.AssumeUtc ? DateTimeKind.Utc : DateTimeKind.Local);
             }
 
             if (JsConfig.AlwaysUseUtc)
@@ -163,12 +163,7 @@ namespace NServiceKit.Text.Common
 
             try
             {
-                var parsed = DateTime.Parse(dateTimeStr, null, DateTimeStyles.AssumeLocal);
-                if (JsConfig.AssumeUtc)
-                {
-                    parsed = DateTime.SpecifyKind(parsed, DateTimeKind.Utc);
-                }
-                return parsed.Prepare(parsedAsUtc: JsConfig.AssumeUtc);
+				return DateTime.Parse(dateTimeStr).Prepare();
             }
             catch (FormatException)
             {

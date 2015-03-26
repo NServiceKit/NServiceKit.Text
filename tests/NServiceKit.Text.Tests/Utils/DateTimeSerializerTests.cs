@@ -418,5 +418,41 @@ namespace NServiceKit.Text.Tests.Utils
                 Assert.AreEqual(0, deserializedUtc.Hour);
             }
         }
+
+	    [Test]
+	    public void DateTime_Should_Deserialize_Correctly_If_It_Doesnt_Recognize_The_Offset_and_falls_back_to_DateTimeParse()
+	    {
+			const string dateTimeStr = "2015-03-31T16:02:42-04:00";
+			var deserialized = (TypeSerializer.DeserializeFromString<DateTime>(dateTimeStr));
+			Assert.AreEqual(DateTimeKind.Local, deserialized.Date.Kind);
+			Assert.AreEqual(16, deserialized.Hour);
+
+			var deserializedJson = (JsonSerializer.DeserializeFromString<DateTime>(dateTimeStr));
+			Assert.AreEqual(DateTimeKind.Local, deserializedJson.Date.Kind);
+			Assert.AreEqual(16, deserializedJson.Hour);
+
+		    using (JsConfig.With(assumeUtc: true))
+		    {
+				deserialized = (TypeSerializer.DeserializeFromString<DateTime>(dateTimeStr));
+				Assert.AreEqual(DateTimeKind.Local, deserialized.Date.Kind);
+				Assert.AreEqual(16, deserialized.Hour);
+
+				deserializedJson = (JsonSerializer.DeserializeFromString<DateTime>(dateTimeStr));
+				Assert.AreEqual(DateTimeKind.Local, deserializedJson.Date.Kind);
+				Assert.AreEqual(16, deserializedJson.Hour);
+		    }
+
+			using (JsConfig.With(alwaysUseUtc: true))
+			{
+				deserialized = (TypeSerializer.DeserializeFromString<DateTime>(dateTimeStr));
+				Assert.AreEqual(DateTimeKind.Utc, deserialized.Date.Kind);
+				Assert.AreEqual(20, deserialized.Hour);
+
+				deserializedJson = (JsonSerializer.DeserializeFromString<DateTime>(dateTimeStr));
+				Assert.AreEqual(DateTimeKind.Utc, deserializedJson.Date.Kind);
+				Assert.AreEqual(20, deserializedJson.Hour);
+			}
+
+	    }
     }
 }
