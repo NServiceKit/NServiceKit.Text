@@ -423,34 +423,39 @@ namespace NServiceKit.Text.Tests.Utils
 	    public void DateTime_Should_Deserialize_Correctly_If_It_Doesnt_Recognize_The_Offset_and_falls_back_to_DateTimeParse()
 	    {
 			const string dateTimeStr = "2015-03-31T16:02:42-04:00";
+			var currentTimeZone = TimeZone.CurrentTimeZone;
+
+			// TEST 1: No JsConfig options set should deserialize as local
 			var deserialized = (TypeSerializer.DeserializeFromString<DateTime>(dateTimeStr));
 			Assert.AreEqual(DateTimeKind.Local, deserialized.Date.Kind);
-			Assert.AreEqual(16, deserialized.Hour);
+		    Assert.AreEqual(currentTimeZone.GetUtcOffset(deserialized), currentTimeZone.GetUtcOffset(DateTime.Now));
 
 			var deserializedJson = (JsonSerializer.DeserializeFromString<DateTime>(dateTimeStr));
 			Assert.AreEqual(DateTimeKind.Local, deserializedJson.Date.Kind);
-			Assert.AreEqual(16, deserializedJson.Hour);
+			Assert.AreEqual(currentTimeZone.GetUtcOffset(deserialized), currentTimeZone.GetUtcOffset(DateTime.Now));
 
+			// TEST 2: AssumeUtc shouldn't change anything because the time zone is specified
 		    using (JsConfig.With(assumeUtc: true))
 		    {
 				deserialized = (TypeSerializer.DeserializeFromString<DateTime>(dateTimeStr));
 				Assert.AreEqual(DateTimeKind.Local, deserialized.Date.Kind);
-				Assert.AreEqual(16, deserialized.Hour);
+				Assert.AreEqual(currentTimeZone.GetUtcOffset(deserialized), currentTimeZone.GetUtcOffset(DateTime.Now));
 
 				deserializedJson = (JsonSerializer.DeserializeFromString<DateTime>(dateTimeStr));
 				Assert.AreEqual(DateTimeKind.Local, deserializedJson.Date.Kind);
-				Assert.AreEqual(16, deserializedJson.Hour);
-		    }
+				Assert.AreEqual(currentTimeZone.GetUtcOffset(deserialized), currentTimeZone.GetUtcOffset(DateTime.Now));
+			}
 
+			// TEST 3: AlwaysUseUtc should convert the time to UTC 
 			using (JsConfig.With(alwaysUseUtc: true))
 			{
 				deserialized = (TypeSerializer.DeserializeFromString<DateTime>(dateTimeStr));
 				Assert.AreEqual(DateTimeKind.Utc, deserialized.Date.Kind);
-				Assert.AreEqual(20, deserialized.Hour);
+				Assert.AreEqual(currentTimeZone.GetUtcOffset(deserialized), currentTimeZone.GetUtcOffset(DateTime.UtcNow));
 
 				deserializedJson = (JsonSerializer.DeserializeFromString<DateTime>(dateTimeStr));
 				Assert.AreEqual(DateTimeKind.Utc, deserializedJson.Date.Kind);
-				Assert.AreEqual(20, deserializedJson.Hour);
+				Assert.AreEqual(currentTimeZone.GetUtcOffset(deserializedJson), currentTimeZone.GetUtcOffset(DateTime.UtcNow));
 			}
 
 	    }
