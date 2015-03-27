@@ -428,22 +428,18 @@ namespace NServiceKit.Text.Tests.Utils
 			// TEST 1: No JsConfig options set should deserialize as local
 			var deserialized = (TypeSerializer.DeserializeFromString<DateTime>(dateTimeStr));
 			Assert.AreEqual(DateTimeKind.Local, deserialized.Date.Kind);
-		    Assert.AreEqual(currentTimeZone.GetUtcOffset(deserialized), currentTimeZone.GetUtcOffset(DateTime.Now));
 
 			var deserializedJson = (JsonSerializer.DeserializeFromString<DateTime>(dateTimeStr));
 			Assert.AreEqual(DateTimeKind.Local, deserializedJson.Date.Kind);
-			Assert.AreEqual(currentTimeZone.GetUtcOffset(deserialized), currentTimeZone.GetUtcOffset(DateTime.Now));
 
 			// TEST 2: AssumeUtc shouldn't change anything because the time zone is specified
 		    using (JsConfig.With(assumeUtc: true))
 		    {
 				deserialized = (TypeSerializer.DeserializeFromString<DateTime>(dateTimeStr));
 				Assert.AreEqual(DateTimeKind.Local, deserialized.Date.Kind);
-				Assert.AreEqual(currentTimeZone.GetUtcOffset(deserialized), currentTimeZone.GetUtcOffset(DateTime.Now));
 
 				deserializedJson = (JsonSerializer.DeserializeFromString<DateTime>(dateTimeStr));
 				Assert.AreEqual(DateTimeKind.Local, deserializedJson.Date.Kind);
-				Assert.AreEqual(currentTimeZone.GetUtcOffset(deserialized), currentTimeZone.GetUtcOffset(DateTime.Now));
 			}
 
 			// TEST 3: AlwaysUseUtc should convert the time to UTC 
@@ -451,13 +447,10 @@ namespace NServiceKit.Text.Tests.Utils
 			{
 				deserialized = (TypeSerializer.DeserializeFromString<DateTime>(dateTimeStr));
 				Assert.AreEqual(DateTimeKind.Utc, deserialized.Date.Kind);
-				Assert.AreEqual(currentTimeZone.GetUtcOffset(deserialized), currentTimeZone.GetUtcOffset(DateTime.UtcNow));
 
 				deserializedJson = (JsonSerializer.DeserializeFromString<DateTime>(dateTimeStr));
 				Assert.AreEqual(DateTimeKind.Utc, deserializedJson.Date.Kind);
-				Assert.AreEqual(currentTimeZone.GetUtcOffset(deserializedJson), currentTimeZone.GetUtcOffset(DateTime.UtcNow));
 			}
-
 	    }
     }
 }
