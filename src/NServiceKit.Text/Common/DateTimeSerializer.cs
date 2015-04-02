@@ -82,9 +82,9 @@ namespace NServiceKit.Text.Common
         /// <returns>The Prepared DateTime.</returns>
         private static DateTime Prepare(this DateTime dateTime, bool parsedAsUtc = false)
         {
-            if (dateTime.Kind == DateTimeKind.Unspecified && JsConfig.DateHandler != JsonDateHandler.TimestampOffset)
+            if (JsConfig.AssumeUtc && dateTime.Kind == DateTimeKind.Unspecified)
             {
-                dateTime = DateTime.SpecifyKind(dateTime, JsConfig.AssumeUtc ? DateTimeKind.Utc : DateTimeKind.Local);
+                dateTime = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
             }
 
             if (JsConfig.AlwaysUseUtc)
@@ -440,7 +440,7 @@ namespace NServiceKit.Text.Common
         {
             var timeOfDay = dateTime.TimeOfDay;
 
-            if (timeOfDay.Ticks == 0)
+            if (timeOfDay.Ticks == 0 && dateTime.Kind == DateTimeKind.Unspecified)
                 return dateTime.ToString(ShortDateTimeFormat);
 
             if (timeOfDay.Milliseconds == 0)
