@@ -383,7 +383,7 @@ namespace NServiceKit.Text.Tests.JsonTests
             JsConfig.Reset();
         }
 
-        /// <summary>Can deserialize JSON date ISO 8601 without offset as unspecified.</summary>
+        /// <summary>Can deserialize JSON date ISO 8601 without offset as Local (per the ISO 8601 spec).</summary>
         [Test]
         public void Can_deserialize_json_date_iso8601_withoutOffset_asLocal()
         {
