@@ -374,7 +374,7 @@ namespace NServiceKit.Text.Tests.Utils
         }
 
         /// <summary>
-        /// DateTime with DateTimeKind.Unspecified should be treated as UTC (rather than Local) when AssumeUtc is true
+		  /// DateTime with DateTimeKind.Unspecified should be treated as UTC (rather than Unspecified) when AssumeUtc is true
         /// </summary>
         [Test]
         public void DateTime_Unspecified_Is_Serialized_And_Deserialized_As_Utc_When_AssumeUtc_Flag_Is_True()
@@ -383,7 +383,7 @@ namespace NServiceKit.Text.Tests.Utils
 
             // Using JsonSerializer becayse TypeSerializer doesn't call DateTimeSerializer.WriteWcfJsonDate
             var deserialized = JsonSerializer.DeserializeFromString<DateTime>(JsonSerializer.SerializeToString<DateTime>(dateTimeUnspecified));
-            Assert.AreEqual(DateTimeKind.Local, deserialized.Date.Kind);
+				Assert.AreEqual(DateTimeKind.Unspecified, deserialized.Date.Kind);
             Assert.AreEqual(dateTimeUnspecified.Hour, deserialized.Hour);
             
 
@@ -399,7 +399,7 @@ namespace NServiceKit.Text.Tests.Utils
         }
 
         /// <summary>
-        /// Dates strings with no time component should deserialize to Midnight (00:00:00) Local by default, or Midnight Utc when AssumeUtc is set to true
+        /// Dates strings with no time component should deserialize to Midnight (00:00:00) Unspecified by default, or Midnight Utc when AssumeUtc is set to true
         /// </summary>
         [Test]
         public void DateTime_Should_Deserialize_Strings_With_No_Time_As_Midnight()
@@ -407,7 +407,7 @@ namespace NServiceKit.Text.Tests.Utils
             const string dateTimeStr = "2015-03-23";
 
             var deserialized = (TypeSerializer.DeserializeFromString<DateTime>(dateTimeStr));
-            Assert.AreEqual(DateTimeKind.Local, deserialized.Date.Kind);
+            Assert.AreEqual(DateTimeKind.Unspecified, deserialized.Date.Kind);
             Assert.AreEqual(0, deserialized.Hour);
 
             // Change the behavior with config
