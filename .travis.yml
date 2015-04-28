@@ -4,7 +4,7 @@ env:
  global:
   - EnableNuGetPackageRestore=true 
  matrix:
-  - MONO_VERSION="3.4.0"
+  - MONO_VERSION="3.8.0"
 
 before_install:
   - wget "http://download.mono-project.com/archive/3.4.0/macos-10-x86/MonoFramework-MDK-${MONO_VERSION}.macos10.xamarin.x86.pkg"
@@ -16,7 +16,5 @@ before_script:
 
 script:
  - ./build.sh
+# Tests currently failing.
  - .ci/nunit.sh ./tests/NServiceKit.Text.Tests/bin/Release/NServiceKit.Text.Tests.dll /noshadow
-# - .ci/nunit.sh ./tests/NServiceKit.Messaging.Tests/bin/Release/NServiceKit.Messaging.Tests.dll /noshadow
-# - .ci/nunit.sh ./tests/NServiceKit.Common.Tests/bin/Release/NServiceKit.Common.Tests.dll /noshadow
-# - .ci/nunit.sh ./tests/NServiceKit.Auth.Tests/bin/Release/NServiceKit.Auth.Tests.dll /noshadow
