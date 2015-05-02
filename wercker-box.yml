@@ -1,0 +1,22 @@
+name: mono
+version: 0.0.6
+inherits: leipert/ubuntu14.04-webessentials@2.0.1
+type: main
+platform: ubuntu@14.04
+description: wercker box for mono cross-platform open source .NET development framework
+keywords:
+  - mono
+  - mono-complete
+  - opensource
+  - .NET
+  - C#
+packages:
+  - mono@3.12.1
+script: |
+  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+  echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list
+  sudo apt-get update -y
+  sudo apt-get install mono-complete referenceassemblies-pcl -y
+  mono -V
+env:
+  WERCKER_MONO_VERSION: "3.12.1"
