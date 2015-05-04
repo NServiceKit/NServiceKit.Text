@@ -1,0 +1,19 @@
+box: floydpink/mono@0.0.6
+build:
+  steps:
+    # A comment
+    -  script:
+        name: Build!
+        code: |-
+          export EnableNuGetPackageRestore=true
+          xbuild ./src/NServiceKit.Text.sln /p:TargetFramework=net40 /p:Configuration=Release
+  after-steps:
+    -  script:
+        name: Restore NRunners
+        code: |-
+          export NUNIT_VERSION=2.6.4
+          mono ./src/.nuget/NuGet.exe install nunit.runners -Version $NUNIT_VERSION -OutputDirectory ./packages          
+    -  script:
+        name: Unit Tests!
+        code: |-
+          mono ./packages/NUnit.Runners.$NUNIT_VERSION/tools/nunit-console.exe -noxml -nodots -labels -stoponerror ./tests/NServiceKit.Text.Tests/bin/Release/NServiceKit.Text.Tests.dll -exclude=Integration,Performance
